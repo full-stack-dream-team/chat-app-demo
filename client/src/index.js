@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./helpers/setAuthToken";
 import { setCurrentUser, logoutUser } from "./redux/actions/authActions";
-import "./sass/index.min.scss";
+import "./sass/index.min.css";
 import store from "./redux/store/index";
 import * as serviceWorker from "./serviceWorker";
 
