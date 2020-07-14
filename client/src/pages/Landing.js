@@ -1,17 +1,27 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 class Landing extends React.Component {
   render() {
     return (
-      <>
-        <h3>
-          It looks like you're not signed up! Either register a new account, or
-          login to an existing one
-        </h3>
-        <Link to="/register">Register</Link>
-        <Link to="/login">Log In</Link>
-      </>
+      <div className="container center">
+        <div className="row">
+          <div className="col s12">
+            <h3>Please register or log in to experience this app.</h3>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col s6">
+            <a href="/register" className="btn">
+              Register
+            </a>
+          </div>
+          <div className="col s6">
+            <a href="/login" className="btn">
+              Log In
+            </a>
+          </div>
+        </div>
+      </div>
     );
   }
 }

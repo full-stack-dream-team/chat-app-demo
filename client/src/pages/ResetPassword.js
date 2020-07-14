@@ -43,60 +43,77 @@ class ResetPassword extends React.Component {
     const { errors } = this.state;
 
     return (
-      <>
-        <Link to="/">← Back to home</Link>
-        <div style={{ paddingLeft: "11.250px" }}>
-          <h4>Type new password below</h4>
+      <div className="container">
+        <div className="row">
+          <div className="col s12">
+            <h3>Type new password</h3>
+          </div>
         </div>
-        <form noValidate onSubmit={this.handleSubmit}>
-          <div>
-            <input
-              onChange={this.handleChange}
-              value={this.state.password}
-              error={errors.password}
-              id="password"
-              type="password"
-              className={classnames("", {
-                invalid: errors.password || errors.passwordincorrect,
-              })}
-            />
-            <label htmlFor="password">Password</label>
-            <span style={{ color: "white", backgroundColor: "red" }}>
-              {errors.password}
-              {errors.passwordincorrect}
-            </span>
+
+        <div className="row">
+          <div className="col s12">
+            <form noValidate onSubmit={this.handleSubmit}>
+              <div className="row">
+                <div className="col s12 input-field">
+                  <input
+                    onChange={this.handleChange}
+                    value={this.state.password}
+                    error={errors.password}
+                    id="password"
+                    type="password"
+                    className={classnames("", {
+                      invalid: errors.password || errors.passwordincorrect,
+                    })}
+                  />
+                  <label htmlFor="password">Password</label>
+                  <span
+                    className="helper-text"
+                    data-error={errors.password || errors.passwordincorrect}
+                  ></span>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col s12 input-field">
+                  <input
+                    onChange={this.handleChange}
+                    value={this.state.password2}
+                    error={errors.password2}
+                    id="password2"
+                    type="password"
+                    className={classnames("", {
+                      invalid: errors.password2,
+                    })}
+                  />
+                  <label htmlFor="password2">Confirm Password</label>
+                  <span
+                    className="helper-text"
+                    data-error={errors.password2}
+                  ></span>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col s12">
+                  <button type="submit" className="btn">
+                    Reset Password
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
-          <div>
-            <input
-              onChange={this.handleChange}
-              value={this.state.password2}
-              error={errors.password2}
-              id="password2"
-              type="password"
-              className={classnames("", {
-                invalid: errors.password2,
-              })}
-            />
-            <label htmlFor="password2">Confirm Password</label>
-            <span style={{ color: "white", backgroundColor: "red" }}>
-              {errors.password2}
-            </span>
+        </div>
+
+        <div className="row">
+          <div className="col s12">
+            <blockquote>
+              Suddenly remember password? <a href="/login">Log In</a>
+              <br />
+              Want to make a new account? <a href="/register">Register</a>
+            </blockquote>
           </div>
-          <div style={{ paddingLeft: "11.250px" }}>
-            <button
-              style={{
-                width: "150px",
-                borderRadius: "3px",
-                letterSpacing: "1.5px",
-                marginTop: "1rem",
-              }}
-              type="submit"
-            >
-              Reset Password
-            </button>
-          </div>
-        </form>
-      </>
+        </div>
+      </div>
     );
   }
 }

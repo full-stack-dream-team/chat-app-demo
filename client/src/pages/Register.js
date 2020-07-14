@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
@@ -43,94 +42,110 @@ class Register extends React.Component {
     const { errors } = this.state;
 
     return (
-      <>
-        <Link to="/landing">← Back to home</Link>
-        <div style={{ paddingLeft: "11.250px" }}>
-          <h4>Register below</h4>
-          <p>
-            Already have an account? <Link to="/login">Log in</Link>
-          </p>
+      <div className="container">
+        <div className="row">
+          <div className="col s12">
+            <h3>Register</h3>
+          </div>
         </div>
-        <form noValidate onSubmit={this.handleSubmit}>
-          <div>
-            <input
-              onChange={this.handleChange}
-              value={this.state.name}
-              error={errors.name}
-              id="name"
-              type="text"
-              className={classnames("", {
-                invalid: errors.name,
-              })}
-            />
-            <label htmlFor="name">Name</label>
-            <span style={{ color: "white", backgroundColor: "red" }}>
-              {errors.name}
-            </span>
+
+        <div className="row">
+          <div className="col s12">
+            <form noValidate onSubmit={this.handleSubmit}>
+              <div className="row">
+                <div className="col s12 input-field">
+                  <input
+                    onChange={this.handleChange}
+                    value={this.state.name}
+                    error={errors.name}
+                    id="name"
+                    type="text"
+                    className={classnames("", {
+                      invalid: errors.name,
+                    })}
+                  />
+                  <label htmlFor="name">Name</label>
+                  <span className="helper-text" data-error={errors.name}></span>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col s12 input-field">
+                  <input
+                    onChange={this.handleChange}
+                    value={this.state.email}
+                    error={errors.email}
+                    id="email"
+                    type="email"
+                    className={classnames("", {
+                      invalid: errors.email,
+                    })}
+                  />
+                  <label htmlFor="email">Email</label>
+                  <span
+                    className="helper-text"
+                    data-error={errors.email}
+                  ></span>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col s6 input-field">
+                  <input
+                    onChange={this.handleChange}
+                    value={this.state.password}
+                    error={errors.password}
+                    id="password"
+                    type="password"
+                    className={classnames("", {
+                      invalid: errors.password,
+                    })}
+                  />
+                  <label htmlFor="password">Password</label>
+                  <span
+                    className="helper-text"
+                    data-error={errors.password}
+                  ></span>
+                </div>
+
+                <div className="col s6 input-field">
+                  <input
+                    onChange={this.handleChange}
+                    value={this.state.password2}
+                    error={errors.password2}
+                    id="password2"
+                    type="password"
+                    className={classnames("", {
+                      invalid: errors.password2,
+                    })}
+                  />
+                  <label htmlFor="password2">Confirm Password</label>
+                  <span
+                    className="helper-text"
+                    data-error={errors.password2}
+                  ></span>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col s12">
+                  <button type="submit" className="btn">
+                    Sign up
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
-          <div>
-            <input
-              onChange={this.handleChange}
-              value={this.state.email}
-              error={errors.email}
-              id="email"
-              type="email"
-              className={classnames("", {
-                invalid: errors.email,
-              })}
-            />
-            <label htmlFor="email">Email</label>
-            <span style={{ color: "white", backgroundColor: "red" }}>
-              {errors.email}
-            </span>
+        </div>
+
+        <div className="row">
+          <div className="col s12">
+            <blockquote>
+              Already have an account? <a href="/login">Log In</a>
+            </blockquote>
           </div>
-          <div>
-            <input
-              onChange={this.handleChange}
-              value={this.state.password}
-              error={errors.password}
-              id="password"
-              type="password"
-              className={classnames("", {
-                invalid: errors.password,
-              })}
-            />
-            <label htmlFor="password">Password</label>
-            <span style={{ color: "white", backgroundColor: "red" }}>
-              {errors.password}
-            </span>
-          </div>
-          <div>
-            <input
-              onChange={this.handleChange}
-              value={this.state.password2}
-              error={errors.password2}
-              id="password2"
-              type="password"
-              className={classnames("", {
-                invalid: errors.password2,
-              })}
-            />
-            <label htmlFor="password2">Confirm Password</label>
-            <span style={{ color: "white", backgroundColor: "red" }}>
-              {errors.password2}
-            </span>
-          </div>
-          <div style={{ paddingLeft: "11.250px" }}>
-            <button
-              style={{
-                width: "150px",
-                borderRadius: "3px",
-                letterSpacing: "1.5px",
-                marginTop: "1rem",
-              }}
-              type="submit"
-            >
-              Sign up
-            </button>
-          </div>
-        </form>
-      </>
+        </div>
+      </div>
     );
   }
 }
