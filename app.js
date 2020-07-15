@@ -53,35 +53,6 @@ const server = http.createServer(app);
 
 const io = socketIo(server);
 
-io.on("connection", (socket) => {
-  console.log("Connected!");
-
-  Message.find()
-    .sort({ createdAt: -1 })
-    .exec((err, messages) => {
-      if (err) return console.error(err);
-
-      socket.emit("init", messages);
-    });
-
-  socket.on("message", (msg) => {
-    console.log("Message Sent!");
-
-    const message = new Message({
-      content: msg.content,
-      name: msg.name,
-    });
-
-    message.save((err) => {
-      if (err) return console.error(err);
-    });
-
-    socket.broadcast.emit("push", message);
-  });
-
-  socket.on("disconnect", () => {
-    console.log("Disconnected!");
-  });
-});
+require("./controllers/messageController").connectSocket(io);
 
 module.exports = server;

@@ -4,8 +4,18 @@ const { Schema } = mongoose;
 // Create Schema
 const messageSchema = new Schema(
   {
-    content: String,
-    name: String,
+    content: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    userId: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

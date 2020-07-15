@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 import PrivateRoute from "./components/PrivateRoute";
 import NotPrivateRoute from "./components/NotPrivateRoute";
+import Navbar from "./components/Navbar";
 
 import App from "./pages/App";
 import Landing from "./pages/Landing";
@@ -21,6 +22,8 @@ class Router extends React.Component {
   render() {
     return (
       <BrowserRouter>
+        <Navbar />
+
         <Switch>
           <PrivateRoute exact path="/" component={App} />
           <NotPrivateRoute exact path="/landing" component={Landing} />

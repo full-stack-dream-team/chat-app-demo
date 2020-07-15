@@ -1,10 +1,12 @@
 import React from "react";
+import M from "materialize-css";
 
 import config from "../config";
 import io from "socket.io-client";
 
 import { connect } from "react-redux";
-import { logoutUser } from "../redux/actions/authActions";
+
+import removeBadWords from "../helpers/removeBadWords";
 
 class App extends React.Component {
   state = {
@@ -15,20 +17,31 @@ class App extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
+    const filteredContent = removeBadWords(this.state.content);
+
     this.socket.emit("message", {
-      name: this.props.name,
-      content: this.state.content,
+      name: this.props.user.name,
+      content: filteredContent,
+      userId: this.props.user.id,
     });
 
     this.setState(
       (state) => ({
         chat: [
           ...state.chat,
-          { name: this.props.name, content: state.content },
+          {
+            name: this.props.user.name,
+            content: filteredContent,
+            userId: this.props.user.id,
+          },
         ],
         content: "",
       }),
-      this.scrollToBottom
+      () => {
+        this.scrollToBottom();
+
+        M.updateTextFields();
+      }
     );
   };
 
@@ -50,7 +63,16 @@ class App extends React.Component {
     this.socket.on("push", (msg) => {
       this.setState(
         (state) => ({ chat: [...state.chat, msg] }),
-        this.scrollToBottom
+        () => {
+          this.scrollToBottom();
+
+          const chatLimit = 50;
+          if (this.state.chat.length > chatLimit) {
+            const chat = [...this.state.chat];
+            chat.slice(this.state.chat.length - chatLimit);
+            this.setState({ chat });
+          }
+        }
       );
     });
   }
@@ -63,30 +85,31 @@ class App extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col s12 mt-2">
-            <button className="btn" onClick={this.props.logoutUser}>
-              Log Out
-            </button>
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col s12">
-            <h1>Chat Here</h1>
-          </div>
-        </div>
-
-        <div className="row">
           <div className="col s12">
             <ul
-              style={{ overflowY: "scroll" }}
+              className="main-chat-box"
               ref={(ChatBox) => {
                 this.ChatBox = ChatBox;
               }}
             >
               {this.state.chat.map((msg, i) => (
-                <li key={msg._id ? msg._id : i} style={{ overflowX: "scroll" }}>
-                  {msg.name}: {msg.content}
+                <li key={msg._id ? msg._id : i} className="main-chat-message">
+                  <div className="name">
+                    <span>{msg.name}</span>
+                  </div>
+
+                  <div className="content">
+                    {(() => {
+                      const splitMsg = msg.content.split("\n");
+
+                      return splitMsg.map((msgBit, i) => (
+                        <div key={i}>
+                          <span>{msgBit}</span>
+                          {i < splitMsg.length - 1 ? <br /> : null}
+                        </div>
+                      ));
+                    })()}
+                  </div>
                 </li>
               ))}
             </ul>
@@ -97,19 +120,18 @@ class App extends React.Component {
           <div className="col s12">
             <form onSubmit={this.handleSubmit} autoComplete="off">
               <div className="row">
-                <div className="col s12 input-field">
-                  <input
-                    type="text"
+                <div className="col s8 m9 l10 input-field">
+                  <textarea
                     name="content"
                     value={this.state.content}
+                    className="materialize-textarea"
                     onChange={this.handleChange}
+                    required
                   />
-                  <label htmlFor="content">Content</label>
+                  <label htmlFor="content">Message</label>
                 </div>
-              </div>
 
-              <div className="row">
-                <div className="col s12">
+                <div className="col s4 m3 l2">
                   <button type="submit" className="btn">
                     Post
                   </button>
@@ -124,7 +146,7 @@ class App extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  name: state.auth.user.name,
+  user: state.auth.user,
 });
 
-export default connect(mapStateToProps, { logoutUser })(App);
+export default connect(mapStateToProps)(App);
