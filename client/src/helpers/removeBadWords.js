@@ -16,6 +16,12 @@ const badWordsList = [
   "slut",
   "whore",
   "twat",
+  "✊",
+  "✊🏻",
+  "✊🏼",
+  "✊🏽",
+  "✊🏾",
+  "✊🏿",
 ];
 
 const removeBadWords = (sentence) => {

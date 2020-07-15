@@ -12,6 +12,7 @@ class App extends React.Component {
   state = {
     chat: [],
     content: "",
+    chattingUsers: [],
   };
 
   handleSubmit = (e) => {
@@ -58,6 +59,10 @@ class App extends React.Component {
 
     this.socket.on("init", (msg) => {
       this.setState({ chat: msg.reverse() }, this.scrollToBottom);
+
+      // this.socket.emit("addUser", {
+      //   userId: this.props.user.id,
+      // });
     });
 
     this.socket.on("push", (msg) => {
@@ -75,6 +80,12 @@ class App extends React.Component {
         }
       );
     });
+
+    // this.socket.on("users", (users) => {
+    //   if (!users.find((user) => user._id === this.props.user.id)) {
+    //     this.setState({ chattingUsers: [...users, this.props.user] });
+    //   }
+    // });
   }
 
   componentWillUnmount() {
@@ -140,6 +151,19 @@ class App extends React.Component {
             </form>
           </div>
         </div>
+
+        {/*<div className="row">
+          <div className="col s12">
+            <ul className="collection with-header">
+              <li className="collection-header">Currently Online</li>
+              {this.state.chattingUsers.map((user) => (
+                <li key={user.id || user._id} className="collection-item">
+                  {user.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>*/}
       </div>
     );
   }

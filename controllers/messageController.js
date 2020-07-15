@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const User = mongoose.model("User");
 const Message = mongoose.model("Message");
 
 exports.connectSocket = (io) => {
@@ -30,6 +31,14 @@ exports.connectSocket = (io) => {
       }
     };
 
+    const broadcastActiveUsers = () => {
+      User.find({ chatting: true }).exec((err, users) => {
+        if (err) return console.error(err);
+
+        socket.broadcast.emit("users", users);
+      });
+    };
+
     Message.find().sort({ createdAt: -1 }).exec(limitMessages);
 
     socket.on("message", (msg) => {
@@ -45,6 +54,21 @@ exports.connectSocket = (io) => {
       });
 
       socket.broadcast.emit("push", message);
+    });
+
+    let userId;
+
+    socket.on("addUser", (info) => {
+      userId = info.userId;
+      User.updateOne({ _id: info.userId }, { $set: { chatting: true } }).then(
+        broadcastActiveUsers
+      );
+    });
+
+    socket.on("disconnect", () => {
+      User.updateOne({ _id: userId }, { $set: { chatting: false } }).then(
+        broadcastActiveUsers
+      );
     });
   });
 };
