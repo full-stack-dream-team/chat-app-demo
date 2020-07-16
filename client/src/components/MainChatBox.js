@@ -19,35 +19,41 @@ class MainChatBox extends React.Component {
             <ul className="main-chat-box" ref={this.props.makeChatBoxRef}>
               {this.props.chat.map((msg, i) => (
                 <li key={msg._id ? msg._id : i} className="main-chat-message">
-                  <div className="name">
-                    <span>{msg.name}</span>
+                  <div className="row mb-0">
+                    <div className="name col s6">
+                      <span>{msg.name}</span>
+                    </div>
+
+                    {msg.userId === this.props.user.id ? (
+                      <div className="col s6 right-align">
+                        <button
+                          className="btn-flat btn-delete"
+                          onClick={() =>
+                            this.props.deletePost(this.props.user.id, msg)
+                          }
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ) : null}
                   </div>
 
-                  {msg.userId === this.props.user.id ? (
-                    <button
-                      className="btn-flat btn-delete"
-                      onClick={() =>
-                        this.props.deletePost(this.props.user.id, msg)
-                      }
-                    >
-                      ✕
-                    </button>
-                  ) : null}
-
-                  <div className="content">
+                  <div className="content row">
                     {(() => {
                       const splitMsg = msg.content.split("\n");
 
                       return splitMsg.map((msgBit, i) => (
-                        <div key={i}>
+                        <div className="col s12" key={i}>
                           <span>{msgBit}</span>
                         </div>
                       ));
                     })()}
                   </div>
 
-                  <div className="time-stamp">
-                    <span>{msg.createdAt ? msg.createdAt : null}</span>
+                  <div className="timestamp row">
+                    <div className="col s12 right-align">
+                      <span>{msg.createdAt ? msg.createdAt : null}</span>
+                    </div>
                   </div>
                 </li>
               ))}

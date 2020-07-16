@@ -34,8 +34,7 @@ li.main-chat-message {
     }
   }
 
-  .time-stamp {
-    float: right;
+  .timestamp {
     margin: -2px 5px 5px 0;
 
     span {
@@ -55,6 +54,5 @@ li.main-chat-message:last-child {
 }
 
 button.btn-delete {
-  float: right;
   cursor: pointer;
 }
