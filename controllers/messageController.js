@@ -7,7 +7,7 @@ exports.connectSocket = (io) => {
     const limitMessages = (err, messages) => {
       if (err) return console.error(err);
 
-      const limit = 50;
+      const limit = 100;
 
       if (messages.length > limit) {
         Message.find()
@@ -65,10 +65,16 @@ exports.connectSocket = (io) => {
       );
     });
 
-    socket.on("disconnect", () => {
-      User.updateOne({ _id: userId }, { $set: { chatting: false } }).then(
-        broadcastActiveUsers
-      );
+    socket.on("delete", (postInfo) => {
+      Message.deleteOne({ _id: postInfo.postId }).then(() => {
+        Message.find().sort({ createdAt: -1 }).exec(limitMessages);
+      });
     });
+
+    // socket.on("disconnect", () => {
+    //   User.updateOne({ _id: userId }, { $set: { chatting: false } }).then(
+    //     broadcastActiveUsers
+    //   );
+    // });
   });
 };

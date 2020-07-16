@@ -25,7 +25,19 @@ class Router extends React.Component {
         <Navbar />
 
         <Switch>
-          <PrivateRoute exact path="/" component={App} />
+          <PrivateRoute
+            exact
+            path="/"
+            component={(props) => (
+              <App
+                {...props}
+                postMessage={this.props.postMessage}
+                deletePost={this.props.deletePost}
+                makeChatBoxRef={this.props.makeChatBoxRef}
+                chat={this.props.chat}
+              />
+            )}
+          />
           <NotPrivateRoute exact path="/landing" component={Landing} />
           <NotPrivateRoute exact path="/register" component={Register} />
           <NotPrivateRoute exact path="/login" component={Login} />

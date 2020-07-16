@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Router from "./Router";
+import ChatFunc from "./ChatFunc";
 import { Provider } from "react-redux";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./helpers/setAuthToken";
@@ -38,7 +38,7 @@ if (localStorage.jwtToken) {
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
-      <Router />
+      <ChatFunc />
     </React.StrictMode>
   </Provider>,
   document.getElementById("root")
