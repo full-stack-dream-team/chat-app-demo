@@ -18,7 +18,6 @@ const userSchema = new Schema({
   passwordResetToken: {
     type: Object,
   },
-  chatting: Boolean,
   date: {
     type: Date,
     default: Date.now,

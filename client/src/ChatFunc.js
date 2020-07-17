@@ -68,37 +68,43 @@ class ChatFunc extends React.Component {
   };
 
   componentDidMount() {
-    this.socket = io(config[process.env.NODE_ENV].endpoint);
+    if (this.props.isAuthenticated && this.ChatBox) {
+      Notification.requestPermission();
 
-    this.socket.on("init", (msg) => {
-      this.setState({ chat: msg.reverse() }, this.scrollToBottom);
+      this.socket = io(config[process.env.NODE_ENV].endpoint);
 
-      // this.socket.emit("addUser", {
-      //   userId: this.props.user.id,
-      // });
-    });
+      this.socket.on("init", (msg) => {
+        this.setState({ chat: msg.reverse() }, this.scrollToBottom);
 
-    this.socket.on("push", (msg) => {
-      this.setState(
-        (state) => ({ chat: [...state.chat, msg] }),
-        () => {
-          this.scrollToBottom();
+        // this.socket.emit("addUser", {
+        //   userId: this.props.user.id,
+        // });
+      });
 
-          const chatLimit = 100;
-          if (this.state.chat.length > chatLimit) {
-            const chat = [...this.state.chat];
-            chat.slice(this.state.chat.length - chatLimit);
-            this.setState({ chat });
+      this.socket.on("push", (msg) => {
+        new Notification(msg);
+
+        this.setState(
+          (state) => ({ chat: [...state.chat, msg] }),
+          () => {
+            this.scrollToBottom();
+
+            const chatLimit = 100;
+            if (this.state.chat.length > chatLimit) {
+              const chat = [...this.state.chat];
+              chat.slice(this.state.chat.length - chatLimit);
+              this.setState({ chat });
+            }
           }
-        }
-      );
-    });
+        );
+      });
 
-    // this.socket.on("users", (users) => {
-    //   if (!users.find((user) => user._id === this.props.user.id)) {
-    //     this.setState({ chattingUsers: [...users, this.props.user] });
-    //   }
-    // });
+      // this.socket.on("users", (users) => {
+      //   if (!users.find((user) => user._id === this.props.user.id)) {
+      //     this.setState({ chattingUsers: [...users, this.props.user] });
+      //   }
+      // });}
+    }
   }
 
   componentWillUnmount() {
@@ -106,18 +112,21 @@ class ChatFunc extends React.Component {
   }
 
   render() {
-    return (
+    return this.props.isAuthenticated ? (
       <Router
         postMessage={this.handleSubmit}
         deletePost={this.deletePost}
         makeChatBoxRef={this.makeChatBoxRef}
         chat={this.state.chat}
       />
+    ) : (
+      <Router />
     );
   }
 }
 
 const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
   user: state.auth.user,
 });
 

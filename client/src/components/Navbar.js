@@ -9,9 +9,13 @@ class Navbar extends React.Component {
       <div className="navbar-fixed">
         <nav>
           <div className="nav-wrapper">
-            <a href="/" className="brand-logo center ml-1">
+            <a href="/" className="brand-logo center hide-on-small-only">
               {this.props.auth.user.name || "Chat"}
             </a>
+            <a href="/" className="brand-logo left ml-1 hide-on-med-and-up">
+              {this.props.auth.user.name || "Chat"}
+            </a>
+
             <ul id="nav-mobile" className="right">
               {this.props.auth.isAuthenticated ? (
                 <li>

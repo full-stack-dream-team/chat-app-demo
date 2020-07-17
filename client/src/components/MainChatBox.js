@@ -1,4 +1,6 @@
 import React from "react";
+import M from "materialize-css";
+import EmojiButton from "@joeattardi/emoji-button";
 
 import { connect } from "react-redux";
 
@@ -10,6 +12,19 @@ class MainChatBox extends React.Component {
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
+
+  enableEmojiPicker = () => {
+    this.picker.togglePicker(this.EmojiActivator);
+  };
+
+  componentDidMount() {
+    this.picker = new EmojiButton();
+    this.picker.on("emoji", (emoji) => {
+      this.setState({ content: this.state.content + emoji }, () => {
+        M.updateTextFields();
+      });
+    });
+  }
 
   render() {
     return (
@@ -25,15 +40,15 @@ class MainChatBox extends React.Component {
                     </div>
 
                     {msg.userId === this.props.user.id ? (
-                      <div className="col s6 right-align">
-                        <button
-                          className="btn-flat btn-delete"
+                      <div className="col s6 right-align btn-delete-container">
+                        <span
+                          className="btn-delete"
                           onClick={() =>
                             this.props.deletePost(this.props.user.id, msg)
                           }
                         >
                           ✕
-                        </button>
+                        </span>
                       </div>
                     ) : null}
                   </div>
@@ -68,23 +83,41 @@ class MainChatBox extends React.Component {
               autoComplete="off"
             >
               <div className="row">
-                <div className="col s8 m9 l10 input-field">
+                <div className="col s8 input-field">
                   <textarea
                     name="content"
                     value={this.state.content}
                     className="materialize-textarea"
                     onChange={this.handleChange}
                     required
+                    ref={(Textarea) => {
+                      this.Textarea = Textarea;
+                    }}
                   />
                   <label htmlFor="content">Message</label>
                 </div>
 
-                <div className="col s4 m3 l2">
+                <div className="col s1">
+                  <span
+                    className="btn btn-flat"
+                    style={{ fontSize: "30px" }}
+                    onClick={this.enableEmojiPicker}
+                    ref={(EmojiActivator) => {
+                      this.EmojiActivator = EmojiActivator;
+                    }}
+                  >
+                    ☺︎
+                  </span>
+                </div>
+
+                <div className="col s3">
                   <button type="submit" className="btn">
                     Post
                   </button>
                 </div>
               </div>
+
+              <div className="row"></div>
             </form>
           </div>
         </div>

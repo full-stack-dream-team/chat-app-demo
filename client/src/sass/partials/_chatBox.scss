@@ -24,10 +24,14 @@ li.main-chat-message {
   }
 
   .content {
-    margin-top: 3px;
+    margin: 3px 0 0 0;
     padding: 5px;
     color: #5c5c5c;
     background-color: #f0f0f0;
+
+    .col {
+      padding: 0;
+    }
 
     span {
       padding: 3px;
@@ -53,6 +57,11 @@ li.main-chat-message:last-child {
   margin-bottom: 10px;
 }
 
-button.btn-delete {
-  cursor: pointer;
+.btn-delete-container {
+  margin-top: 3px;
+
+  .btn-delete {
+    cursor: pointer;
+    margin-right: 5px;
+  }
 }
