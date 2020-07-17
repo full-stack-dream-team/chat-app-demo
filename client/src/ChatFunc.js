@@ -69,7 +69,9 @@ class ChatFunc extends React.Component {
 
   componentDidMount() {
     if (this.props.isAuthenticated && this.ChatBox) {
-      Notification.requestPermission();
+      if (window.Notification) {
+        Notification.requestPermission();
+      }
 
       this.socket = io(config[process.env.NODE_ENV].endpoint);
 
@@ -82,7 +84,9 @@ class ChatFunc extends React.Component {
       });
 
       this.socket.on("push", (msg) => {
-        new Notification(msg);
+        if (window.Notification) {
+          new Notification(msg);
+        }
 
         this.setState(
           (state) => ({ chat: [...state.chat, msg] }),
