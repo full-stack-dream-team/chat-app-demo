@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 class MainChatBox extends React.Component {
   state = {
     content: "",
+    previewUrl: "",
   };
 
   handleChange = (e) => {
@@ -23,6 +24,23 @@ class MainChatBox extends React.Component {
 
   enableEmojiPicker = () => {
     this.picker.togglePicker(this.EmojiActivator);
+  };
+
+  generatePreview = (file, callback) => {
+    const reader = new FileReader();
+
+    reader.readAsDataURL(file);
+    reader.onloadend = (e) => callback(reader.result);
+  };
+
+  handleUpload = (e, generatePreview, file) => {
+    if (!e.target.files[0]) {
+      return;
+    }
+
+    generatePreview(file, (previewUrl) => {
+      this.setState({ previewUrl });
+    });
   };
 
   componentDidMount() {
@@ -104,6 +122,7 @@ class MainChatBox extends React.Component {
                     }}
                   />
                   <label htmlFor="content">Message</label>
+                  <img src={this.state.previewUrl} alt="" />
                 </div>
 
                 <div className="col s12 light-blue lighten-5 py-2 right-align">
@@ -114,10 +133,26 @@ class MainChatBox extends React.Component {
                       padding: "1px 6px",
                     }}
                   >
-                    <InlineIcon
-                      icon={cloudUploadOutline}
-                      className="purple-text accent-2"
-                    />
+                    <div id="file-upload" className="file-field input-field">
+                      <div
+                        className="btn-icon"
+                        style={{
+                          fontSize: "24px",
+                          padding: "1px 6px",
+                        }}
+                      >
+                        <InlineIcon
+                          icon={cloudUploadOutline}
+                          className="purple-text accent-2"
+                        />
+                        <input
+                          type="file"
+                          multiple
+                          style={{ visibility: "invisible" }}
+                          onChange={this.handleUpload}
+                        />
+                      </div>
+                    </div>
                   </span>
                   <span
                     className="btn-icon btn-flat mr-2"
