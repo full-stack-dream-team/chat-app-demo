@@ -93,7 +93,7 @@ class ChatFunc extends React.Component {
           () => {
             this.scrollToBottom();
 
-            const chatLimit = 100;
+            const chatLimit = 50;
             if (this.state.chat.length > chatLimit) {
               const chat = [...this.state.chat];
               chat.slice(this.state.chat.length - chatLimit);
