@@ -1,6 +1,10 @@
 .btn-icon {
   &:hover {
     background-color: transparent;
-    transform: scale(1.5);
+    transform: scale(1.3);
   }
+}
+
+#file-upload {
+  margin-top: 0 !important;
 }
