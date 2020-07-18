@@ -65,7 +65,7 @@ class MainToolBar extends React.Component {
                   value={this.state.content}
                   className="materialize-textarea mb-0"
                   onChange={this.handleChange}
-                  onBlur={this.handleBlur}
+                  // onBlur={this.handleBlur}
                   required
                   ref={(Textarea) => {
                     this.Textarea = Textarea;

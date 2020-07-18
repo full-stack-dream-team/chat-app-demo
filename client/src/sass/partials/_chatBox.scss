@@ -39,6 +39,11 @@ ul.main-chat-box {
 
       span {
         padding: 3px;
+
+        white-space: pre-wrap;
+        line-height: normal;
+        font-size: 16px;
+        font-style: normal;
       }
     }
 
@@ -160,3 +165,8 @@ ul.main-chat-box {
     }
   }
 }
+
+// textarea {
+//   font-family: sans-serif !important;
+//   font-style: normal;
+// }

@@ -40,7 +40,7 @@ class MainChatBox extends React.Component {
                   </div>
 
                   <div className="content row">
-                    {(() => {
+                    {/*{(() => {
                       const splitMsg = msg.content.split("\n");
 
                       return splitMsg.map((msgBit, i) => (
@@ -48,7 +48,8 @@ class MainChatBox extends React.Component {
                           <span>{msgBit}</span>
                         </div>
                       ));
-                    })()}
+                    })()}*/}
+                    <span>{msg.content}</span>
                   </div>
 
                   <div className="timestamp row">
