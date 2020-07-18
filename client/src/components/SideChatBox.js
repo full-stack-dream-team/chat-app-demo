@@ -1,8 +1,13 @@
 import React from "react";
 
+import { connect } from "react-redux";
+
 class SideChatBox extends React.Component {
   state = {
-    boxPosition: { x: 0, y: 0 },
+    boxPosition: JSON.parse(localStorage.getItem("sideChatBox")) || {
+      x: 0,
+      y: 0,
+    },
     minimized: false,
     content: "",
   };
@@ -50,7 +55,10 @@ class SideChatBox extends React.Component {
       boxPosition.y = window.innerHeight - boxRect.height;
     }
 
-    localStorage.setItem("sideChatBox", { x: boxPosition.x, y: boxPosition.y });
+    localStorage.setItem(
+      "sideChatBox",
+      JSON.stringify({ x: boxPosition.x, y: boxPosition.y })
+    );
 
     this.setState({ boxPosition });
   };
@@ -102,15 +110,37 @@ class SideChatBox extends React.Component {
               <ul ref={this.props.makeChatBoxRef}>
                 {this.props.chat.map((msg, i) => (
                   <li key={msg._id || i}>
-                    {(() => {
-                      const splitMsg = msg.content.split("\n");
+                    <div className="row name-delete-container">
+                      <div className="col s10 name-container">
+                        <span className="name">{msg.name}</span>
+                      </div>
 
-                      return splitMsg.map((msgBit, i) => (
-                        <div className="col s12" key={i}>
-                          <span>{msgBit}</span>
+                      {msg.userId === this.props.user.id ? (
+                        <div className="col s2">
+                          <span
+                            className="delete"
+                            onClick={() =>
+                              this.props.deletePost(this.props.user.id, msg)
+                            }
+                          >
+                            ✕
+                          </span>
                         </div>
-                      ));
-                    })()}
+                      ) : null}
+                    </div>
+
+                    <div className="content-container">
+                      {(() => {
+                        const splitMsg = msg.content.split("\n");
+
+                        return splitMsg.map((msgBit, i) => (
+                          <div key={i}>
+                            <span>{msgBit}</span>
+                            {i < splitMsg.length ? <br /> : null}
+                          </div>
+                        ));
+                      })()}
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -121,10 +151,15 @@ class SideChatBox extends React.Component {
             <div className="col">
               <form
                 onSubmit={(e) => this.props.postMessage(e, this.state.content)}
+                autoComplete="off"
               >
                 <div className="row">
-                  <div className="col s8">
-                    <input type="text" />
+                  <div className="col s8 input-field">
+                    <input
+                      type="text"
+                      name="content"
+                      onChange={this.handleChange}
+                    />
                   </div>
 
                   <div className="col s4">
@@ -140,4 +175,8 @@ class SideChatBox extends React.Component {
   }
 }
 
-export default SideChatBox;
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
+});
+
+export default connect(mapStateToProps)(SideChatBox);

@@ -7,18 +7,20 @@ exports.connectSocket = (io) => {
     const limitMessages = (err, messages) => {
       if (err) return console.error(err);
 
-      const limit = 100;
+      const limit = 50;
 
       if (messages.length > limit) {
         Message.find()
           .limit(messages.length - limit)
           .exec((err, limitedMessages) => {
+            if (err) return console.error(err);
+
             const ids = [];
             limitedMessages.forEach((message, i) => {
               ids.push(message._id);
             });
 
-            Message.deleteMany({ _id: { $in: ids } });
+            Message.deleteMany({ _id: { $in: ids } }).then((info) => info);
           });
 
         const limitedMessages = messages
@@ -31,13 +33,13 @@ exports.connectSocket = (io) => {
       }
     };
 
-    const broadcastActiveUsers = () => {
-      User.find({ chatting: true }).exec((err, users) => {
-        if (err) return console.error(err);
-
-        socket.broadcast.emit("users", users);
-      });
-    };
+    // const broadcastActiveUsers = () => {
+    //   User.find({ chatting: true }).exec((err, users) => {
+    //     if (err) return console.error(err);
+    //
+    //     socket.broadcast.emit("users", users);
+    //   });
+    // };
 
     Message.find().sort({ createdAt: -1 }).exec(limitMessages);
 
@@ -58,12 +60,12 @@ exports.connectSocket = (io) => {
 
     let userId;
 
-    socket.on("addUser", (info) => {
-      userId = info.userId;
-      User.updateOne({ _id: info.userId }, { $set: { chatting: true } }).then(
-        broadcastActiveUsers
-      );
-    });
+    // socket.on("addUser", (info) => {
+    //   userId = info.userId;
+    //   User.updateOne({ _id: info.userId }, { $set: { chatting: true } }).then(
+    //     broadcastActiveUsers
+    //   );
+    // });
 
     socket.on("delete", (postInfo) => {
       Message.deleteOne({ _id: postInfo.postId }).then(() => {
