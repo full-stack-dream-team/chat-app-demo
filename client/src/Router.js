@@ -6,6 +6,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import NotPrivateRoute from "./components/NotPrivateRoute";
 import Navbar from "./components/Navbar";
 
+import TestGame from "./pages/games/TestGame";
+
 import App from "./pages/App";
 import Landing from "./pages/Landing";
 import Register from "./pages/Register";
@@ -38,6 +40,21 @@ class Router extends React.Component {
               />
             )}
           />
+
+          <PrivateRoute
+            exact
+            path="/testgame"
+            component={(props) => (
+              <TestGame
+                {...props}
+                postMessage={this.props.postMessage}
+                deletePost={this.props.deletePost}
+                makeChatBoxRef={this.props.makeChatBoxRef}
+                chat={this.props.chat}
+              />
+            )}
+          />
+
           <NotPrivateRoute exact path="/landing" component={Landing} />
           <NotPrivateRoute exact path="/register" component={Register} />
           <NotPrivateRoute exact path="/login" component={Login} />
