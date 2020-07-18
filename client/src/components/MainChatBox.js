@@ -1,6 +1,10 @@
 import React from "react";
 import M from "materialize-css";
 import EmojiButton from "@joeattardi/emoji-button";
+import { InlineIcon } from "@iconify/react";
+import sendIcon from "@iconify/icons-mdi/send";
+import stickerEmoji from "@iconify/icons-mdi/sticker-emoji";
+import cloudUploadOutline from "@iconify/icons-mdi/cloud-upload-outline";
 
 import { connect } from "react-redux";
 
@@ -11,6 +15,10 @@ class MainChatBox extends React.Component {
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleBlur = (e) => {
+    this.setState({ [e.target.name]: e.target.value.trim() });
   };
 
   enableEmojiPicker = () => {
@@ -83,12 +91,13 @@ class MainChatBox extends React.Component {
               autoComplete="off"
             >
               <div className="row">
-                <div className="col s8 input-field">
+                <div className="col s12 light-blue lighten-5 mb-0 input-field">
                   <textarea
                     name="content"
                     value={this.state.content}
-                    className="materialize-textarea"
+                    className="materialize-textarea mb-0"
                     onChange={this.handleChange}
+                    onBlur={this.handleBlur}
                     required
                     ref={(Textarea) => {
                       this.Textarea = Textarea;
@@ -97,27 +106,50 @@ class MainChatBox extends React.Component {
                   <label htmlFor="content">Message</label>
                 </div>
 
-                <div className="col s1">
+                <div className="col s12 light-blue lighten-5 py-2 right-align">
                   <span
-                    className="btn btn-flat"
-                    style={{ fontSize: "30px" }}
+                    className="btn-icon btn-flat"
+                    style={{
+                      fontSize: "24px",
+                      padding: "1px 6px",
+                    }}
+                  >
+                    <InlineIcon
+                      icon={cloudUploadOutline}
+                      className="purple-text accent-2"
+                    />
+                  </span>
+                  <span
+                    className="btn-icon btn-flat mr-2"
+                    style={{
+                      fontSize: "24px",
+                      padding: "1px 6px",
+                    }}
                     onClick={this.enableEmojiPicker}
                     ref={(EmojiActivator) => {
                       this.EmojiActivator = EmojiActivator;
                     }}
                   >
-                    ☺︎
+                    <InlineIcon
+                      icon={stickerEmoji}
+                      className="orange-text accent-2"
+                    />
                   </span>
-                </div>
-
-                <div className="col s3">
-                  <button type="submit" className="btn">
-                    Post
+                  <button
+                    type="submit"
+                    className="btn-icon btn-flat"
+                    style={{
+                      fontSize: "24px",
+                      padding: "1px 6px",
+                    }}
+                  >
+                    <InlineIcon
+                      icon={sendIcon}
+                      className="green-text accent-2"
+                    />
                   </button>
                 </div>
               </div>
-
-              <div className="row"></div>
             </form>
           </div>
         </div>
