@@ -33,7 +33,7 @@ class MainChatBox extends React.Component {
           <div className="col s12">
             <ul className="main-chat-box" ref={this.props.makeChatBoxRef}>
               {this.props.chat.map((msg, i) => (
-                <li key={msg._id ? msg._id : i} className="main-chat-message">
+                <li key={msg._id || i} className="main-chat-message">
                   <div className="row mb-0">
                     <div className="name col s6">
                       <span>{msg.name}</span>
