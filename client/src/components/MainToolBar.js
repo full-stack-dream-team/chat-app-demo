@@ -1,10 +1,11 @@
 import React from "react";
 import M from "materialize-css";
 import EmojiButton from "@joeattardi/emoji-button";
-import { InlineIcon } from "@iconify/react";
+import { Icon, InlineIcon } from "@iconify/react";
 import sendIcon from "@iconify/icons-mdi/send";
 import stickerEmoji from "@iconify/icons-mdi/sticker-emoji";
 import fileImageOutline from "@iconify/icons-mdi/file-image-outline";
+import alphaXCircle from "@iconify/icons-mdi/alpha-x-circle";
 
 class MainToolBar extends React.Component {
   state = {
@@ -36,6 +37,10 @@ class MainToolBar extends React.Component {
       this.setState({ file, imagePreviewUrl: reader.result });
     };
     reader.readAsDataURL(file);
+  };
+
+  cancelImage = () => {
+    this.setState({ imagePreviewUrl: null, file: "" });
   };
 
   componentDidMount() {
@@ -73,7 +78,17 @@ class MainToolBar extends React.Component {
                 />
                 <label htmlFor="content">Message</label>
                 {imagePreviewUrl ? (
-                  <img src={imagePreviewUrl} width="150px" alt="" />
+                  <div
+                    className="mt-1"
+                    style={{ position: "relative", display: "inline-block" }}
+                  >
+                    <img src={imagePreviewUrl} width="150px" alt="" />
+                    <Icon
+                      id="cancel-button"
+                      icon={alphaXCircle}
+                      onClick={this.cancelImage}
+                    />
+                  </div>
                 ) : (
                   ""
                 )}
