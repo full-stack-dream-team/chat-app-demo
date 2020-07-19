@@ -4,12 +4,13 @@ import EmojiButton from "@joeattardi/emoji-button";
 import { InlineIcon } from "@iconify/react";
 import sendIcon from "@iconify/icons-mdi/send";
 import stickerEmoji from "@iconify/icons-mdi/sticker-emoji";
-import cloudUploadOutline from "@iconify/icons-mdi/cloud-upload-outline";
+import fileImageOutline from "@iconify/icons-mdi/file-image-outline";
 
 class MainToolBar extends React.Component {
   state = {
     content: "",
-    files: null,
+    imagePreviewUrl: null,
+    file: "",
   };
 
   handleChange = (e) => {
@@ -24,19 +25,17 @@ class MainToolBar extends React.Component {
     this.picker.togglePicker(this.EmojiActivator);
   };
 
-  handleUpload = (e) => {
-    if (!e.target.files[0]) {
-      return;
-    }
+  showPreview = (e) => {
+    e.preventDefault();
 
-    this.setState({ files: e.target.files[0] });
-    this.props.uploadFiles({ ...this.state.files });
+    const file = e.target.files[0];
 
-    // TODO: create an image preview before or while sending image(s) to the backend.
-    // const reader = new FileReader();
-    // reader.readAsDataURL(file);
-    // reader.onloadend = (e) => this.setState({ previewUrl: reader.result });
-    // console.log(reader.result);
+    // Create image previews
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      this.setState({ file, imagePreviewUrl: reader.result });
+    };
+    reader.readAsDataURL(file);
   };
 
   componentDidMount() {
@@ -50,6 +49,7 @@ class MainToolBar extends React.Component {
 
   render() {
     const { postMessage } = this.props;
+    const { imagePreviewUrl } = this.state;
 
     return (
       <div className="row">
@@ -72,12 +72,11 @@ class MainToolBar extends React.Component {
                   }}
                 />
                 <label htmlFor="content">Message</label>
-                <img
-                  src={this.state.files}
-                  width="100px"
-                  alt=""
-                  style={{ display: "none" }}
-                />
+                {imagePreviewUrl ? (
+                  <img src={imagePreviewUrl} width="150px" alt="" />
+                ) : (
+                  ""
+                )}
               </div>
 
               <div className="col s12 light-blue lighten-5 py-2 right-align">
@@ -97,15 +96,16 @@ class MainToolBar extends React.Component {
                       }}
                     >
                       <InlineIcon
-                        icon={cloudUploadOutline}
+                        icon={fileImageOutline}
                         className="purple-text accent-2"
                       />
                       <input
                         type="file"
                         name="file"
+                        accept="image/jpeg, image/png, image/gif"
                         multiple
                         style={{ visibility: "invisible" }}
-                        onChange={this.handleUpload}
+                        onChange={this.showPreview}
                       />
                     </div>
                   </div>
