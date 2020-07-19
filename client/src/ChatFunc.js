@@ -54,7 +54,7 @@ class ChatFunc extends React.Component {
   };
 
   deletePost = (userId, post) => {
-    if (userId === post.userId) {
+    if (userId === post.userId || this.props.user.authorized === "ADMIN") {
       if (window.confirm("Are you sure you want to delete this post?")) {
         this.socket.emit("delete", {
           postId: post._id,

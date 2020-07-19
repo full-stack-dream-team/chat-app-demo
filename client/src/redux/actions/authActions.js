@@ -47,6 +47,8 @@ export const loginUser = (userData, history) => (dispatch) => {
 
       // Set current user
       dispatch(setCurrentUser(decoded));
+
+      window.location.reload();
     })
     .then((res) => history.push("/"))
     .catch((err) => dispatch(getErrors(err)));

@@ -78,6 +78,7 @@ exports.loginUser = (req, res) => {
       if (!user) {
         return res.status(404).json({ emailnotfound: "Email not found" });
       }
+      console.log(user);
 
       // Check password
       bcrypt.compare(password, user.password).then((isMatch) => {
@@ -88,6 +89,7 @@ exports.loginUser = (req, res) => {
           const payload = {
             id: user.id,
             name: user.name,
+            authorized: user.authorized,
           };
 
           // Sign token

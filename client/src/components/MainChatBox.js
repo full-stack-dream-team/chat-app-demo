@@ -26,7 +26,8 @@ class MainChatBox extends React.Component {
                       <span>{msg.name}</span>
                     </div>
 
-                    {msg.userId === id ? (
+                    {msg.userId === id ||
+                    this.props.user.authorized === "ADMIN" ? (
                       <div className="col s6 right-align btn-delete-container">
                         <span
                           className="btn-delete"

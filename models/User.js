@@ -18,6 +18,7 @@ const userSchema = new Schema({
   passwordResetToken: {
     type: Object,
   },
+  authorized: String,
   date: {
     type: Date,
     default: Date.now,

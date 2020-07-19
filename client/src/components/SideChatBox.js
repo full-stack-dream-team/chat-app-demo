@@ -115,7 +115,8 @@ class SideChatBox extends React.Component {
                         <span className="name">{msg.name}</span>
                       </div>
 
-                      {msg.userId === this.props.user.id ? (
+                      {msg.userId === this.props.user.id ||
+                      this.props.user.authorized === "ADMIN" ? (
                         <div className="col s2">
                           <span
                             className="delete"
