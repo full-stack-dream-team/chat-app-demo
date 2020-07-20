@@ -49,6 +49,10 @@ class MainChatBox extends React.Component {
                         </div>
                       ));
                     })()}
+
+                    {msg.image ? (
+                      <img src={msg.image} alt="can't find" />
+                    ) : null}
                   </div>
 
                   <div className="timestamp row">

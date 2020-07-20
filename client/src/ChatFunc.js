@@ -1,12 +1,10 @@
 import React from "react";
 import M from "materialize-css";
 import Router from "./Router";
-
-import config from "./config";
+import { connect } from "react-redux";
 import io from "socket.io-client";
 
-import { connect } from "react-redux";
-
+import config from "./config";
 import removeBadWords from "./helpers/removeBadWords";
 
 class ChatFunc extends React.Component {
@@ -15,7 +13,7 @@ class ChatFunc extends React.Component {
     chattingUsers: [],
   };
 
-  handleSubmit = (e, content) => {
+  handleSubmit = (e, content, image) => {
     e.preventDefault();
 
     const filteredContent = removeBadWords(content);
@@ -24,6 +22,7 @@ class ChatFunc extends React.Component {
       name: this.props.user.name,
       content: filteredContent,
       userId: this.props.user.id,
+      image,
     });
 
     this.setState(
@@ -34,6 +33,7 @@ class ChatFunc extends React.Component {
             name: this.props.user.name,
             content: filteredContent,
             userId: this.props.user.id,
+            image,
           },
         ],
       }),

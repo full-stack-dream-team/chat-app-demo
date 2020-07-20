@@ -6,11 +6,14 @@ import sendIcon from "@iconify/icons-mdi/send";
 import stickerEmoji from "@iconify/icons-mdi/sticker-emoji";
 import fileImageOutline from "@iconify/icons-mdi/file-image-outline";
 import alphaXCircle from "@iconify/icons-mdi/alpha-x-circle";
+import { connect } from "react-redux";
+
+import { uploadFile } from "../redux/actions/chatActions";
 
 class MainToolBar extends React.Component {
   state = {
     content: "",
-    imagePreviewUrl: null,
+    image: null,
     file: "",
   };
 
@@ -29,18 +32,26 @@ class MainToolBar extends React.Component {
   showPreview = (e) => {
     e.preventDefault();
 
-    const file = e.target.files[0];
+    const file = this.FileInput.files[0];
 
     // Create image previews
     const reader = new FileReader();
     reader.onloadend = () => {
-      this.setState({ file, imagePreviewUrl: reader.result });
+      this.setState({ file, image: reader.result });
     };
     reader.readAsDataURL(file);
   };
 
+  handleUpload = (e) => {
+    e.preventDefault();
+
+    console.log(this.state.file);
+
+    this.props.uploadFile(this.state.file);
+  };
+
   cancelImage = () => {
-    this.setState({ imagePreviewUrl: null, file: "" });
+    this.setState({ image: null, file: null });
   };
 
   componentDidMount() {
@@ -54,13 +65,13 @@ class MainToolBar extends React.Component {
 
   render() {
     const { postMessage } = this.props;
-    const { imagePreviewUrl } = this.state;
+    const { image, content } = this.state;
 
     return (
       <div className="row">
         <div className="col s12">
           <form
-            onSubmit={(e) => postMessage(e, this.state.content)}
+            onSubmit={(e) => postMessage(e, content, image)}
             autoComplete="off"
           >
             <div className="row">
@@ -77,12 +88,12 @@ class MainToolBar extends React.Component {
                   }}
                 />
                 <label htmlFor="content">Message</label>
-                {imagePreviewUrl ? (
+                {image ? (
                   <div
                     className="mt-1"
                     style={{ position: "relative", display: "inline-block" }}
                   >
-                    <img src={imagePreviewUrl} width="150px" alt="" />
+                    <img src={image} width="150px" alt="" />
                     <Icon
                       id="cancel-button"
                       icon={alphaXCircle}
@@ -118,8 +129,8 @@ class MainToolBar extends React.Component {
                         type="file"
                         name="file"
                         accept="image/jpeg, image/png, image/gif"
-                        multiple
                         style={{ visibility: "invisible" }}
+                        ref={(FileInput) => (this.FileInput = FileInput)}
                         onChange={this.showPreview}
                       />
                     </div>
@@ -151,6 +162,13 @@ class MainToolBar extends React.Component {
                 >
                   <InlineIcon icon={sendIcon} className="green-text accent-2" />
                 </button>
+                <button
+                  type="submit"
+                  className="btn"
+                  onClick={this.handleUpload}
+                >
+                  Upload File
+                </button>
               </div>
             </div>
           </form>
@@ -160,4 +178,4 @@ class MainToolBar extends React.Component {
   }
 }
 
-export default MainToolBar;
+export default connect(undefined, { uploadFile })(MainToolBar);
