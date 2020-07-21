@@ -154,6 +154,13 @@ ul.main-chat-box {
 
             .content-container {
               margin-bottom: 5px;
+
+              span {
+                white-space: pre-wrap;
+                line-height: normal;
+                font-size: 16px;
+                font-style: normal;
+              }
             }
           }
 
@@ -163,6 +170,24 @@ ul.main-chat-box {
         }
       }
     }
+
+    .form-container-row {
+      height: auto;
+    }
+  }
+
+  .resize-handle {
+    cursor: nwse-resize !important;
+
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    background-color: lightgrey;
+
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
   }
 }
 
