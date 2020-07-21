@@ -21,10 +21,6 @@ class MainToolBar extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleBlur = (e) => {
-    this.setState({ [e.target.name]: e.target.value.trim() });
-  };
-
   enableEmojiPicker = () => {
     this.picker.togglePicker(this.EmojiActivator);
   };
@@ -81,7 +77,6 @@ class MainToolBar extends React.Component {
                   value={this.state.content}
                   className="materialize-textarea mb-0"
                   onChange={this.handleChange}
-                  // onBlur={this.handleBlur}
                   required
                   ref={(Textarea) => {
                     this.Textarea = Textarea;
