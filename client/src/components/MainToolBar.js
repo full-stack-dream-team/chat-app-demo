@@ -32,6 +32,8 @@ class MainToolBar extends React.Component {
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
+    console.log(file);
+
     reader.onload = (e) => {
       const img = new Image();
       img.src = e.target.result;
@@ -46,9 +48,19 @@ class MainToolBar extends React.Component {
         element.height = img.height * scale;
 
         ctx.drawImage(img, 0, 0, width, img.height * scale);
-        const url = ctx.canvas.toDataURL(img);
+        const url = ctx.canvas
+          .toDataURL(img)
+          .replace("data:image/png;base64,", "");
 
-        this.setState({ file, image: url });
+        const binaryString = window.atob(url);
+        const bytes = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+          bytes[i] = binaryString.charCodeAt(i);
+        }
+
+        console.log(bytes.buffer);
+
+        this.setState({ file, image: bytes.buffer });
       };
     };
   };
