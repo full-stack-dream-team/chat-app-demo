@@ -10,7 +10,7 @@ import alphaXCircle from "@iconify/icons-mdi/alpha-x-circle";
 class MainToolBar extends React.Component {
   state = {
     content: "",
-    imagePreviewUrl: null,
+    image: null,
     file: "",
   };
 
@@ -26,21 +26,36 @@ class MainToolBar extends React.Component {
     this.picker.togglePicker(this.EmojiActivator);
   };
 
-  showPreview = (e) => {
+  compressImage = (e) => {
     e.preventDefault();
 
     const file = e.target.files[0];
-
-    // Create image previews
     const reader = new FileReader();
-    reader.onloadend = () => {
-      this.setState({ file, imagePreviewUrl: reader.result });
-    };
     reader.readAsDataURL(file);
+
+    reader.onload = (e) => {
+      const img = new Image();
+      img.src = e.target.result;
+
+      img.onload = (e) => {
+        const element = document.createElement("canvas");
+        const ctx = element.getContext("2d");
+        const width = 100;
+        const scale = width / img.width;
+
+        element.width = width;
+        element.height = img.height * scale;
+
+        ctx.drawImage(img, 0, 0, width, img.height * scale);
+        const url = ctx.canvas.toDataURL(img);
+
+        this.setState({ file, image: url });
+      };
+    };
   };
 
   cancelImage = () => {
-    this.setState({ imagePreviewUrl: null, file: "" });
+    this.setState({ image: null, file: "" });
   };
 
   componentDidMount() {
@@ -54,20 +69,22 @@ class MainToolBar extends React.Component {
 
   render() {
     const { postMessage } = this.props;
-    const { imagePreviewUrl } = this.state;
+    const { image, content, file } = this.state;
 
     return (
       <div className="row">
         <div className="col s12">
           <form
-            onSubmit={(e) => postMessage(e, this.state.content)}
+            onSubmit={(e) => {
+              postMessage(e, content, image, file);
+            }}
             autoComplete="off"
           >
             <div className="row">
               <div className="col s12 light-blue lighten-5 mb-0 input-field">
                 <textarea
                   name="content"
-                  value={this.state.content}
+                  value={content}
                   className="materialize-textarea mb-0"
                   onChange={this.handleChange}
                   onBlur={this.handleBlur}
@@ -77,12 +94,12 @@ class MainToolBar extends React.Component {
                   }}
                 />
                 <label htmlFor="content">Message</label>
-                {imagePreviewUrl ? (
+                {image ? (
                   <div
                     className="mt-1"
                     style={{ position: "relative", display: "inline-block" }}
                   >
-                    <img src={imagePreviewUrl} width="150px" alt="" />
+                    <img src={image} width="150px" alt="" />
                     <Icon
                       id="cancel-button"
                       icon={alphaXCircle}
@@ -117,10 +134,10 @@ class MainToolBar extends React.Component {
                       <input
                         type="file"
                         name="file"
-                        accept="image/jpeg, image/png, image/gif"
+                        accept="image/jpeg, image/png"
                         multiple
                         style={{ visibility: "invisible" }}
-                        onChange={this.showPreview}
+                        onChange={this.compressImage}
                       />
                     </div>
                   </div>

@@ -8,6 +8,7 @@ import io from "socket.io-client";
 import { connect } from "react-redux";
 
 import removeBadWords from "./helpers/removeBadWords";
+import { uploadImage } from "./redux/actions/chatActions";
 
 class ChatFunc extends React.Component {
   state = {
@@ -15,7 +16,7 @@ class ChatFunc extends React.Component {
     chattingUsers: [],
   };
 
-  handleSubmit = (e, content) => {
+  handleSubmit = (e, content, image, file) => {
     e.preventDefault();
 
     const filteredContent = removeBadWords(content);
@@ -24,6 +25,7 @@ class ChatFunc extends React.Component {
       name: this.props.user.name,
       content: filteredContent,
       userId: this.props.user.id,
+      image,
     });
 
     this.setState(
@@ -34,6 +36,7 @@ class ChatFunc extends React.Component {
             name: this.props.user.name,
             content: filteredContent,
             userId: this.props.user.id,
+            image,
           },
         ],
       }),
@@ -43,6 +46,10 @@ class ChatFunc extends React.Component {
         M.updateTextFields();
       }
     );
+
+    console.log(file);
+
+    this.props.uploadImage(file);
   };
 
   scrollToBottom = () => {
@@ -134,4 +141,4 @@ const mapStateToProps = (state) => ({
   user: state.auth.user,
 });
 
-export default connect(mapStateToProps)(ChatFunc);
+export default connect(mapStateToProps, { uploadImage })(ChatFunc);

@@ -56,6 +56,8 @@ class MainChatBox extends React.Component {
                       <span>{msg.createdAt ? msg.createdAt : null}</span>
                     </div>
                   </div>
+
+                  {msg.image ? <img src={msg.image} alt="none" /> : null}
                 </li>
               ))}
             </ul>
