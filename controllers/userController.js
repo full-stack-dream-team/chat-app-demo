@@ -187,3 +187,11 @@ exports.resetPassword = (req, res) => {
     });
   });
 };
+
+exports.userExists = (req, res) => {
+  User.findOne({ _id: req.body.userId }).then((user) => {
+    if (!user) return res.status(404).json(false);
+
+    res.json(true);
+  });
+};

@@ -9,6 +9,21 @@
   margin-top: 0 !important;
 }
 
+.comming-soon {
+  position: absolute;
+  left: -3.5em;
+  top: 0;
+
+  white-space: nowrap;
+
+  transform: rotateZ(10deg);
+
+  font-size: 10px;
+  z-index: 1;
+
+  pointer-events: none;
+}
+
 #cancel-button {
   width: 26px;
   height: 26px;
