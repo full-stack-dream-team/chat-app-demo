@@ -1,12 +1,11 @@
 const { google } = require("googleapis");
 const express = require("express");
-const multer = require("multer");
-const axios = require("axios");
-const GoogleDriveStorage = require("multer-google-drive");
-
 const mongoose = require("mongoose");
+
 const User = mongoose.model("User");
 const Message = mongoose.model("Message");
+
+const { upload } = require("../config/gdrive");
 
 exports.connectSocket = (io) => {
   io.on("connection", (socket) => {
@@ -89,26 +88,5 @@ exports.connectSocket = (io) => {
 };
 
 exports.uploadImage = (file) => {
-  const drive = google.drive({
-    version: "v3",
-    auth: "../config/gdrive-auth.json",
-  });
-
-  // console.log(file);
-
-  const upload = multer({
-    storage: GoogleDriveStorage({
-      drive: drive,
-      parents: "id-parents",
-      fileName: function (req, file, cb) {
-        let filename = `test-${file.originalname}`;
-        cb(null, filename);
-      },
-    }),
-  });
-
-  upload.single("file"),
-    function (req, res, next) {
-      res.send("Success!");
-    };
+  upload(file);
 };

@@ -45,8 +45,6 @@ class ChatFunc extends React.Component {
       }
     );
 
-    console.log(file);
-
     this.props.uploadImage(file);
   };
 
