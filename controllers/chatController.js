@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const multer = require("multer");
 
-exports.uploadFile = (req, res) => {
+exports.uploadImage = (req, res) => {
   // console.log("Current directory: " + process.cwd());
   console.log(req.body);
 

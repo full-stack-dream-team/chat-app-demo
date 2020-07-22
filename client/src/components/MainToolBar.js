@@ -8,7 +8,7 @@ import fileImageOutline from "@iconify/icons-mdi/file-image-outline";
 import alphaXCircle from "@iconify/icons-mdi/alpha-x-circle";
 import { connect } from "react-redux";
 
-import { uploadFile } from "../redux/actions/chatActions";
+import { uploadImage } from "../redux/actions/chatActions";
 
 class MainToolBar extends React.Component {
   state = {
@@ -51,14 +51,6 @@ class MainToolBar extends React.Component {
         this.setState({ file, image: url });
       };
     };
-  };
-
-  handleUpload = (e) => {
-    e.preventDefault();
-
-    console.log(this.state.file);
-
-    this.props.uploadFile(this.state.file);
   };
 
   cancelImage = () => {
@@ -173,13 +165,6 @@ class MainToolBar extends React.Component {
                 >
                   <InlineIcon icon={sendIcon} className="green-text accent-2" />
                 </button>
-                <button
-                  type="submit"
-                  className="btn"
-                  onClick={this.handleUpload}
-                >
-                  Upload File
-                </button>
               </div>
             </div>
           </form>
@@ -189,4 +174,4 @@ class MainToolBar extends React.Component {
   }
 }
 
-export default connect(undefined, { uploadFile })(MainToolBar);
+export default connect(undefined, { uploadImage })(MainToolBar);
