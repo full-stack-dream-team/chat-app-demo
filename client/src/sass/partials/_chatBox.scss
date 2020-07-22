@@ -33,12 +33,14 @@ ul.main-chat-box {
       color: #5c5c5c;
       background-color: #f0f0f0;
 
-      .col {
-        padding: 0;
-      }
-
       span {
+        display: block;
         padding: 3px;
+
+        white-space: pre-wrap;
+        line-height: normal;
+        font-size: 16px;
+        font-style: normal;
       }
     }
 
@@ -149,6 +151,13 @@ ul.main-chat-box {
 
             .content-container {
               margin-bottom: 5px;
+
+              span {
+                white-space: pre-wrap;
+                line-height: normal;
+                font-size: 16px;
+                font-style: normal;
+              }
             }
           }
 
@@ -158,5 +167,28 @@ ul.main-chat-box {
         }
       }
     }
+
+    .form-container-row {
+      height: auto;
+    }
+  }
+
+  .resize-handle {
+    cursor: nwse-resize !important;
+
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    background-color: lightgrey;
+
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
   }
 }
+
+// textarea {
+//   font-family: sans-serif !important;
+//   font-style: normal;
+// }

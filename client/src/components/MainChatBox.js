@@ -26,8 +26,9 @@ class MainChatBox extends React.Component {
                       <span>{msg.name}</span>
                     </div>
 
-                    {msg.userId === id ||
-                    this.props.user.authorized === "ADMIN" ? (
+                    {(msg.userId === id ||
+                      this.props.user.authorized === "ADMIN") &&
+                    msg._id ? (
                       <div className="col s6 right-align btn-delete-container">
                         <span
                           className="btn-delete"
@@ -40,15 +41,11 @@ class MainChatBox extends React.Component {
                   </div>
 
                   <div className="content row">
-                    {(() => {
-                      const splitMsg = msg.content.split("\n");
+                    <span>{msg.content}</span>
 
-                      return splitMsg.map((msgBit, i) => (
-                        <div className="col s12" key={i}>
-                          <span>{msgBit}</span>
-                        </div>
-                      ));
-                    })()}
+                    {msg.image ? (
+                      <img src={msg.image} alt="can't find" />
+                    ) : null}
                   </div>
 
                   <div className="timestamp row">

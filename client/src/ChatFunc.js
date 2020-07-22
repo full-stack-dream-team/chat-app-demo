@@ -1,12 +1,10 @@
 import React from "react";
 import M from "materialize-css";
 import Router from "./Router";
-
-import config from "./config";
+import { connect } from "react-redux";
 import io from "socket.io-client";
 
-import { connect } from "react-redux";
-
+import config from "./config";
 import removeBadWords from "./helpers/removeBadWords";
 import { uploadImage } from "./redux/actions/chatActions";
 
@@ -63,6 +61,18 @@ class ChatFunc extends React.Component {
   deletePost = (userId, post) => {
     if (userId === post.userId || this.props.user.authorized === "ADMIN") {
       if (window.confirm("Are you sure you want to delete this post?")) {
+        const newChat = [...this.state.chat];
+        newChat.splice(
+          newChat.findIndex((msg) => post._id === msg._id),
+          1
+        );
+        this.setState(
+          {
+            chat: newChat,
+          },
+          this.scrollToBottom
+        );
+
         this.socket.emit("delete", {
           postId: post._id,
         });

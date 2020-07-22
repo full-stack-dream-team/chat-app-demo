@@ -6,6 +6,9 @@ import sendIcon from "@iconify/icons-mdi/send";
 import stickerEmoji from "@iconify/icons-mdi/sticker-emoji";
 import fileImageOutline from "@iconify/icons-mdi/file-image-outline";
 import alphaXCircle from "@iconify/icons-mdi/alpha-x-circle";
+import { connect } from "react-redux";
+
+import { uploadFile } from "../redux/actions/chatActions";
 
 class MainToolBar extends React.Component {
   state = {
@@ -16,10 +19,6 @@ class MainToolBar extends React.Component {
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
-  };
-
-  handleBlur = (e) => {
-    this.setState({ [e.target.name]: e.target.value.trim() });
   };
 
   enableEmojiPicker = () => {
@@ -54,8 +53,16 @@ class MainToolBar extends React.Component {
     };
   };
 
+  handleUpload = (e) => {
+    e.preventDefault();
+
+    console.log(this.state.file);
+
+    this.props.uploadFile(this.state.file);
+  };
+
   cancelImage = () => {
-    this.setState({ image: null, file: "" });
+    this.setState({ image: null, file: null });
   };
 
   componentDidMount() {
@@ -87,7 +94,6 @@ class MainToolBar extends React.Component {
                   value={content}
                   className="materialize-textarea mb-0"
                   onChange={this.handleChange}
-                  onBlur={this.handleBlur}
                   required
                   ref={(Textarea) => {
                     this.Textarea = Textarea;
@@ -135,7 +141,6 @@ class MainToolBar extends React.Component {
                         type="file"
                         name="file"
                         accept="image/jpeg, image/png"
-                        multiple
                         style={{ visibility: "invisible" }}
                         onChange={this.compressImage}
                       />
@@ -168,6 +173,13 @@ class MainToolBar extends React.Component {
                 >
                   <InlineIcon icon={sendIcon} className="green-text accent-2" />
                 </button>
+                <button
+                  type="submit"
+                  className="btn"
+                  onClick={this.handleUpload}
+                >
+                  Upload File
+                </button>
               </div>
             </div>
           </form>
@@ -177,4 +189,4 @@ class MainToolBar extends React.Component {
   }
 }
 
-export default MainToolBar;
+export default connect(undefined, { uploadFile })(MainToolBar);

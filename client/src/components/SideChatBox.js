@@ -7,6 +7,8 @@ class SideChatBox extends React.Component {
     boxPosition: JSON.parse(localStorage.getItem("sideChatBox")) || {
       x: 0,
       y: 0,
+      w: 250,
+      h: 250,
     },
     minimized: false,
     content: "",
@@ -14,53 +16,78 @@ class SideChatBox extends React.Component {
 
   mouseOffset = { x: 0, y: 0 };
   dragging = false;
+  resizing = false;
 
   handleDrag = (e) => {
     if (this.dragging) {
       this.setState({
         boxPosition: {
+          ...this.state.boxPosition,
           x: e.x + this.mouseOffset.x,
           y: e.y + this.mouseOffset.y,
         },
+      });
+    } else if (this.resizing) {
+      const boxPosition = {
+        ...this.state.boxPosition,
+        w: e.x - this.state.boxPosition.x + 8,
+        h: e.y - this.state.boxPosition.y - 15,
+      };
+
+      if (boxPosition.w < 250) {
+        boxPosition.w = 250;
+      }
+      if (boxPosition.h < 250) {
+        boxPosition.h = 250;
+      }
+
+      this.setState({
+        boxPosition,
       });
     }
   };
 
   handleMouseDown = (e) => {
-    this.dragging = true;
+    if (e.target.className === "resize-handle") {
+      this.resizing = true;
+    } else {
+      this.dragging = true;
 
-    const clientRect = e.target.getBoundingClientRect();
-    this.mouseOffset = {
-      x: clientRect.x - e.clientX,
-      y: clientRect.y - e.clientY,
-    };
+      const clientRect = e.target.getBoundingClientRect();
+      this.mouseOffset = {
+        x: clientRect.x - e.clientX,
+        y: clientRect.y - e.clientY,
+      };
+    }
   };
 
   handleMouseUp = (e) => {
-    this.dragging = false;
-
     const boxPosition = { ...this.state.boxPosition };
-
-    const boxRect = this.BoxContainer.getBoundingClientRect();
-
-    if (boxPosition.x < 0) {
-      boxPosition.x = 0;
-    } else if (boxPosition.x + boxRect.width > window.innerWidth) {
-      boxPosition.x = window.innerWidth - boxRect.width;
+    if (this.resizing) {
+      this.resizing = false;
     }
 
-    if (boxPosition.y < 0) {
-      boxPosition.y = 0;
-    } else if (boxPosition.y + boxRect.height > window.innerHeight) {
-      boxPosition.y = window.innerHeight - boxRect.height;
+    if (this.dragging) {
+      this.dragging = false;
+
+      const boxRect = this.BoxContainer.getBoundingClientRect();
+
+      if (boxPosition.x < 0) {
+        boxPosition.x = 0;
+      } else if (boxPosition.x + boxRect.width > window.innerWidth) {
+        boxPosition.x = window.innerWidth - boxRect.width;
+      }
+
+      if (boxPosition.y < 0) {
+        boxPosition.y = 0;
+      } else if (boxPosition.y + boxRect.height > window.innerHeight) {
+        boxPosition.y = window.innerHeight - boxRect.height;
+      }
+
+      this.setState({ boxPosition });
     }
 
-    localStorage.setItem(
-      "sideChatBox",
-      JSON.stringify({ x: boxPosition.x, y: boxPosition.y })
-    );
-
-    this.setState({ boxPosition });
+    localStorage.setItem("sideChatBox", JSON.stringify(boxPosition));
   };
 
   handleChange = (e) => {
@@ -69,10 +96,12 @@ class SideChatBox extends React.Component {
 
   componentDidMount() {
     document.addEventListener("mousemove", this.handleDrag);
+    document.addEventListener("mouseup", this.handleMouseUp);
   }
 
   componentWillUnmount() {
     document.removeEventListener("mousemove", this.handleDrag);
+    document.removeEventListener("mouseup", this.handleMouseUp);
   }
 
   render() {
@@ -83,16 +112,13 @@ class SideChatBox extends React.Component {
         className="side-chat-box"
         style={{
           transform: `translate(${boxPosition.x}px, ${boxPosition.y}px)`,
+          width: `${boxPosition.w}px`,
         }}
         ref={(BoxContainer) => {
           this.BoxContainer = BoxContainer;
         }}
       >
-        <ul
-          className="moveable"
-          onMouseDown={this.handleMouseDown}
-          onMouseUp={this.handleMouseUp}
-        >
+        <ul className="moveable" onMouseDown={this.handleMouseDown}>
           <li
             className="minimize"
             onClick={() => this.setState({ minimized: !this.state.minimized })}
@@ -103,8 +129,20 @@ class SideChatBox extends React.Component {
 
         <div
           className="chat-area"
-          style={{ display: this.state.minimized ? "none" : "block" }}
+          style={{
+            display: this.state.minimized ? "none" : "block",
+            height: `${boxPosition.h}px`,
+          }}
         >
+          <div
+            className="resize-handle"
+            style={{
+              left: `${boxPosition.w - 13}px`,
+              top: `${boxPosition.h + 7}px`,
+            }}
+            onMouseDown={this.handleMouseDown}
+          ></div>
+
           <div className="row chat-text-row">
             <div className="col s12 chat-text-col">
               <ul ref={this.props.makeChatBoxRef}>
@@ -131,16 +169,7 @@ class SideChatBox extends React.Component {
                     </div>
 
                     <div className="content-container">
-                      {(() => {
-                        const splitMsg = msg.content.split("\n");
-
-                        return splitMsg.map((msgBit, i) => (
-                          <div key={i}>
-                            <span>{msgBit}</span>
-                            {i < splitMsg.length ? <br /> : null}
-                          </div>
-                        ));
-                      })()}
+                      <span>{msg.content}</span>
                     </div>
                   </li>
                 ))}
@@ -148,7 +177,7 @@ class SideChatBox extends React.Component {
             </div>
           </div>
 
-          <div className="row">
+          <div className="row form-container-row">
             <div className="col">
               <form
                 onSubmit={(e) => this.props.postMessage(e, this.state.content)}
