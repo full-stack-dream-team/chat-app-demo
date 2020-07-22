@@ -4,7 +4,11 @@ import ChatFunc from "./ChatFunc";
 import { Provider } from "react-redux";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./helpers/setAuthToken";
-import { setCurrentUser, logoutUser } from "./redux/actions/authActions";
+import {
+  setCurrentUser,
+  logoutUser,
+  checkUserExists,
+} from "./redux/actions/authActions";
 import store from "./redux/store/index";
 import * as serviceWorker from "./serviceWorker";
 
@@ -32,6 +36,8 @@ if (localStorage.jwtToken) {
 
     // Redirect to login
     window.location.href = "./login";
+  } else {
+    store.dispatch(checkUserExists(decoded.id));
   }
 }
 

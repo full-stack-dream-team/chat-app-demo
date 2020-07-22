@@ -15,6 +15,7 @@ import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Oops from "./pages/Oops";
+import NoAccount from "./pages/NoAccount";
 import Error404 from "./pages/Error404";
 
 class Router extends React.Component {
@@ -30,15 +31,14 @@ class Router extends React.Component {
           <PrivateRoute
             exact
             path="/"
-            component={(props) => (
+            component={
               <App
-                {...props}
                 postMessage={this.props.postMessage}
                 deletePost={this.props.deletePost}
                 makeChatBoxRef={this.props.makeChatBoxRef}
                 chat={this.props.chat}
               />
-            )}
+            }
           />
 
           <PrivateRoute
@@ -68,6 +68,8 @@ class Router extends React.Component {
             path="/resetpassword/:token"
             component={ResetPassword}
           />
+
+          <NotPrivateRoute exact path="/noaccount" component={NoAccount} />
           <Route exact path="/oops" component={Oops} />
           <Route component={Error404} />
         </Switch>

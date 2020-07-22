@@ -84,3 +84,17 @@ export const resetUserPassword = (data, history) => (dispatch) => {
     })
     .catch((err) => dispatch(getErrors(err)));
 };
+
+export const checkUserExists = (userId) => (dispatch) => {
+  axios
+    .post("/api/users/exists", { userId })
+    .then((res) => {
+      return true;
+    })
+    .catch((err) => {
+      if (err.response.data === false) {
+        logoutUser()(dispatch);
+        window.location.href = "./noaccount";
+      }
+    });
+};

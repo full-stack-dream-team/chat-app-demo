@@ -29,40 +29,38 @@ class MainToolBar extends React.Component {
     e.preventDefault();
 
     const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
 
-    console.log(file);
+      reader.onload = (e) => {
+        const img = new Image();
+        img.src = e.target.result;
 
-    reader.onload = (e) => {
-      const img = new Image();
-      img.src = e.target.result;
+        img.onload = (e) => {
+          const element = document.createElement("canvas");
+          const ctx = element.getContext("2d");
+          const width = 100;
+          const scale = width / img.width;
 
-      img.onload = (e) => {
-        const element = document.createElement("canvas");
-        const ctx = element.getContext("2d");
-        const width = 100;
-        const scale = width / img.width;
+          element.width = width;
+          element.height = img.height * scale;
 
-        element.width = width;
-        element.height = img.height * scale;
+          ctx.drawImage(img, 0, 0, width, img.height * scale);
+          const url = ctx.canvas
+            .toDataURL(img)
+            .replace("data:image/png;base64,", "");
 
-        ctx.drawImage(img, 0, 0, width, img.height * scale);
-        const url = ctx.canvas
-          .toDataURL(img)
-          .replace("data:image/png;base64,", "");
+          const binaryString = window.atob(url);
+          const bytes = new Uint8Array(binaryString.length);
+          for (let i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+          }
 
-        const binaryString = window.atob(url);
-        const bytes = new Uint8Array(binaryString.length);
-        for (let i = 0; i < binaryString.length; i++) {
-          bytes[i] = binaryString.charCodeAt(i);
-        }
-
-        console.log(bytes.buffer);
-
-        this.setState({ file, image: bytes.buffer });
+          this.setState({ file, image: bytes.buffer });
+        };
       };
-    };
+    }
   };
 
   cancelImage = () => {
@@ -88,6 +86,11 @@ class MainToolBar extends React.Component {
           <form
             onSubmit={(e) => {
               postMessage(e, content, image, file);
+              this.setState({
+                content: "",
+                image: null,
+                file: "",
+              });
             }}
             autoComplete="off"
           >
@@ -123,32 +126,28 @@ class MainToolBar extends React.Component {
 
               <div className="col s12 light-blue lighten-5 py-2 right-align">
                 <span
-                  className="btn-icon btn-flat"
+                  className="btn-flat"
                   style={{
                     fontSize: "24px",
                     padding: "1px 6px",
                   }}
                 >
                   <div id="file-upload" className="file-field input-field">
-                    <div
-                      className="btn-icon"
-                      style={{
-                        fontSize: "24px",
-                        padding: "1px 6px",
-                      }}
-                    >
-                      <InlineIcon
-                        icon={fileImageOutline}
-                        className="purple-text accent-2"
-                      />
-                      <input
-                        type="file"
-                        name="file"
-                        accept="image/jpeg, image/png"
-                        style={{ visibility: "invisible" }}
-                        onChange={this.compressImage}
-                      />
-                    </div>
+                    <InlineIcon
+                      icon={fileImageOutline}
+                      className="grey-text text-lighten-1"
+                    />
+
+                    <input
+                      type="file"
+                      name="file"
+                      accept="image/jpeg, image/png"
+                      style={{ visibility: "invisible" }}
+                      onChange={this.compressImage}
+                      disabled
+                    />
+
+                    <span className="comming-soon red-text">Comming Soon</span>
                   </div>
                 </span>
                 <span

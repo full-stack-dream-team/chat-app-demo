@@ -17,5 +17,7 @@ router.post("/login", userController.loginUser);
 router.post("/forgot", userController.forgotPassword);
 router.post("/reset", userController.resetPassword);
 
+router.post("/exists", userController.userExists);
+
 // Export router for use
 module.exports = router;
