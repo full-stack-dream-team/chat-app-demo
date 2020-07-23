@@ -87,6 +87,6 @@ exports.connectSocket = (io) => {
   });
 };
 
-exports.uploadImage = (image) => {
-  upload(image);
+exports.uploadImage = async (image) => {
+  await upload(image);
 };

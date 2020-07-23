@@ -99,7 +99,7 @@ class MainToolBar extends React.Component {
             autoComplete="off"
           >
             <div className="row">
-              <div className="col s12 light-blue lighten-5 mb-0 input-field">
+              <div className="col s12 purple lighten-5 mb-0 input-field">
                 <textarea
                   name="content"
                   value={content}
@@ -128,7 +128,7 @@ class MainToolBar extends React.Component {
                 )}
               </div>
 
-              <div className="col s12 light-blue lighten-5 py-2 right-align">
+              <div className="col s12 purple lighten-5 py-2 right-align">
                 <span
                   className="btn-flat"
                   style={{
@@ -164,7 +164,7 @@ class MainToolBar extends React.Component {
                 >
                   <InlineIcon
                     icon={stickerEmoji}
-                    className="orange-text accent-2"
+                    className="deep-orange-text"
                   />
                 </span>
                 <button
