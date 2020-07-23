@@ -44,15 +44,14 @@ class Router extends React.Component {
           <PrivateRoute
             exact
             path="/testgame"
-            component={(props) => (
+            component={
               <TestGame
-                {...props}
                 postMessage={this.props.postMessage}
                 deletePost={this.props.deletePost}
                 makeChatBoxRef={this.props.makeChatBoxRef}
                 chat={this.props.chat}
               />
-            )}
+            }
           />
 
           <NotPrivateRoute exact path="/landing" component={Landing} />
