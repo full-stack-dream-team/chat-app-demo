@@ -54,6 +54,7 @@ exports.connectSocket = (io) => {
         name: msg.name,
         userId: msg.userId,
         image: msg.image,
+        color: msg.color,
       });
 
       message.save((err) => {

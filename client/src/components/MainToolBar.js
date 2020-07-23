@@ -1,6 +1,7 @@
 import React from "react";
 import M from "materialize-css";
 import EmojiButton from "@joeattardi/emoji-button";
+import PostColorPicker from "./PostColorPicker";
 import { Icon, InlineIcon } from "@iconify/react";
 import sendIcon from "@iconify/icons-mdi/send";
 import stickerEmoji from "@iconify/icons-mdi/sticker-emoji";
@@ -14,6 +15,7 @@ class MainToolBar extends React.Component {
     content: "",
     image: null,
     file: "",
+    color: "",
   };
 
   handleChange = (e) => {
@@ -47,18 +49,6 @@ class MainToolBar extends React.Component {
 
           ctx.drawImage(img, 0, 0, width, img.height * scale);
           const url = ctx.canvas.toDataURL(img);
-          // .replace("data:image/png;base64,", "");
-
-          // const buff =
-          //   "data:image/png;utf-8," + new Buffer(url).toString("utf-8");
-
-          // console.log(buff);
-
-          // const binaryString = window.atob(url);
-          // const bytes = new Uint8Array(binaryString.length);
-          // for (let i = 0; i < binaryString.length; i++) {
-          //   bytes[i] = binaryString.charCodeAt(i);
-          // }
 
           this.setState({ file, image: url });
         };
@@ -81,14 +71,20 @@ class MainToolBar extends React.Component {
 
   render() {
     const { postMessage } = this.props;
-    const { image, content, file } = this.state;
+    const { image, content, file, color } = this.state;
 
     return (
       <div className="row">
-        <div className="col s12">
+        <div className="col s12 purple lighten-5">
           <form
             onSubmit={(e) => {
-              postMessage(e, content, image, file);
+              postMessage(e, {
+                content,
+                image,
+                file,
+                color,
+              });
+
               this.setState({
                 content: "",
                 image: null,
@@ -126,8 +122,11 @@ class MainToolBar extends React.Component {
                   ""
                 )}
               </div>
+            </div>
 
-              <div className="col s12 purple lighten-5 py-2 right-align">
+            <div className="row">
+              <PostColorPicker color={color} handleChange={this.handleChange} />
+              <div className="col s6 py-2 right-align">
                 {/*<span
                   className="btn-flat"
                   style={{

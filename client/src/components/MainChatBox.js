@@ -20,7 +20,12 @@ class MainChatBox extends React.Component {
           <div className="col s12">
             <ul className="main-chat-box cyan lighten-3" ref={makeChatBoxRef}>
               {chat.map((msg, i) => (
-                <li key={msg._id || i} className="main-chat-message">
+                <li
+                  key={msg._id || i}
+                  className={`main-chat-message ${
+                    msg.color ? msg.color + " lighten-3" : ""
+                  }`}
+                >
                   <div className="row mb-0">
                     <div className="name col s6">
                       <span>{msg.name}</span>
@@ -40,7 +45,9 @@ class MainChatBox extends React.Component {
                     ) : null}
                   </div>
 
-                  <div className="content row cyan lighten-4">
+                  <div
+                    className={`content row ${msg.color || "cyan"} lighten-4`}
+                  >
                     <span>{msg.content}</span>
 
                     {msg.image ? (
