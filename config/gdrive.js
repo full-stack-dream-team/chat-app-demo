@@ -15,13 +15,19 @@ const auth = new google.auth.JWT(
 
 const drive = google.drive({ version: "v3", auth });
 
-exports.upload = (req) => {
-  axios({
-    method: "post",
-    url: "https://www.googleapis.com/upload/drive/v3/files?uploadType=media",
-    data: req.body.image,
-  })
-    .then((response) => console.log(response))
+exports.upload = (req, res) => {
+  axios
+    .post(
+      "https://www.googleapis.com/upload/drive/v3/files?uploadType=media",
+      { data: req.body.image },
+      {
+        headers: {
+          "Content-Type": "image/png",
+          "Content-Length": req.body.image.length,
+        },
+      }
+    )
+    .then((data) => res.json(data))
     .catch((err) => console.error(err));
 
   // drive.files.create(
@@ -37,11 +43,11 @@ exports.upload = (req) => {
   //     },
   //     fields: "id",
   //   },
-  //   (err, image) => {
+  //   (err, file) => {
   //     if (err) {
-  //       console.error(err);
+  //       res.status(500).json(err);
   //     } else {
-  //       console.log(image);
+  //       res.json(file);
   //     }
   //   }
   // );

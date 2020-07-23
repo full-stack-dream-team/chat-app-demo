@@ -129,7 +129,7 @@ class MainToolBar extends React.Component {
               </div>
 
               <div className="col s12 light-blue lighten-5 py-2 right-align">
-                <span
+                {/*<span
                   className="btn-flat"
                   style={{
                     fontSize: "24px",
@@ -150,7 +150,7 @@ class MainToolBar extends React.Component {
                       onChange={this.compressImage}
                     />
                   </div>
-                </span>
+                </span>*/}
                 <span
                   className="btn-icon btn-flat mr-2"
                   style={{
