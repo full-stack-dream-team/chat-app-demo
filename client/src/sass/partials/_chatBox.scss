@@ -88,7 +88,7 @@ ul.main-chat-box {
     width: 100%;
     height: 20px;
     color: white;
-    background-color: rgba(60, 60, 60, 1);
+    background-color: #00bcd4;
     cursor: grab !important;
 
     -webkit-user-select: none; /* Safari */
@@ -118,7 +118,7 @@ ul.main-chat-box {
   .chat-area {
     width: 100%;
     height: 250px;
-    background-color: rgba(100, 100, 100, 0.95);
+    background-color: rgba(178, 235, 242, 0.88);
 
     .chat-text-row {
       height: 65%;
@@ -129,7 +129,7 @@ ul.main-chat-box {
         ul {
           overflow-y: scroll;
           height: 100%;
-          color: #e8e8e8;
+          color: #333;
 
           li {
             overflow-x: scroll;
@@ -172,6 +172,10 @@ ul.main-chat-box {
 
     .form-container-row {
       height: auto;
+
+      .input-field {
+        display: inline-flex;
+      }
     }
   }
 
@@ -181,7 +185,7 @@ ul.main-chat-box {
     position: absolute;
     width: 13px;
     height: 13px;
-    background-color: lightgrey;
+    background-color: #00bcd4;
 
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Firefox */

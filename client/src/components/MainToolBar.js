@@ -4,7 +4,6 @@ import EmojiButton from "@joeattardi/emoji-button";
 import { Icon, InlineIcon } from "@iconify/react";
 import sendIcon from "@iconify/icons-mdi/send";
 import stickerEmoji from "@iconify/icons-mdi/sticker-emoji";
-import fileImageOutline from "@iconify/icons-mdi/file-image-outline";
 import alphaXCircle from "@iconify/icons-mdi/alpha-x-circle";
 import { connect } from "react-redux";
 

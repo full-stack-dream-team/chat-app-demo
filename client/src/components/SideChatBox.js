@@ -1,4 +1,6 @@
 import React from "react";
+import { InlineIcon } from "@iconify/react";
+import sendIcon from "@iconify/icons-mdi/send";
 
 import { connect } from "react-redux";
 
@@ -7,8 +9,8 @@ class SideChatBox extends React.Component {
     boxPosition: JSON.parse(localStorage.getItem("sideChatBox")) || {
       x: 0,
       y: 0,
-      w: 250,
-      h: 250,
+      w: 330,
+      h: 270,
     },
     minimized: false,
     content: "",
@@ -34,11 +36,11 @@ class SideChatBox extends React.Component {
         h: e.y - this.state.boxPosition.y - 15,
       };
 
-      if (boxPosition.w < 250) {
-        boxPosition.w = 250;
+      if (boxPosition.w < 330) {
+        boxPosition.w = 330;
       }
-      if (boxPosition.h < 250) {
-        boxPosition.h = 250;
+      if (boxPosition.h < 270) {
+        boxPosition.h = 270;
       }
 
       this.setState({
@@ -109,7 +111,7 @@ class SideChatBox extends React.Component {
 
     return (
       <div
-        className="side-chat-box"
+        className="side-chat-box z-depth-2"
         style={{
           transform: `translate(${boxPosition.x}px, ${boxPosition.y}px)`,
           width: `${boxPosition.w}px`,
@@ -177,28 +179,28 @@ class SideChatBox extends React.Component {
             </div>
           </div>
 
-          <div className="row form-container-row">
-            <div className="col">
-              <form
-                onSubmit={(e) => this.props.postMessage(e, this.state.content)}
-                autoComplete="off"
-              >
-                <div className="row">
-                  <div className="col s8 input-field">
-                    <input
-                      type="text"
-                      name="content"
-                      onChange={this.handleChange}
-                    />
-                  </div>
+          <form
+            onSubmit={(e) => this.props.postMessage(e, this.state.content)}
+            autoComplete="off"
+          >
+            <div className="row form-container-row valign-wrapper">
+              <div className="col s12 input-field">
+                <input
+                  type="text"
+                  name="content"
+                  onChange={this.handleChange}
+                />
+                {"  "}
 
-                  <div className="col s4">
-                    <button type="submit">Post</button>
-                  </div>
-                </div>
-              </form>
+                <button
+                  className="waves-effect waves-light btn-floating cyan white-text ml-1"
+                  type="submit"
+                >
+                  <InlineIcon icon={sendIcon} className="white-text" />
+                </button>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     );
