@@ -15,7 +15,7 @@ ul.main-chat-box {
     min-height: 50px;
     overflow-x: scroll;
     border-top: 1px solid #fff;
-    margin: 0 10px;
+    padding: 0 10px;
 
     .name {
       // margin-top: 5px;
@@ -54,24 +54,24 @@ ul.main-chat-box {
         margin-right: 5px;
       }
     }
-  }
 
-  .timestamp {
-    margin: -2px 5px 5px 0;
+    .timestamp {
+      margin: -2px 5px 5px 0;
 
-    span {
-      font-size: 8px;
-      color: #333;
+      span {
+        font-size: 8px;
+        color: #333;
+      }
     }
   }
 
   li.main-chat-message:first-child {
-    margin-top: 10px;
+    padding-top: 10px;
     border-top: none;
   }
 
   li.main-chat-message:last-child {
-    margin-bottom: 10px;
+    padding-bottom: 10px;
   }
 }
 

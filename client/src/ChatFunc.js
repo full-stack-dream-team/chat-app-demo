@@ -14,16 +14,18 @@ class ChatFunc extends React.Component {
     chattingUsers: [],
   };
 
-  handleSubmit = (e, content, image, file) => {
+  handleSubmit = (e, post) => {
     e.preventDefault();
 
-    const filteredContent = removeBadWords(content);
+    const filteredContent = removeBadWords(post.content);
+
+    console.log(post.color);
 
     this.socket.emit("message", {
       name: this.props.user.name,
       content: filteredContent,
       userId: this.props.user.id,
-      image,
+      color: post.color,
     });
 
     this.setState(
@@ -34,7 +36,7 @@ class ChatFunc extends React.Component {
             name: this.props.user.name,
             content: filteredContent,
             userId: this.props.user.id,
-            image,
+            color: post.color,
           },
         ],
       }),
@@ -45,7 +47,7 @@ class ChatFunc extends React.Component {
       }
     );
 
-    this.props.uploadImage(image);
+    // this.props.uploadImage(image);
   };
 
   scrollToBottom = () => {
