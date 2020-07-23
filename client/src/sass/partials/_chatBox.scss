@@ -4,15 +4,17 @@ p {
 // Main Chat Box
 
 ul.main-chat-box {
-  height: 50vh;
+  min-height: 50vh;
+  height: 65vh;
   border-radius: 10px;
   overflow-y: scroll;
   background-color: #e8e8e8;
+  margin-top: 3em;
 
   li.main-chat-message {
     min-height: 50px;
     overflow-x: scroll;
-    border-top: 1px solid #c7c7c7;
+    border-top: 1px solid #fff;
     margin: 0 10px;
 
     .name {
@@ -21,7 +23,7 @@ ul.main-chat-box {
       span {
         font-size: 10px;
         padding: 3px;
-        color: #7a7a7a;
+        // color: #7a7a7a;
         // border-radius: 5px;
         // background-color: white;
       }
@@ -31,7 +33,7 @@ ul.main-chat-box {
       margin: 3px 0 0 0;
       padding: 5px;
       color: #5c5c5c;
-      background-color: #f0f0f0;
+      // background-color: #f0f0f0;
 
       span {
         display: block;
@@ -59,7 +61,7 @@ ul.main-chat-box {
 
     span {
       font-size: 8px;
-      color: #7a7a7a;
+      color: #333;
     }
   }
 
