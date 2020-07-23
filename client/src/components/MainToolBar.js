@@ -47,17 +47,21 @@ class MainToolBar extends React.Component {
           element.height = img.height * scale;
 
           ctx.drawImage(img, 0, 0, width, img.height * scale);
-          const url = ctx.canvas
-            .toDataURL(img)
-            .replace("data:image/png;base64,", "");
+          const url = ctx.canvas.toDataURL(img);
+          // .replace("data:image/png;base64,", "");
 
-          const binaryString = window.atob(url);
-          const bytes = new Uint8Array(binaryString.length);
-          for (let i = 0; i < binaryString.length; i++) {
-            bytes[i] = binaryString.charCodeAt(i);
-          }
+          // const buff =
+          //   "data:image/png;utf-8," + new Buffer(url).toString("utf-8");
 
-          this.setState({ file, image: bytes.buffer });
+          // console.log(buff);
+
+          // const binaryString = window.atob(url);
+          // const bytes = new Uint8Array(binaryString.length);
+          // for (let i = 0; i < binaryString.length; i++) {
+          //   bytes[i] = binaryString.charCodeAt(i);
+          // }
+
+          this.setState({ file, image: url });
         };
       };
     }
@@ -112,7 +116,7 @@ class MainToolBar extends React.Component {
                     className="mt-1"
                     style={{ position: "relative", display: "inline-block" }}
                   >
-                    <img src={image} width="150px" alt="" />
+                    <img src={image} width="150px" alt="Not found" />
                     <Icon
                       id="cancel-button"
                       icon={alphaXCircle}
@@ -135,7 +139,7 @@ class MainToolBar extends React.Component {
                   <div id="file-upload" className="file-field input-field">
                     <InlineIcon
                       icon={fileImageOutline}
-                      className="grey-text text-lighten-1"
+                      className="purple-text text-lighten-1"
                     />
 
                     <input
@@ -144,10 +148,7 @@ class MainToolBar extends React.Component {
                       accept="image/jpeg, image/png"
                       style={{ visibility: "invisible" }}
                       onChange={this.compressImage}
-                      disabled
                     />
-
-                    <span className="comming-soon red-text">Comming Soon</span>
                   </div>
                 </span>
                 <span

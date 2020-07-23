@@ -45,7 +45,7 @@ class ChatFunc extends React.Component {
       }
     );
 
-    this.props.uploadImage(file);
+    this.props.uploadImage(image);
   };
 
   scrollToBottom = () => {

@@ -87,6 +87,6 @@ exports.connectSocket = (io) => {
   });
 };
 
-exports.uploadImage = (file) => {
-  upload(file);
+exports.uploadImage = (image) => {
+  upload(image);
 };
