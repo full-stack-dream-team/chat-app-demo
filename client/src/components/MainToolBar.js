@@ -130,13 +130,10 @@ class MainToolBar extends React.Component {
               </div>
             </div>
 
-            <div className="row mb-0">
+            <div className="row mb-0 valign-wrapper">
               <PostColorPicker color={color} handleChange={this.handleChange} />
 
-              <div
-                className="col s6 py-2 mt-1 right-align"
-                style={{ marginLeft: "-10px" }}
-              >
+              <div className="col s10 right-align">
                 {/*<span
                   className="btn-flat"
                   style={{
@@ -161,10 +158,9 @@ class MainToolBar extends React.Component {
                 </span>*/}
 
                 <span
-                  className="btn-icon btn-flat mr-2 hide-on-small-only"
+                  className="btn-icon btn-flat hide-on-small-only"
                   style={{
-                    fontSize: "40px",
-                    padding: "1px 6px",
+                    fontSize: "30px",
                   }}
                   onClick={this.enableEmojiPicker}
                   ref={(EmojiActivator) => {
@@ -180,8 +176,7 @@ class MainToolBar extends React.Component {
                   type="submit"
                   className="btn-icon btn-flat"
                   style={{
-                    fontSize: "40px",
-                    padding: "1px 6px",
+                    fontSize: "30px",
                   }}
                 >
                   <InlineIcon icon={sendIcon} className="green-text accent-2" />

@@ -7,7 +7,7 @@ class Navbar extends React.Component {
   render() {
     return (
       <div className="navbar-fixed">
-        <nav className="cyan ligten-1">
+        <nav className="grey darken-4">
           <div className="nav-wrapper">
             <a href="/" className="brand-logo center hide-on-small-only">
               {this.props.auth.user.name || "Chat"}

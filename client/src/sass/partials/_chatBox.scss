@@ -4,11 +4,10 @@ p {
 // Main Chat Box
 
 ul.main-chat-box {
-  height: 50vh;
+  height: 65vh;
   border-radius: 10px;
   overflow-y: scroll;
   background-color: #e8e8e8;
-  margin-top: 3em;
 
   li.main-chat-message {
     min-height: 50px;
@@ -71,6 +70,17 @@ ul.main-chat-box {
 
   li.main-chat-message:last-child {
     padding-bottom: 10px;
+  }
+}
+
+// Main Toolbar
+.select-wrapper input.select-dropdown {
+  border-bottom: none !important;
+  height: 2rem;
+  margin-bottom: 0 !important;
+
+  &:focus {
+    border-bottom: none !important;
   }
 }
 
