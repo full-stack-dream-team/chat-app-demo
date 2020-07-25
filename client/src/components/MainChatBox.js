@@ -56,14 +56,18 @@ class MainChatBox extends React.Component {
                   <div
                     className={`content row ${msg.color || "cyan"} lighten-4`}
                   >
-                    <span>{msg.content}</span>
+                    {msg.userId === id ? (
+                      <textarea name="content" id="content" cols="30" rows="10">
+                        {msg.content}
+                      </textarea>
+                    ) : (
+                      <span>{msg.content}</span>
+                    )}
 
                     {msg.image ? (
                       <img src={msg.image} alt="can't find" />
                     ) : null}
                   </div>
-
-                  {msg.image ? <img src={msg.image} alt="none" /> : null}
                 </li>
               ))}
             </ul>
