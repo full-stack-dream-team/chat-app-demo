@@ -19,8 +19,6 @@ class ChatFunc extends React.Component {
 
     const filteredContent = removeBadWords(post.content);
 
-    console.log(post.color);
-
     this.socket.emit("message", {
       name: this.props.user.name,
       content: filteredContent,
@@ -66,12 +64,9 @@ class ChatFunc extends React.Component {
           newChat.findIndex((msg) => post._id === msg._id),
           1
         );
-        this.setState(
-          {
-            chat: newChat,
-          },
-          this.scrollToBottom
-        );
+        this.setState({
+          chat: newChat,
+        });
 
         this.socket.emit("delete", {
           postId: post._id,
@@ -118,6 +113,17 @@ class ChatFunc extends React.Component {
             }
           }
         );
+      });
+
+      this.socket.on("remove", (postId) => {
+        const newChat = [...this.state.chat];
+        newChat.splice(
+          newChat.findIndex((msg) => postId === msg._id),
+          1
+        );
+        this.setState({
+          chat: newChat,
+        });
       });
 
       // this.socket.on("users", (users) => {

@@ -75,7 +75,10 @@ class MainToolBar extends React.Component {
 
     return (
       <div className="row">
-        <div className="col s12 purple lighten-5">
+        <div
+          className={`col s12 ${color || "cyan"} lighten-4 z-depth-5`}
+          style={{ borderRadius: "10px" }}
+        >
           <form
             onSubmit={(e) => {
               postMessage(e, {
@@ -85,16 +88,19 @@ class MainToolBar extends React.Component {
                 color,
               });
 
-              this.setState({
-                content: "",
-                image: null,
-                file: "",
-              });
+              this.setState(
+                {
+                  content: "",
+                  image: null,
+                  file: "",
+                },
+                () => M.textareaAutoResize(this.Textarea)
+              );
             }}
             autoComplete="off"
           >
-            <div className="row">
-              <div className="col s12 purple lighten-5 mb-0 input-field">
+            <div className="row mb-0">
+              <div className="col s12 mb-0 input-field">
                 <textarea
                   name="content"
                   value={content}
@@ -124,9 +130,13 @@ class MainToolBar extends React.Component {
               </div>
             </div>
 
-            <div className="row">
+            <div className="row mb-0">
               <PostColorPicker color={color} handleChange={this.handleChange} />
-              <div className="col s6 py-2 right-align">
+
+              <div
+                className="col s6 py-2 mt-1 right-align"
+                style={{ marginLeft: "-10px" }}
+              >
                 {/*<span
                   className="btn-flat"
                   style={{
@@ -149,10 +159,11 @@ class MainToolBar extends React.Component {
                     />
                   </div>
                 </span>*/}
+
                 <span
-                  className="btn-icon btn-flat mr-2"
+                  className="btn-icon btn-flat mr-2 hide-on-small-only"
                   style={{
-                    fontSize: "24px",
+                    fontSize: "40px",
                     padding: "1px 6px",
                   }}
                   onClick={this.enableEmojiPicker}
@@ -169,7 +180,7 @@ class MainToolBar extends React.Component {
                   type="submit"
                   className="btn-icon btn-flat"
                   style={{
-                    fontSize: "24px",
+                    fontSize: "40px",
                     padding: "1px 6px",
                   }}
                 >

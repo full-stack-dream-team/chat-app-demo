@@ -18,7 +18,10 @@ class MainChatBox extends React.Component {
       <>
         <div className="row">
           <div className="col s12">
-            <ul className="main-chat-box cyan lighten-3" ref={makeChatBoxRef}>
+            <ul
+              className="main-chat-box cyan lighten-3 z-depth-3"
+              ref={makeChatBoxRef}
+            >
               {chat.map((msg, i) => (
                 <li
                   key={msg._id || i}

@@ -78,6 +78,8 @@ exports.connectSocket = (io) => {
       Message.deleteOne({ _id: postInfo.postId }).then(() => {
         Message.find().sort({ createdAt: -1 }).exec(limitMessages);
       });
+
+      socket.broadcast.emit("remove", postInfo.postId);
     });
 
     // socket.on("disconnect", () => {

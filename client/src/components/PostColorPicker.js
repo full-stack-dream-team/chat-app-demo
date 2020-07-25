@@ -10,7 +10,10 @@ class PostColorPicker extends React.Component {
     const { color, handleChange } = this.props;
 
     return (
-      <div className={`col s6 input-field ${color || "cyan"} lighten-3`}>
+      <div
+        className={`col s6 input-field ${color || "cyan"} lighten-3`}
+        style={{ marginLeft: "10px" }}
+      >
         <select
           name="color"
           value={color}
