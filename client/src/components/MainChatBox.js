@@ -5,6 +5,16 @@ import MainToolBar from "./MainToolBar";
 import timeAgo from "../helpers/formatDate";
 
 class MainChatBox extends React.Component {
+  state = {
+    content: "",
+  };
+
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleBlur = () => {};
+
   render() {
     const {
       makeChatBoxRef,
@@ -56,13 +66,22 @@ class MainChatBox extends React.Component {
                   <div
                     className={`content row ${msg.color || "cyan"} lighten-4`}
                   >
-                    {msg.userId === id ? (
-                      <textarea name="content" id="content" cols="30" rows="10">
-                        {msg.content}
-                      </textarea>
-                    ) : (
-                      <span>{msg.content}</span>
-                    )}
+                    {
+                      // {msg.userId === id ? (
+                      //   <textarea
+                      //     name="content"
+                      //     id="content"
+                      //     cols="30"
+                      //     rows="10"
+                      //     onChange={this.handleChange}
+                      //     onBlur={this.handleBlur}
+                      //     value={msg.content}
+                      //   ></textarea>
+                      // ) : (
+                      //   <span>{msg.content}</span>
+                      // )}
+                    }
+                    <span>{msg.content}</span>
 
                     {msg.image ? (
                       <img src={msg.image} alt="can't find" />

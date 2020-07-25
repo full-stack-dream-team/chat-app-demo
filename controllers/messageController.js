@@ -74,6 +74,20 @@ exports.connectSocket = (io) => {
     //   );
     // });
 
+    socket.on("edit", (msg) => {
+      const message = Message.findOneAndUpdate(
+        { _id: msg.postId },
+        { content: msg.content },
+        { useFindAndModify: false }
+      );
+
+      message.save((err) => {
+        if (err) return console.error(err);
+      });
+
+      socket.broadcast.emit("push", message);
+    });
+
     socket.on("delete", (postInfo) => {
       Message.deleteOne({ _id: postInfo.postId }).then(() => {
         Message.find().sort({ createdAt: -1 }).exec(limitMessages);

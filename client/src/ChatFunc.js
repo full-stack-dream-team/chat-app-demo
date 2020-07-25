@@ -56,6 +56,25 @@ class ChatFunc extends React.Component {
     this.ChatBox = ChatBox;
   };
 
+  editPost = (userId, post) => {
+    if (userId === post.userId) {
+      const filteredContent = removeBadWords(post.content);
+
+      this.socket.emit("edit", {
+        content: filteredContent,
+      });
+
+      this.setState((state) => ({
+        chat: [
+          ...state.chat,
+          {
+            content: filteredContent,
+          },
+        ],
+      }));
+    }
+  };
+
   deletePost = (userId, post) => {
     if (userId === post.userId || this.props.user.authorized === "ADMIN") {
       if (window.confirm("Are you sure you want to delete this post?")) {
@@ -143,6 +162,7 @@ class ChatFunc extends React.Component {
       <Router
         postMessage={this.handleSubmit}
         deletePost={this.deletePost}
+        editPost={this.editPost}
         makeChatBoxRef={this.makeChatBoxRef}
         chat={this.state.chat}
       />
