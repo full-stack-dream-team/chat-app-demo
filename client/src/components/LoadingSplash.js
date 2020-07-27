@@ -93,6 +93,7 @@ class LoadingSplash extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.handleResize);
+    clearInterval(this.drawInteval);
   }
 
   render() {

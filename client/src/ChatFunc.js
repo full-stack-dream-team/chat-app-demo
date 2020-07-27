@@ -6,7 +6,7 @@ import io from "socket.io-client";
 
 import config from "./config";
 import removeBadWords from "./helpers/removeBadWords";
-import { uploadImage } from "./redux/actions/chatActions";
+import { uploadImage, setPostsLoading } from "./redux/actions/chatActions";
 
 class ChatFunc extends React.Component {
   state = {
@@ -181,4 +181,6 @@ const mapStateToProps = (state) => ({
   postsLoading: state.chat.postsLoading,
 });
 
-export default connect(mapStateToProps, { uploadImage })(ChatFunc);
+export default connect(mapStateToProps, { uploadImage, setPostsLoading })(
+  ChatFunc
+);
