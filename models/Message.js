@@ -16,6 +16,7 @@ const messageSchema = new Schema(
       type: String,
       required: true,
     },
+    userAuthorized: String,
 
     color: String,
   },

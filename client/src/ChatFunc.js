@@ -23,6 +23,7 @@ class ChatFunc extends React.Component {
       name: this.props.user.name,
       content: filteredContent,
       userId: this.props.user.id,
+      userAuthorized: this.props.user.authorized,
       color: post.color,
     });
 
@@ -34,6 +35,7 @@ class ChatFunc extends React.Component {
             name: this.props.user.name,
             content: filteredContent,
             userId: this.props.user.id,
+            userAuthorized: this.props.user.authorized,
             color: post.color,
           },
         ],
@@ -64,6 +66,7 @@ class ChatFunc extends React.Component {
         name: this.props.user.name,
         content: filteredContent,
         userId: this.props.user.id,
+        userAuthorized: this.props.user.authorized,
         color: post.color,
         _id: post._id,
       });

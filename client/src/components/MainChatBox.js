@@ -81,8 +81,11 @@ class MainChatBox extends React.Component {
                             autoFocus
                           ></textarea>
                           <label htmlFor="content" className="black-text">
-                            Edit Post
+                            Editing Post
                           </label>
+                          <span className="helper-text black-text">
+                            Click away to save changes
+                          </span>
                         </div>
                       </div>
                     </form>
@@ -90,13 +93,22 @@ class MainChatBox extends React.Component {
                     <>
                       <div className="row mb-0">
                         <div className="name col s6">
-                          <h6 style={{ display: "inline-block" }}>
+                          <h6
+                            className="mb-0"
+                            style={{
+                              display: "inline-block",
+                            }}
+                          >
                             <strong>{msg.name}</strong>
                           </h6>
 
-                          <span className="timestamp ml-1">
+                          <span className="timestamp ml-1 pb-0">
                             {msg.createdAt ? timeAgo(msg.createdAt) : null}
                           </span>
+
+                          {msg.userAuthorized === "ADMIN" ? (
+                            <span style={{ display: "block" }}>admin</span>
+                          ) : null}
                         </div>
 
                         {(msg.userId === id ||

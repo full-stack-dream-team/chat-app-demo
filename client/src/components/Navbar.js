@@ -12,6 +12,7 @@ class Navbar extends React.Component {
     "Edit posts simply by clicking the post text",
     "Less squished color picker on mobile",
     "Loading splash screen",
+    "Admin user marker",
   ];
 
   futureUpdates = [
@@ -29,7 +30,6 @@ class Navbar extends React.Component {
     "Post commenting",
     "Post animation effects",
     "Post text color changing",
-    "Admin user marker",
   ];
 
   componentDidMount() {
@@ -57,7 +57,7 @@ class Navbar extends React.Component {
               ))}
             </ul>
 
-            <h4>Future Updates (Maybe)</h4>
+            <h4>Future Updates</h4>
 
             <ul>
               {this.futureUpdates.map((update) => (

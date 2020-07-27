@@ -53,6 +53,7 @@ exports.connectSocket = (io) => {
         content: msg.content,
         name: msg.name,
         userId: msg.userId,
+        userAuthorized: msg.userAuthorized,
         image: msg.image,
         color: msg.color,
       });
@@ -65,7 +66,7 @@ exports.connectSocket = (io) => {
       socket.broadcast.emit("push", message);
     });
 
-    let userId;
+    // let userId;
 
     // socket.on("addUser", (info) => {
     //   userId = info.userId;
