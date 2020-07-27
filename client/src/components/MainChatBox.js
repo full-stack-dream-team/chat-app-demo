@@ -1,10 +1,20 @@
 import React from "react";
-
 import { connect } from "react-redux";
 
 import MainToolBar from "./MainToolBar";
+import timeAgo from "../helpers/formatDate";
 
 class MainChatBox extends React.Component {
+  state = {
+    content: "",
+  };
+
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleBlur = () => {};
+
   render() {
     const {
       makeChatBoxRef,
@@ -25,13 +35,18 @@ class MainChatBox extends React.Component {
               {chat.map((msg, i) => (
                 <li
                   key={msg._id || i}
-                  className={`main-chat-message ${
+                  className={`main-chat-message pb-1 ${
                     msg.color ? msg.color + " lighten-3" : ""
                   }`}
                 >
                   <div className="row mb-0">
                     <div className="name col s6">
-                      <span>{msg.name}</span>
+                      <h6 style={{ display: "inline-block" }}>
+                        <strong>{msg.name}</strong>
+                      </h6>
+                      <span className="timestamp ml-1">
+                        {msg.createdAt ? timeAgo(msg.createdAt) : null}
+                      </span>
                     </div>
 
                     {(msg.userId === id ||
@@ -51,20 +66,27 @@ class MainChatBox extends React.Component {
                   <div
                     className={`content row ${msg.color || "cyan"} lighten-4`}
                   >
+                    {
+                      // {msg.userId === id ? (
+                      //   <textarea
+                      //     name="content"
+                      //     id="content"
+                      //     cols="30"
+                      //     rows="10"
+                      //     onChange={this.handleChange}
+                      //     onBlur={this.handleBlur}
+                      //     value={msg.content}
+                      //   ></textarea>
+                      // ) : (
+                      //   <span>{msg.content}</span>
+                      // )}
+                    }
                     <span>{msg.content}</span>
 
                     {msg.image ? (
                       <img src={msg.image} alt="can't find" />
                     ) : null}
                   </div>
-
-                  <div className="timestamp row">
-                    <div className="col s12 right-align">
-                      <span>{msg.createdAt ? msg.createdAt : null}</span>
-                    </div>
-                  </div>
-
-                  {msg.image ? <img src={msg.image} alt="none" /> : null}
                 </li>
               ))}
             </ul>

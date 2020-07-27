@@ -10,6 +10,7 @@ class App extends React.Component {
       <div className="container">
         <MainChatBox
           postMessage={this.props.postMessage}
+          editPost={this.props.editPost}
           deletePost={this.props.deletePost}
           makeChatBoxRef={this.props.makeChatBoxRef}
           chat={this.props.chat}
