@@ -6,6 +6,7 @@ class LoadingSplash extends React.Component {
       x: 0,
       y: 0,
     },
+    loadingPulse: 0,
   };
 
   spinDots = [];
@@ -21,10 +22,6 @@ class LoadingSplash extends React.Component {
 
   draw = () => {
     const { ctx } = this;
-
-    ctx.font = "40px sans-serif";
-    ctx.fillStyle = "black";
-    ctx.fillText("Loading...", 65, 160);
 
     if (this.spinDots.length) {
       this.spinDots.forEach((spinDot, i) => {
@@ -45,21 +42,18 @@ class LoadingSplash extends React.Component {
 
         ctx.fillStyle = `#${spinDot.color}`;
 
-        if (i % 2) {
+        if (i < this.spinDots.length / 2) {
           ctx.beginPath();
-          ctx.moveTo(position.x, position.y);
-          ctx.lineTo(
-            this.Canvas.width / 2 +
-              Math.sin(this.spinDots[i - 1].x) * this.spinDots[i - 1].maxX,
-            this.Canvas.height / 2 +
-              Math.cos(this.spinDots[i - 1].y) * this.spinDots[i - 1].maxY
+          ctx.arc(position.x, position.y, spinDot.size, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.fillRect(
+            position.x,
+            position.y,
+            spinDot.size * 2,
+            spinDot.size * 2
           );
-          ctx.stroke();
         }
-
-        ctx.beginPath();
-        ctx.arc(position.x, position.y, spinDot.size, 0, Math.PI * 2);
-        ctx.fill();
       });
     } else {
       for (let i = 0; i < 16; i++) {
@@ -70,7 +64,7 @@ class LoadingSplash extends React.Component {
           velY: Math.random() * 0.05 + 0.01,
           x: Math.random() * (Math.PI * 2),
           y: Math.random() * (Math.PI * 2),
-          size: Math.random() * 5 + 5,
+          size: Math.random() * 8 + 5,
           color: Math.floor(Math.random() * 16777215).toString(16),
         };
         this.spinDots.push(spinDot);
@@ -88,6 +82,15 @@ class LoadingSplash extends React.Component {
       ctx.clearRect(0, 0, this.Canvas.width, this.Canvas.height);
 
       this.draw();
+
+      let { loadingPulse } = this.state;
+      loadingPulse += 0.03;
+
+      if (loadingPulse > Math.PI * 2) {
+        loadingPulse -= Math.PI * 2;
+      }
+
+      this.setState({ loadingPulse });
     }, 1000 / 60);
   }
 
@@ -118,6 +121,19 @@ class LoadingSplash extends React.Component {
             this.Canvas = Canvas;
           }}
         ></canvas>
+
+        <h4
+          style={{
+            position: "fixed",
+            textAlign: "center",
+            left: "0",
+            bottom: "10vh",
+            width: "100%",
+            color: `rgba(0,0,0,${Math.abs(Math.sin(this.state.loadingPulse))})`,
+          }}
+        >
+          Loading...
+        </h4>
       </div>
     );
   }

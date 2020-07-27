@@ -35,6 +35,7 @@ class Router extends React.Component {
               <App
                 postMessage={this.props.postMessage}
                 deletePost={this.props.deletePost}
+                editPost={this.props.editPost}
                 makeChatBoxRef={this.props.makeChatBoxRef}
                 chat={this.props.chat}
               />
@@ -72,6 +73,17 @@ class Router extends React.Component {
           <Route exact path="/oops" component={Oops} />
           <Route component={Error404} />
         </Switch>
+
+        <span
+          style={{
+            zIndex: "1000",
+            position: "fixed",
+            left: "20px",
+            bottom: "20px",
+          }}
+        >
+          v 1.1.0 beta
+        </span>
       </BrowserRouter>
     );
   }

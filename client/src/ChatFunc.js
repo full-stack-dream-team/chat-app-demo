@@ -56,21 +56,25 @@ class ChatFunc extends React.Component {
     this.ChatBox = ChatBox;
   };
 
-  editPost = (userId, post) => {
-    if (userId === post.userId) {
-      const filteredContent = removeBadWords(post.content);
+  editPost = (e, userId, post) => {
+    if (userId === post.userId || this.props.user.authorized === "ADMIN") {
+      const filteredContent = removeBadWords(e.target.value);
 
       this.socket.emit("edit", {
+        name: this.props.user.name,
         content: filteredContent,
+        userId: this.props.user.id,
+        color: post.color,
+        _id: post._id,
       });
 
+      const chat = [...this.state.chat];
+      const postIndex = chat.findIndex((msg) => msg._id === post._id);
+
+      chat[postIndex].content = filteredContent;
+
       this.setState((state) => ({
-        chat: [
-          ...state.chat,
-          {
-            content: filteredContent,
-          },
-        ],
+        chat,
       }));
     }
   };
@@ -111,7 +115,6 @@ class ChatFunc extends React.Component {
           this.scrollToBottom();
           this.props.setPostsLoading(false);
         });
-
         // this.socket.emit("addUser", {
         //   userId: this.props.user.id,
         // });
@@ -119,7 +122,7 @@ class ChatFunc extends React.Component {
 
       this.socket.on("push", (msg) => {
         if (window.Notification) {
-          new Notification(msg);
+          new Notification(msg.content);
         }
 
         this.setState(
@@ -146,6 +149,19 @@ class ChatFunc extends React.Component {
         this.setState({
           chat: newChat,
         });
+      });
+
+      this.socket.on("edited", (msg) => {
+        const chat = [...this.state.chat];
+        const postIndex = chat.findIndex(
+          (stateMsg) => msg._id === stateMsg._id
+        );
+
+        chat[postIndex].content = msg.content;
+
+        this.setState((state) => ({
+          chat,
+        }));
       });
 
       // this.socket.on("users", (users) => {

@@ -75,17 +75,12 @@ exports.connectSocket = (io) => {
     // });
 
     socket.on("edit", (msg) => {
-      const message = Message.findOneAndUpdate(
-        { _id: msg.postId },
-        { content: msg.content },
-        { useFindAndModify: false }
-      );
+      Message.updateOne(
+        { _id: msg._id },
+        { $set: { content: msg.content } }
+      ).then(() => true);
 
-      message.save((err) => {
-        if (err) return console.error(err);
-      });
-
-      socket.broadcast.emit("push", message);
+      socket.broadcast.emit("edited", msg);
     });
 
     socket.on("delete", (postInfo) => {

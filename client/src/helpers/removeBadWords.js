@@ -1,5 +1,6 @@
 const badWordsList = [
   "ass",
+  "@ss",
   "arse",
   "bastard",
   "bitch",
@@ -13,8 +14,10 @@ const badWordsList = [
   "nigga",
   "nigger",
   "shit",
+  "$hit",
   "slut",
   "whore",
+  "wench",
   "twat",
   "✊",
   "✊🏻",

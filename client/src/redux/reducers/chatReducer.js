@@ -7,8 +7,6 @@ const initialState = {
 const chatReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_POSTS_LOADING:
-      console.log(action.payload);
-
       return {
         ...state,
         postsLoading: action.payload,
