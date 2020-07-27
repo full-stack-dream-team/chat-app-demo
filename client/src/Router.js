@@ -25,7 +25,7 @@ class Router extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <Navbar />
+        {this.props.postsLoading ? null : <Navbar />}
 
         <Switch>
           <PrivateRoute
@@ -79,6 +79,7 @@ class Router extends React.Component {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  postsLoading: state.chat.postsLoading,
 });
 
 export default connect(mapStateToProps)(Router);

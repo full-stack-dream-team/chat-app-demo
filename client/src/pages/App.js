@@ -4,7 +4,9 @@ import LoadingSplash from "../components/LoadingSplash";
 
 class App extends React.Component {
   render() {
-    return (
+    return true ? (
+      <LoadingSplash />
+    ) : (
       <div className="container">
         <MainChatBox
           postMessage={this.props.postMessage}

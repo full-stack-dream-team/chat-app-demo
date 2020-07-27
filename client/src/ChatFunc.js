@@ -88,7 +88,10 @@ class ChatFunc extends React.Component {
       this.socket = io(config[process.env.NODE_ENV].endpoint);
 
       this.socket.on("init", (msg) => {
-        this.setState({ chat: msg.reverse() }, this.scrollToBottom);
+        this.setState({ chat: msg.reverse() }, () => {
+          this.scrollToBottom();
+          this.props.setPostsLoading(false);
+        });
 
         // this.socket.emit("addUser", {
         //   userId: this.props.user.id,
@@ -155,6 +158,7 @@ class ChatFunc extends React.Component {
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.auth.user,
+  postsLoading: state.chat.postsLoading,
 });
 
 export default connect(mapStateToProps, { uploadImage })(ChatFunc);
