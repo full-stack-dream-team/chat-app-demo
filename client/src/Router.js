@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import PrivateRoute from "./components/PrivateRoute";
 import NotPrivateRoute from "./components/NotPrivateRoute";
 import Navbar from "./components/Navbar";
+import EffectCanvas from "./components/EffectCanvas";
 
 import TestGame from "./pages/games/TestGame";
 
@@ -25,6 +26,8 @@ class Router extends React.Component {
   render() {
     return (
       <BrowserRouter>
+        <EffectCanvas effect={this.props.effect} />
+
         {this.props.postsLoading ? null : <Navbar />}
 
         <Switch>
@@ -38,6 +41,7 @@ class Router extends React.Component {
                 editPost={this.props.editPost}
                 makeChatBoxRef={this.props.makeChatBoxRef}
                 chat={this.props.chat}
+                sendEffect={this.props.sendEffect}
               />
             }
           />
@@ -75,6 +79,7 @@ class Router extends React.Component {
         </Switch>
 
         <span
+          className="dark-light"
           style={{
             zIndex: "1000",
             position: "fixed",
@@ -82,7 +87,7 @@ class Router extends React.Component {
             bottom: "20px",
           }}
         >
-          v 1.1.0 beta
+          v 1.1.2 beta
         </span>
       </BrowserRouter>
     );

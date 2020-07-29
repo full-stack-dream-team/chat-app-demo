@@ -6,18 +6,14 @@ import { logoutUser } from "../redux/actions/authActions";
 
 class Navbar extends React.Component {
   newUpdates = [
-    "A whole bunch of new colors for posts",
-    "Slightly better bad word blocking",
-    "This update popup",
     "Edit posts simply by clicking the post text",
     "Less squished color picker on mobile",
-    "Loading splash screen",
-    "Admin user marker",
+    "Funnier bad word blocking",
+    "Light/Dark modes",
+    "Post animation effects",
   ];
 
   futureUpdates = [
-    "Light/Dark modes",
-    "Better bad word blocking",
     "Edit account",
     "Post images",
     "Profile image",
@@ -28,7 +24,6 @@ class Navbar extends React.Component {
     "Inapropiate user reporting",
     "Reacting to posts (Like, Dislike, Question)",
     "Post commenting",
-    "Post animation effects",
     "Post text color changing",
   ];
 
@@ -70,7 +65,7 @@ class Navbar extends React.Component {
         </div>
 
         <div className="navbar-fixed">
-          <nav className="grey darken-4">
+          <nav>
             <div className="nav-wrapper">
               <a href="/" className="brand-logo center hide-on-small-only">
                 {this.props.auth.user.name || "Chat"}

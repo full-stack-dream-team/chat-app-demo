@@ -92,6 +92,10 @@ exports.connectSocket = (io) => {
       socket.broadcast.emit("remove", postInfo.postId);
     });
 
+    socket.on("effect", (effect) => {
+      socket.broadcast.emit("effect", effect);
+    });
+
     // socket.on("disconnect", () => {
     //   User.updateOne({ _id: userId }, { $set: { chatting: false } }).then(
     //     broadcastActiveUsers

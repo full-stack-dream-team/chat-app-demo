@@ -27,6 +27,7 @@ class MainChatBox extends React.Component {
       postMessage,
       user: { id },
       deletePost,
+      sendEffect,
     } = this.props;
 
     return (
@@ -152,7 +153,7 @@ class MainChatBox extends React.Component {
           </div>
         </div>
 
-        <MainToolBar postMessage={postMessage} />
+        <MainToolBar postMessage={postMessage} sendEffect={sendEffect} />
       </>
     );
   }

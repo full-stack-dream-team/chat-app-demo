@@ -12,6 +12,12 @@ class ChatFunc extends React.Component {
   state = {
     chat: [],
     chattingUsers: [],
+    effect: null,
+  };
+
+  sendEffect = (effect) => {
+    this.socket.emit("effect", effect);
+    this.setState({ effect }, () => this.setState({ effect: null }));
   };
 
   handleSubmit = (e, post) => {
@@ -167,6 +173,10 @@ class ChatFunc extends React.Component {
         }));
       });
 
+      this.socket.on("effect", (effect) => {
+        this.setState({ effect }, () => this.setState({ effect: null }));
+      });
+
       // this.socket.on("users", (users) => {
       //   if (!users.find((user) => user._id === this.props.user.id)) {
       //     this.setState({ chattingUsers: [...users, this.props.user] });
@@ -187,6 +197,8 @@ class ChatFunc extends React.Component {
         editPost={this.editPost}
         makeChatBoxRef={this.makeChatBoxRef}
         chat={this.state.chat}
+        effect={this.state.effect}
+        sendEffect={this.sendEffect}
       />
     ) : (
       <Router />

@@ -17,6 +17,7 @@ class App extends React.Component {
             deletePost={this.props.deletePost}
             makeChatBoxRef={this.props.makeChatBoxRef}
             chat={this.props.chat}
+            sendEffect={this.props.sendEffect}
           />
         </div>
       </>

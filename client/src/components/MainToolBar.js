@@ -2,6 +2,8 @@ import React from "react";
 import M from "materialize-css";
 import EmojiButton from "@joeattardi/emoji-button";
 import PostColorPicker from "./PostColorPicker";
+import EffectPicker from "./EffectPicker";
+
 import { Icon, InlineIcon } from "@iconify/react";
 import sendIcon from "@iconify/icons-mdi/send";
 import stickerEmoji from "@iconify/icons-mdi/sticker-emoji";
@@ -156,6 +158,8 @@ class MainToolBar extends React.Component {
                     />
                   </div>
                 </span>*/}
+
+                <EffectPicker sendEffect={this.props.sendEffect} />
 
                 <span
                   className="btn-icon btn-flat hide-on-small-only"

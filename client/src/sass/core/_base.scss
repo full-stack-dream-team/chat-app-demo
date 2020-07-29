@@ -14,3 +14,40 @@ code {
 ul {
   list-style: none;
 }
+
+nav {
+  background-color: #212121 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #212121 !important;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  .dark-light {
+    color: white;
+  }
+
+  nav {
+    background-color: white !important;
+
+    a {
+      color: #212121 !important;
+    }
+  }
+
+  .modal {
+    background-color: #212121 !important;
+
+    li {
+      color: white;
+    }
+  }
+}

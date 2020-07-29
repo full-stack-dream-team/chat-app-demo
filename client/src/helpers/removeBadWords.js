@@ -1,40 +1,41 @@
-const badWordsList = [
-  "ass",
-  "@ss",
-  "arse",
-  "bastard",
-  "bitch",
-  "bollocks",
-  "bugger",
-  "crap",
-  "cunt",
-  "damn",
-  "frigger",
-  "fuck",
-  "nigga",
-  "nigger",
-  "shit",
-  "$hit",
-  "slut",
-  "whore",
-  "wench",
-  "twat",
-  "✊",
-  "✊🏻",
-  "✊🏼",
-  "✊🏽",
-  "✊🏾",
-  "✊🏿",
-];
+const badWordsList = {
+  bastard: "cool guy",
+  bitch: "beautiful woman",
+  bollocks: "chicken legs",
+  bugger: "cool bean",
+  crap: "delicious",
+  cunt: "joker",
+  damn: "love",
+  frigger: "tigger",
+  fuck: "cheese eat",
+  nigga: "cool guy",
+  nigger: "cool guy",
+  sex: "tea",
+  $ex: "tea",
+  shit: "tasty",
+  $hit: "tasty",
+  slut: "prospector",
+  whore: "pretty face",
+  wench: "nice lady",
+  twat: "cutie",
+  "✊": "all lives matter",
+  "✊🏻": "I love the police force",
+  "✊🏼": "go trump",
+  "✊🏽": "don't kill babies",
+  "✊🏾": "no more communism",
+  "✊🏿": "white lives matter",
+};
 
 const removeBadWords = (sentence) => {
   const finalSentence = [];
   sentence.split(" ").forEach((word, i) => {
     let filteredWord;
 
-    badWordsList.forEach((badWord, i) => {
+    Object.keys(badWordsList).forEach((badWord, i) => {
       if (word.toLowerCase().includes(badWord)) {
-        filteredWord = "#".repeat(word.length);
+        filteredWord = word
+          .toLowerCase()
+          .replace(badWord, badWordsList[badWord]);
       }
     });
 

@@ -12,7 +12,7 @@ import {
 import store from "./redux/store/index";
 import * as serviceWorker from "./serviceWorker";
 
-import "./sass/index.min.css";
+import "./sass/index.scss";
 import "materialize-css/dist/css/materialize.min.css";
 import "materialize-css/dist/js/materialize.min.js";
 
