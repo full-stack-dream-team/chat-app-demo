@@ -8,6 +8,8 @@ import config from "./config";
 import removeBadWords from "./helpers/removeBadWords";
 import { uploadImage, setPostsLoading } from "./redux/actions/chatActions";
 
+import postNotify from "./audio/post-notify.mp3";
+
 class ChatFunc extends React.Component {
   state = {
     chat: [],
@@ -134,6 +136,8 @@ class ChatFunc extends React.Component {
           new Notification(msg.content);
         }
 
+        this.Audio.play();
+
         this.setState(
           (state) => ({ chat: [...state.chat, msg] }),
           () => {
@@ -191,15 +195,24 @@ class ChatFunc extends React.Component {
 
   render() {
     return this.props.isAuthenticated ? (
-      <Router
-        postMessage={this.handleSubmit}
-        deletePost={this.deletePost}
-        editPost={this.editPost}
-        makeChatBoxRef={this.makeChatBoxRef}
-        chat={this.state.chat}
-        effect={this.state.effect}
-        sendEffect={this.sendEffect}
-      />
+      <>
+        <Router
+          postMessage={this.handleSubmit}
+          deletePost={this.deletePost}
+          editPost={this.editPost}
+          makeChatBoxRef={this.makeChatBoxRef}
+          chat={this.state.chat}
+          effect={this.state.effect}
+          sendEffect={this.sendEffect}
+        />
+
+        <audio
+          src={postNotify}
+          ref={(Audio) => {
+            this.Audio = Audio;
+          }}
+        ></audio>
+      </>
     ) : (
       <Router />
     );

@@ -28,7 +28,9 @@ class Navbar extends React.Component {
   ];
 
   componentDidMount() {
-    M.Modal.init(this.Modal, {});
+    const modal = M.Modal.init(this.Modal, {});
+
+    modal.open();
   }
 
   render() {

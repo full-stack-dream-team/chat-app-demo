@@ -28,25 +28,29 @@ const badWordsList = {
 
 const removeBadWords = (sentence) => {
   const finalSentence = [];
-  sentence.split(" ").forEach((word, i) => {
-    let filteredWord;
+  sentence.split("\n").forEach((line, i) => {
+    let filteredLine = [];
+    line.split(" ").forEach((word, i) => {
+      let filteredWord;
 
-    Object.keys(badWordsList).forEach((badWord, i) => {
-      if (word.toLowerCase().includes(badWord)) {
-        filteredWord = word
-          .toLowerCase()
-          .replace(badWord, badWordsList[badWord]);
+      Object.keys(badWordsList).forEach((badWord, i) => {
+        if (word.toLowerCase().includes(badWord)) {
+          filteredWord = word
+            .toLowerCase()
+            .replace(badWord, badWordsList[badWord]);
+        }
+      });
+
+      if (!filteredWord) {
+        filteredWord = word;
       }
+
+      filteredLine.push(filteredWord);
     });
-
-    if (!filteredWord) {
-      filteredWord = word;
-    }
-
-    finalSentence.push(filteredWord);
+    finalSentence.push(filteredLine.join(" "));
   });
 
-  return finalSentence.join(" ");
+  return finalSentence.join("\n");
 };
 
 export default removeBadWords;

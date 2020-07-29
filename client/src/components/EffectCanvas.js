@@ -4,6 +4,8 @@ class EffectCanvas extends React.Component {
   done = true;
 
   circles = [];
+  lines = [];
+  timer = 0;
 
   handleResize = () => {
     this.Canvas.width = window.innerWidth;
@@ -19,6 +21,10 @@ class EffectCanvas extends React.Component {
 
     this.done = false;
     this.circles = [];
+    this.lines = [];
+    this.timer = 0;
+
+    ctx.globalAlpha = 1;
 
     this.effectInterval = setInterval(() => {
       ctx.clearRect(0, 0, this.Canvas.width, this.Canvas.height);
@@ -29,6 +35,12 @@ class EffectCanvas extends React.Component {
           break;
         case "explode":
           this.explodeEffect();
+          break;
+        case "rain":
+          this.rainEffect();
+          break;
+        case "refresh":
+          this.refreshEffect();
           break;
         default:
       }
@@ -88,7 +100,11 @@ class EffectCanvas extends React.Component {
         ctx.fill();
 
         if (circle.y > window.innerHeight) {
-          this.done = true;
+          if (ctx.globalAlpha - 0.01 > 0) {
+            ctx.globalAlpha -= 0.01;
+          } else {
+            this.done = true;
+          }
         }
       });
     } else {
@@ -113,7 +129,7 @@ class EffectCanvas extends React.Component {
     if (this.circles.length) {
       const [circle] = this.circles;
 
-      circle.size *= 1.03;
+      circle.size *= 1.15;
 
       ctx.fillStyle = "yellow";
 
@@ -152,12 +168,20 @@ class EffectCanvas extends React.Component {
       ctx.fill();
 
       if (window.innerWidth > window.innerHeight) {
-        if (circle.size > window.innerWidth) {
-          this.done = true;
+        if (circle.size > window.innerWidth / 6) {
+          if (ctx.globalAlpha - 0.05 > 0) {
+            ctx.globalAlpha -= 0.05;
+          } else {
+            this.done = true;
+          }
         }
       } else {
-        if (circle.size > window.innerHeight) {
-          this.done = true;
+        if (circle.size > window.innerHeight / 6) {
+          if (ctx.globalAlpha - 0.05 > 0) {
+            ctx.globalAlpha -= 0.05;
+          } else {
+            this.done = true;
+          }
         }
       }
     } else {
@@ -166,6 +190,74 @@ class EffectCanvas extends React.Component {
       };
 
       this.circles.push(circle);
+    }
+  };
+
+  rainEffect = () => {
+    const { ctx } = this;
+
+    if (this.lines.length) {
+      ctx.strokeStyle = "grey";
+
+      this.lines.forEach((line, i) => {
+        line.x += 10;
+        line.y += 50;
+
+        if (line.y > window.innerHeight) {
+          line.x = Math.random() * window.innerWidth;
+          line.y = -50;
+        }
+
+        ctx.beginPath();
+        ctx.moveTo(line.x, line.y);
+        ctx.lineTo(line.x + 10, line.y + 50);
+        ctx.stroke();
+      });
+
+      this.timer += 1;
+      if (this.timer > 200) {
+        if (ctx.globalAlpha - 0.01 > 0) {
+          ctx.globalAlpha -= 0.01;
+        } else {
+          this.done = true;
+        }
+      }
+    } else {
+      for (let i = 0; i < 200; i++) {
+        const line = {
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+        };
+
+        this.lines.push(line);
+      }
+    }
+  };
+
+  refreshEffect = () => {
+    const { ctx } = this;
+
+    if (this.lines.length) {
+      const [line] = this.lines;
+
+      if (line.x < window.innerWidth) {
+        line.x += 20;
+      } else if (this.timer < 30) {
+        this.timer += 1;
+      } else if (line.y < window.innerHeight) {
+        line.y += 20;
+      } else {
+        this.done = true;
+      }
+
+      ctx.fillStyle = "white";
+
+      ctx.fillRect(0, line.y, line.x, window.innerHeight);
+    } else {
+      this.lines.push({
+        x: 0,
+        y: 0,
+      });
     }
   };
 
