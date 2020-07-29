@@ -87,7 +87,7 @@ class Router extends React.Component {
             bottom: "20px",
           }}
         >
-          v 1.1.2 beta
+          v 1.1.4 beta
         </span>
       </BrowserRouter>
     );

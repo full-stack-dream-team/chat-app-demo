@@ -6,11 +6,11 @@ import { logoutUser } from "../redux/actions/authActions";
 
 class Navbar extends React.Component {
   newUpdates = [
-    "Edit posts simply by clicking the post text",
-    "Less squished color picker on mobile",
     "Funnier bad word blocking",
     "Light/Dark modes",
-    "Post animation effects",
+    "Enhanced post effects",
+    "Post notification sound",
+    "Bug fixes",
   ];
 
   futureUpdates = [
