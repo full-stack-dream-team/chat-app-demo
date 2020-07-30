@@ -1,5 +1,8 @@
 import React from "react";
 import SideChatBox from "../components/SideChatBox";
+import LoadingSplash from "../components/LoadingSplash";
+
+import { connect } from "react-redux";
 
 class EmbedWebsite extends React.Component {
   state = {
@@ -37,6 +40,8 @@ class EmbedWebsite extends React.Component {
   render() {
     return (
       <>
+        {this.props.postsLoading ? <LoadingSplash /> : null}
+
         <div className="center">
           <div className="row">
             <div className="col s12">
@@ -96,4 +101,8 @@ class EmbedWebsite extends React.Component {
   }
 }
 
-export default EmbedWebsite;
+const mapStateToProps = (state) => ({
+  postsLoading: state.chat.postsLoading,
+});
+
+export default connect(mapStateToProps)(EmbedWebsite);
