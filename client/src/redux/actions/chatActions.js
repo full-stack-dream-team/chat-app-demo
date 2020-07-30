@@ -1,10 +1,10 @@
 import axios from "axios";
 import { SET_POSTS_LOADING } from "./types";
 
-export const uploadImage = (image) => () => {
-  if (image) {
+export const uploadImage = (imageUrl) => () => {
+  if (imageUrl) {
     axios
-      .post("/api/chat/upload", { image })
+      .post("/api/chat/upload", { imageUrl })
       .then((res) => console.log(res.data))
       .catch((err) => console.error(err.response.data));
   }

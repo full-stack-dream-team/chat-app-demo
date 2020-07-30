@@ -5,10 +5,9 @@ import PostColorPicker from "./PostColorPicker";
 import EffectPicker from "./EffectPicker";
 import UploadImage from "./UploadImage";
 
-import { Icon, InlineIcon } from "@iconify/react";
+import { InlineIcon } from "@iconify/react";
 import sendIcon from "@iconify/icons-mdi/send";
 import stickerEmoji from "@iconify/icons-mdi/sticker-emoji";
-import alphaXCircle from "@iconify/icons-mdi/alpha-x-circle";
 import { connect } from "react-redux";
 
 import { uploadImage } from "../redux/actions/chatActions";
@@ -16,8 +15,6 @@ import { uploadImage } from "../redux/actions/chatActions";
 class MainToolBar extends React.Component {
   state = {
     content: "",
-    image: null,
-    file: "",
     color: "",
   };
 
@@ -27,40 +24,6 @@ class MainToolBar extends React.Component {
 
   enableEmojiPicker = () => {
     this.picker.togglePicker(this.EmojiActivator);
-  };
-
-  compressImage = (e) => {
-    e.preventDefault();
-
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-
-      reader.onload = (e) => {
-        const img = new Image();
-        img.src = e.target.result;
-
-        img.onload = (e) => {
-          const element = document.createElement("canvas");
-          const ctx = element.getContext("2d");
-          const width = 100;
-          const scale = width / img.width;
-
-          element.width = width;
-          element.height = img.height * scale;
-
-          ctx.drawImage(img, 0, 0, width, img.height * scale);
-          const url = ctx.canvas.toDataURL(img);
-
-          this.setState({ file, image: url });
-        };
-      };
-    }
-  };
-
-  cancelImage = () => {
-    this.setState({ image: null, file: null });
   };
 
   componentDidMount() {
@@ -86,16 +49,12 @@ class MainToolBar extends React.Component {
             onSubmit={(e) => {
               postMessage(e, {
                 content,
-                image,
-                file,
                 color,
               });
 
               this.setState(
                 {
                   content: "",
-                  image: null,
-                  file: "",
                 },
                 () => M.textareaAutoResize(this.Textarea)
               );
@@ -115,21 +74,6 @@ class MainToolBar extends React.Component {
                   }}
                 />
                 <label htmlFor="content">Message</label>
-                {image ? (
-                  <div
-                    className="mt-1"
-                    style={{ position: "relative", display: "inline-block" }}
-                  >
-                    <img src={image} width="150px" alt="Not found" />
-                    <Icon
-                      id="cancel-button"
-                      icon={alphaXCircle}
-                      onClick={this.cancelImage}
-                    />
-                  </div>
-                ) : (
-                  ""
-                )}
               </div>
             </div>
 
