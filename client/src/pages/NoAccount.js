@@ -13,8 +13,8 @@ class NoAccount extends React.Component {
         <div className="row">
           <div className="col s12">
             <h6>
-              Either your account was deleted or it never existed in the first
-              place.
+              Either your account was deleted, banned, or it never existed in
+              the first place.
             </h6>
           </div>
         </div>

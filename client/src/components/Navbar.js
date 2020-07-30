@@ -30,7 +30,9 @@ class Navbar extends React.Component {
   componentDidMount() {
     const modal = M.Modal.init(this.Modal, {});
 
-    modal.open();
+    if (window.location.pathname === "/") {
+      modal.open();
+    }
   }
 
   render() {
@@ -77,6 +79,10 @@ class Navbar extends React.Component {
               </a>
 
               <ul id="nav-mobile" className="right">
+                <li className="hide-on-small-only">
+                  <a href="/embed">Website Sharing</a>
+                </li>
+
                 <li className="hide-on-small-only">
                   <a className="modal-trigger" href="#future-updates">
                     Updates

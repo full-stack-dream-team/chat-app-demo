@@ -7,7 +7,7 @@ import NotPrivateRoute from "./components/NotPrivateRoute";
 import Navbar from "./components/Navbar";
 import EffectCanvas from "./components/EffectCanvas";
 
-import TestGame from "./pages/games/TestGame";
+import EmbedWebsite from "./pages/EmbedWebsite";
 
 import App from "./pages/App";
 import Landing from "./pages/Landing";
@@ -48,9 +48,9 @@ class Router extends React.Component {
 
           <PrivateRoute
             exact
-            path="/testgame"
+            path="/embed"
             component={
-              <TestGame
+              <EmbedWebsite
                 postMessage={this.props.postMessage}
                 deletePost={this.props.deletePost}
                 makeChatBoxRef={this.props.makeChatBoxRef}
