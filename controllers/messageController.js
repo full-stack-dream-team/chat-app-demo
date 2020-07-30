@@ -5,8 +5,6 @@ const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const Message = mongoose.model("Message");
 
-const { upload } = require("../config/gdrive");
-
 exports.connectSocket = (io) => {
   io.on("connection", (socket) => {
     const limitMessages = (err, messages) => {
@@ -105,5 +103,5 @@ exports.connectSocket = (io) => {
 };
 
 exports.uploadImage = (req, res) => {
-  upload(req, res);
+  console.log(req);
 };

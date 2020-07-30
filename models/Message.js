@@ -17,8 +17,8 @@ const messageSchema = new Schema(
       required: true,
     },
     userAuthorized: String,
-
     color: String,
+    imageUrl: String,
   },
   {
     timestamps: true,
