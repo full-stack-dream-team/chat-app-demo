@@ -3,6 +3,7 @@ import M from "materialize-css";
 import EmojiButton from "@joeattardi/emoji-button";
 import PostColorPicker from "./PostColorPicker";
 import EffectPicker from "./EffectPicker";
+import UploadImage from "./UploadImage";
 
 import { Icon, InlineIcon } from "@iconify/react";
 import sendIcon from "@iconify/icons-mdi/send";
@@ -72,7 +73,7 @@ class MainToolBar extends React.Component {
   }
 
   render() {
-    const { postMessage } = this.props;
+    const { postMessage, sendEffect, imageUrl, imageAlt } = this.props;
     const { image, content, file, color } = this.state;
 
     return (
@@ -136,30 +137,7 @@ class MainToolBar extends React.Component {
               <PostColorPicker color={color} handleChange={this.handleChange} />
 
               <div className="col s10 right-align">
-                {/*<span
-                  className="btn-flat"
-                  style={{
-                    fontSize: "24px",
-                    padding: "1px 6px",
-                  }}
-                >
-                  <div id="file-upload" className="file-field input-field">
-                    <InlineIcon
-                      icon={fileImageOutline}
-                      className="purple-text text-lighten-1"
-                    />
-
-                    <input
-                      type="file"
-                      name="file"
-                      accept="image/jpeg, image/png"
-                      style={{ visibility: "invisible" }}
-                      onChange={this.compressImage}
-                    />
-                  </div>
-                </span>*/}
-
-                <EffectPicker sendEffect={this.props.sendEffect} />
+                <EffectPicker sendEffect={sendEffect} />
 
                 <span
                   className="btn-icon btn-flat hide-on-small-only"
@@ -176,6 +154,9 @@ class MainToolBar extends React.Component {
                     className="deep-orange-text"
                   />
                 </span>
+
+                <UploadImage imageUrl={imageUrl} imageAlt={imageAlt} />
+
                 <button
                   type="submit"
                   className="btn-icon btn-flat"
