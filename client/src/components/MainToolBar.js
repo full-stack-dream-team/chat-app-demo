@@ -99,7 +99,7 @@ class MainToolBar extends React.Component {
                   />
                 </span>
 
-                <UploadImage imageUrl={imageUrl} imageAlt={imageAlt} />
+                {/*<UploadImage imageUrl={imageUrl} imageAlt={imageAlt} />*/}
 
                 <button
                   type="submit"
