@@ -19,6 +19,7 @@ const userSchema = new Schema({
     type: Object,
   },
   authorized: String,
+  banned: Boolean,
   date: {
     type: Date,
     default: Date.now,
