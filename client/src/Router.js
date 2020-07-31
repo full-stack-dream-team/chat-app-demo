@@ -31,20 +31,7 @@ class Router extends React.Component {
         {this.props.postsLoading ? null : <Navbar />}
 
         <Switch>
-          <PrivateRoute
-            exact
-            path="/"
-            component={
-              <App
-                postMessage={this.props.postMessage}
-                deletePost={this.props.deletePost}
-                editPost={this.props.editPost}
-                makeChatBoxRef={this.props.makeChatBoxRef}
-                chat={this.props.chat}
-                sendEffect={this.props.sendEffect}
-              />
-            }
-          />
+          <PrivateRoute exact path="/" component={<App />} />
 
           <PrivateRoute
             exact

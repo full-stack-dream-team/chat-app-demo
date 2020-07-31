@@ -26,15 +26,12 @@ class EmbedWebsite extends React.Component {
 
     const { website_url } = this.state;
 
-    if (website_url.includes("https://") || website_url.includes("http://")) {
-      this.setState({ finalUrl: "" }, () =>
-        this.setState({ finalUrl: website_url })
-      );
-    } else {
-      this.setState({ finalUrl: "" }, () =>
-        this.setState({ finalUrl: "http://" + website_url })
-      );
-    }
+    this.setState({ finalUrl: "" }, () =>
+      this.setState({
+        finalUrl:
+          "//" + website_url.replace("http://", "").replace("https://", ""),
+      })
+    );
   };
 
   render() {
@@ -71,7 +68,7 @@ class EmbedWebsite extends React.Component {
                       <input
                         type="text"
                         name="website_url"
-                        placeholder="type a URL"
+                        placeholder="type a website URL"
                         value={this.state.website_url}
                         onChange={this.handleChange}
                       />

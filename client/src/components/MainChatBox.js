@@ -1,6 +1,15 @@
 import React from "react";
 import M from "materialize-css";
+
 import { connect } from "react-redux";
+
+import {
+  startSocket,
+  sendEffect,
+  sendPost,
+  deletePost,
+  editPost,
+} from "../redux/actions/chatActions";
 
 import MainToolBar from "./MainToolBar";
 import timeAgo from "../helpers/formatDate";
@@ -17,17 +26,24 @@ class MainChatBox extends React.Component {
 
   handleBlur = (e, msg) => {
     this.setState({ editing: false });
-    this.props.editPost(e, this.props.user.id, msg);
+    this.props.editPost(e, msg, this.props.user);
   };
+
+  componentDidMount() {
+    this.props.startSocket();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.chat.posts.length < this.props.chat.posts.length) {
+      this.ChatBox.scrollTop = this.ChatBox.scrollHeight;
+    }
+  }
 
   render() {
     const {
-      makeChatBoxRef,
       chat,
-      postMessage,
       user: { id },
       deletePost,
-      sendEffect,
     } = this.props;
 
     return (
@@ -36,9 +52,11 @@ class MainChatBox extends React.Component {
           <div className="col s12">
             <ul
               className="main-chat-box cyan lighten-3 z-depth-3"
-              ref={makeChatBoxRef}
+              ref={(ChatBox) => {
+                this.ChatBox = ChatBox;
+              }}
             >
-              {chat.map((msg, i) => (
+              {chat.posts.map((msg, i) => (
                 <li
                   key={msg._id || i}
                   className={`main-chat-message pb-1 ${
@@ -118,7 +136,7 @@ class MainChatBox extends React.Component {
                           <div className="col s6 right-align btn-delete-container">
                             <span
                               className="btn-delete"
-                              onClick={() => deletePost(id, msg)}
+                              onClick={() => deletePost(msg._id)}
                             >
                               ✕
                             </span>
@@ -153,7 +171,7 @@ class MainChatBox extends React.Component {
           </div>
         </div>
 
-        <MainToolBar postMessage={postMessage} sendEffect={sendEffect} />
+        <MainToolBar user={this.props.user} />
       </>
     );
   }
@@ -161,6 +179,13 @@ class MainChatBox extends React.Component {
 
 const mapStateToProps = (state) => ({
   user: state.auth.user,
+  chat: state.chat,
 });
 
-export default connect(mapStateToProps)(MainChatBox);
+export default connect(mapStateToProps, {
+  startSocket,
+  sendEffect,
+  sendPost,
+  deletePost,
+  editPost,
+})(MainChatBox);

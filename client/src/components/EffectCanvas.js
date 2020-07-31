@@ -1,5 +1,8 @@
 import React from "react";
 
+import { connect } from "react-redux";
+import { startEffect } from "../redux/actions/chatActions";
+
 class EffectCanvas extends React.Component {
   done = true;
 
@@ -270,6 +273,7 @@ class EffectCanvas extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.effect && prevProps.effect !== this.props.effect) {
       this.startEffect(this.props.effect);
+      this.props.startEffect(null);
     }
   }
 
@@ -301,4 +305,8 @@ class EffectCanvas extends React.Component {
   }
 }
 
-export default EffectCanvas;
+const mapStateToProps = (state) => ({
+  effect: state.chat.effect,
+});
+
+export default connect(mapStateToProps, { startEffect })(EffectCanvas);
