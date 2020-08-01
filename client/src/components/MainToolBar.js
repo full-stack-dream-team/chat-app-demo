@@ -37,7 +37,7 @@ class MainToolBar extends React.Component {
 
   render() {
     const { postMessage, sendEffect, imageUrl, imageAlt } = this.props;
-    const { image, content, file, color } = this.state;
+    const { content, color } = this.state;
 
     return (
       <div className="row">
