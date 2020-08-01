@@ -9,8 +9,8 @@ class Navbar extends React.Component {
     "Funnier bad word blocking",
     "Light/Dark modes",
     "Enhanced post effects",
-    "Post notification sound",
     "Bug fixes",
+    "Embedding websites",
   ];
 
   futureUpdates = [
@@ -20,7 +20,6 @@ class Navbar extends React.Component {
     "Image Filters",
     "Chat rooms",
     "Multiplayer games",
-    "Embedding websites",
     "Inapropiate user reporting",
     "Reacting to posts (Like, Dislike, Question)",
     "Post commenting",

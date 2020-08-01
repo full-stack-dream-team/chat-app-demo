@@ -10,7 +10,11 @@ import sendIcon from "@iconify/icons-mdi/send";
 import stickerEmoji from "@iconify/icons-mdi/sticker-emoji";
 import { connect } from "react-redux";
 
-import { uploadImage } from "../redux/actions/chatActions";
+import {
+  uploadImage,
+  sendPost,
+  sendEffect,
+} from "../redux/actions/chatActions";
 
 class MainToolBar extends React.Component {
   state = {
@@ -26,6 +30,30 @@ class MainToolBar extends React.Component {
     this.picker.togglePicker(this.EmojiActivator);
   };
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    const { content, color } = this.state;
+
+    this.props.sendPost(
+      {
+        content,
+        color,
+      },
+      this.props.user
+    );
+
+    this.setState(
+      {
+        content: "",
+      },
+      () => {
+        M.updateTextFields();
+        M.textareaAutoResize(this.Textarea);
+      }
+    );
+  };
+
   componentDidMount() {
     this.picker = new EmojiButton();
     this.picker.on("emoji", (emoji) => {
@@ -36,7 +64,7 @@ class MainToolBar extends React.Component {
   }
 
   render() {
-    const { postMessage, sendEffect, imageUrl, imageAlt } = this.props;
+    const { sendEffect, imageUrl, imageAlt } = this.props;
     const { content, color } = this.state;
 
     return (
@@ -45,22 +73,7 @@ class MainToolBar extends React.Component {
           className={`col s12 ${color || "cyan"} lighten-4 z-depth-5`}
           style={{ borderRadius: "10px" }}
         >
-          <form
-            onSubmit={(e) => {
-              postMessage(e, {
-                content,
-                color,
-              });
-
-              this.setState(
-                {
-                  content: "",
-                },
-                () => M.textareaAutoResize(this.Textarea)
-              );
-            }}
-            autoComplete="off"
-          >
+          <form onSubmit={this.handleSubmit} autoComplete="off">
             <div className="row mb-0">
               <div className="col s12 mb-0 input-field">
                 <textarea
@@ -99,7 +112,7 @@ class MainToolBar extends React.Component {
                   />
                 </span>
 
-                <UploadImage imageUrl={imageUrl} imageAlt={imageAlt} />
+                {/*<UploadImage imageUrl={imageUrl} imageAlt={imageAlt} />*/}
 
                 <button
                   type="submit"
@@ -119,4 +132,6 @@ class MainToolBar extends React.Component {
   }
 }
 
-export default connect(undefined, { uploadImage })(MainToolBar);
+export default connect(undefined, { uploadImage, sendPost, sendEffect })(
+  MainToolBar
+);

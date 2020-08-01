@@ -11,14 +11,7 @@ class App extends React.Component {
         {this.props.postsLoading ? <LoadingSplash /> : null}
 
         <div className="container">
-          <MainChatBox
-            postMessage={this.props.postMessage}
-            editPost={this.props.editPost}
-            deletePost={this.props.deletePost}
-            makeChatBoxRef={this.props.makeChatBoxRef}
-            chat={this.props.chat}
-            sendEffect={this.props.sendEffect}
-          />
+          <MainChatBox />
         </div>
       </>
     );
