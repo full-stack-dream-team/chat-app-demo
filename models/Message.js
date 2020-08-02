@@ -4,10 +4,9 @@ const { Schema } = mongoose;
 // Create Schema
 const messageSchema = new Schema(
   {
-    content: {
-      type: String,
-      required: true,
-    },
+    content: String,
+    imageUrl: String,
+    imageAlt: String,
     name: {
       type: String,
       required: true,
@@ -18,7 +17,6 @@ const messageSchema = new Schema(
     },
     userAuthorized: String,
     color: String,
-    imageUrl: String,
   },
   {
     timestamps: true,

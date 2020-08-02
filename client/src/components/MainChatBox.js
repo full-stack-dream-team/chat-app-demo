@@ -9,6 +9,7 @@ import {
   sendPost,
   deletePost,
   editPost,
+  uploadImage,
 } from "../redux/actions/chatActions";
 
 import MainToolBar from "./MainToolBar";
@@ -31,12 +32,16 @@ class MainChatBox extends React.Component {
 
   componentDidMount() {
     this.props.startSocket();
+
+    M.Materialbox.init(this.Materialbox, {});
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.chat.posts.length < this.props.chat.posts.length) {
       this.ChatBox.scrollTop = this.ChatBox.scrollHeight;
     }
+
+    M.Materialbox.init(this.Materialbox, {});
   }
 
   render() {
@@ -159,8 +164,15 @@ class MainChatBox extends React.Component {
                           {msg.content}
                         </span>
 
-                        {msg.image ? (
-                          <img src={msg.image} alt="can't find" />
+                        {msg.imageUrl ? (
+                          <img
+                            src={msg.imageUrl}
+                            alt={msg.imageAlt}
+                            height="200"
+                            ref={(Materialbox) => {
+                              this.Materialbox = Materialbox;
+                            }}
+                          />
                         ) : null}
                       </div>
                     </>
@@ -188,4 +200,5 @@ export default connect(mapStateToProps, {
   sendPost,
   deletePost,
   editPost,
+  uploadImage,
 })(MainChatBox);

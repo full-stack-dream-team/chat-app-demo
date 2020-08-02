@@ -52,7 +52,6 @@ exports.connectSocket = (io) => {
         name: msg.name,
         userId: msg.userId,
         userAuthorized: msg.userAuthorized,
-        image: msg.image,
         color: msg.color,
       });
 
@@ -62,6 +61,23 @@ exports.connectSocket = (io) => {
       });
 
       socket.broadcast.emit("push", message);
+    });
+
+    socket.on("imageUpload", (msg) => {
+      const message = new Message({
+        imageUrl: msg.imageUrl,
+        imageAlt: msg.imageAlt,
+        name: msg.name,
+        userId: msg.userId,
+        userAuthorized: msg.userAuthorized,
+      });
+
+      console.log(msg);
+
+      message.save((err) => {
+        if (err) return console.error(err);
+        Message.find().sort({ createdAt: -1 }).exec(limitMessages);
+      });
     });
 
     // let userId;

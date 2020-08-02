@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   SET_POSTS_LOADING,
   SET_SINGLE_POST,
@@ -69,13 +68,18 @@ export const sendEffect = (effect) => (dispatch) => {
   startEffect(effect)(dispatch);
 };
 
-export const uploadImage = (imageUrl) => () => {
-  if (imageUrl) {
-    axios
-      .post("/api/chat/upload", { imageUrl })
-      .then((res) => console.log(res.data))
-      .catch((err) => console.error(err.response.data));
-  }
+export const uploadImage = (user, imageUrl, imageAlt) => (dispatch) => {
+  const newPost = {
+    name: user.name,
+    userId: user.id,
+    userAuthorized: user.authorized,
+    imageUrl: imageUrl,
+    imageAlt: imageAlt,
+  };
+
+  socket.emit("imageUpload", newPost);
+
+  dispatch({ type: SET_SINGLE_POST, payload: newPost });
 };
 
 export const sendPost = (post, user) => (dispatch) => {
