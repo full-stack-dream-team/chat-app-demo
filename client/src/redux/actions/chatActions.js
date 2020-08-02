@@ -68,7 +68,7 @@ export const sendEffect = (effect) => (dispatch) => {
   startEffect(effect)(dispatch);
 };
 
-export const uploadImage = (user, imageUrl, imageAlt, publicId) => (
+export const uploadImage = (user, imageUrl, imageAlt, publicId, color) => (
   dispatch
 ) => {
   const newPost = {
@@ -78,6 +78,7 @@ export const uploadImage = (user, imageUrl, imageAlt, publicId) => (
     imageUrl: imageUrl,
     imageAlt: imageAlt,
     publicId: publicId,
+    color: color,
   };
 
   socket.emit("imageUpload", newPost);

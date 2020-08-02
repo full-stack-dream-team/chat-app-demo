@@ -73,6 +73,7 @@ exports.connectSocket = (io) => {
         name: msg.name,
         userId: msg.userId,
         userAuthorized: msg.userAuthorized,
+        color: msg.color,
       });
 
       message.save((err) => {
