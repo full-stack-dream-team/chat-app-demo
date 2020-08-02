@@ -18,7 +18,6 @@ exports.connectSocket = (io) => {
         Message.find()
           .limit(messages.length - limit)
           .exec((err, limitedMessages) => {
-            console.log(messages);
             if (err) return console.error(err);
 
             const ids = [];
