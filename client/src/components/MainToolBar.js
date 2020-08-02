@@ -60,7 +60,7 @@ class MainToolBar extends React.Component {
   }
 
   render() {
-    const { sendEffect, imageUrl, imageAlt, publicId, user, post } = this.props;
+    const { sendEffect, imageUrl, imageAlt, publicId, user } = this.props;
     const { content, color } = this.state;
 
     return (

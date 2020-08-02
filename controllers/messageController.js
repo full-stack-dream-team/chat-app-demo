@@ -18,14 +18,28 @@ exports.connectSocket = (io) => {
         Message.find()
           .limit(messages.length - limit)
           .exec((err, limitedMessages) => {
+            console.log(messages);
             if (err) return console.error(err);
 
             const ids = [];
+            const publicIds = [];
+
             limitedMessages.forEach((message, i) => {
               ids.push(message._id);
+              publicIds.push(message.publicId);
             });
 
             Message.deleteMany({ _id: { $in: ids } }).then((info) => info);
+
+            publicIds.forEach((publicId) => {
+              cloudinary.uploader.destroy(
+                publicId,
+                { invalidate: true },
+                (error, result) => {
+                  console.log(result, error);
+                }
+              );
+            });
           });
 
         const limitedMessages = messages
