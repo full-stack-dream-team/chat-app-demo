@@ -60,7 +60,7 @@ class MainToolBar extends React.Component {
   }
 
   render() {
-    const { sendEffect, imageUrl, imageAlt, user } = this.props;
+    const { sendEffect, imageUrl, imageAlt, publicId, user } = this.props;
     const { content, color } = this.state;
 
     return (
@@ -111,6 +111,7 @@ class MainToolBar extends React.Component {
                 <UploadImage
                   imageUrl={imageUrl}
                   imageAlt={imageAlt}
+                  publicId={publicId}
                   user={user}
                 />
 

@@ -7,6 +7,7 @@ const messageSchema = new Schema(
     content: String,
     imageUrl: String,
     imageAlt: String,
+    publicId: String,
     name: {
       type: String,
       required: true,

@@ -1,6 +1,8 @@
 const { google } = require("googleapis");
 const express = require("express");
 const mongoose = require("mongoose");
+const cloudinary = require("cloudinary").v2;
+// const deleteImage = require("../config/cloudinary");
 
 const User = mongoose.model("User");
 const Message = mongoose.model("Message");
@@ -67,12 +69,11 @@ exports.connectSocket = (io) => {
       const message = new Message({
         imageUrl: msg.imageUrl,
         imageAlt: msg.imageAlt,
+        publicId: msg.publicId,
         name: msg.name,
         userId: msg.userId,
         userAuthorized: msg.userAuthorized,
       });
-
-      console.log(msg);
 
       message.save((err) => {
         if (err) return console.error(err);
@@ -98,12 +99,20 @@ exports.connectSocket = (io) => {
       socket.broadcast.emit("edited", msg);
     });
 
-    socket.on("delete", (postInfo) => {
-      Message.deleteOne({ _id: postInfo.postId }).then(() => {
+    socket.on("delete", (post) => {
+      Message.deleteOne({ _id: post.postId }).then(() => {
         Message.find().sort({ createdAt: -1 }).exec(limitMessages);
       });
 
-      socket.broadcast.emit("remove", postInfo.postId);
+      socket.broadcast.emit("remove", post.postId);
+
+      cloudinary.uploader.destroy(
+        post.publicId,
+        { invalidate: true },
+        (error, result) => {
+          console.log(result, error);
+        }
+      );
     });
 
     socket.on("effect", (effect) => {
@@ -116,8 +125,4 @@ exports.connectSocket = (io) => {
     //   );
     // });
   });
-};
-
-exports.uploadImage = (req, res) => {
-  console.log(req);
 };

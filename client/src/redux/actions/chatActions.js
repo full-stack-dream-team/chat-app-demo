@@ -68,13 +68,16 @@ export const sendEffect = (effect) => (dispatch) => {
   startEffect(effect)(dispatch);
 };
 
-export const uploadImage = (user, imageUrl, imageAlt) => (dispatch) => {
+export const uploadImage = (user, imageUrl, imageAlt, publicId) => (
+  dispatch
+) => {
   const newPost = {
     name: user.name,
     userId: user.id,
     userAuthorized: user.authorized,
     imageUrl: imageUrl,
     imageAlt: imageAlt,
+    publicId: publicId,
   };
 
   socket.emit("imageUpload", newPost);
@@ -114,13 +117,14 @@ export const editPost = (e, post, user) => (dispatch) => {
   dispatch({ type: EDIT_POST, payload: newPost });
 };
 
-export const deletePost = (postId) => (dispatch) => {
+export const deletePost = (post) => (dispatch) => {
   if (window.confirm("Are you sure you want to delete this post?")) {
     socket.emit("delete", {
-      postId,
+      postId: post._id,
+      publicId: post.publicId,
     });
 
-    dispatch({ type: REMOVE_SINGLE_POST, payload: postId });
+    dispatch({ type: REMOVE_SINGLE_POST, payload: post });
 
     M.toast({ html: "Post deleted", classes: "green" });
   } else {

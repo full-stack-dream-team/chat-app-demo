@@ -141,7 +141,7 @@ class MainChatBox extends React.Component {
                           <div className="col s6 right-align btn-delete-container">
                             <span
                               className="btn-delete"
-                              onClick={() => deletePost(msg._id)}
+                              onClick={() => deletePost(msg)}
                             >
                               ✕
                             </span>
