@@ -11,16 +11,16 @@ class Navbar extends React.Component {
     "Enhanced post effects",
     "Bug fixes",
     "Embedding websites",
+    "Post images",
   ];
 
   futureUpdates = [
     "Edit account",
-    "Post images",
     "Profile image",
     "Image Filters",
     "Chat rooms",
     "Multiplayer games",
-    "Inapropiate user reporting",
+    "Inappropriate user reporting",
     "Reacting to posts (Like, Dislike, Question)",
     "Post commenting",
     "Post text color changing",
