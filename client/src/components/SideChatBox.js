@@ -30,14 +30,12 @@ class SideChatBox extends React.Component {
 
   componentDidMount() {
     this.props.startSocket();
-    M.Materialbox.init(this.Materialbox, {});
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.chat.posts.length < this.props.chat.posts.length) {
       this.ChatBox.scrollTop = this.ChatBox.scrollHeight;
     }
-    M.Materialbox.init(this.Materialbox, {});
   }
 
   render() {

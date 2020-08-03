@@ -30,18 +30,48 @@ class MainChatBox extends React.Component {
     this.props.editPost(e, msg, this.props.user);
   };
 
+  toggleImageHeight = (e) => {
+    e.persist();
+
+    const minHeight = 200;
+    const maxHeight = 500;
+    const transition = 20;
+
+    if (this.imageResizeInterval) {
+      clearInterval(this.imageResizeInterval);
+    }
+
+    if (e.target.height < maxHeight) {
+      this.imageResizeInterval = setInterval(() => {
+        if (e.target.height + transition < maxHeight) {
+          e.target.height += transition;
+        } else {
+          e.target.height = maxHeight;
+
+          clearInterval(this.imageResizeInterval);
+        }
+      }, 1000 / 60);
+    } else {
+      this.imageResizeInterval = setInterval(() => {
+        if (e.target.height - transition > minHeight) {
+          e.target.height -= transition;
+        } else {
+          e.target.height = minHeight;
+
+          clearInterval(this.imageResizeInterval);
+        }
+      }, 1000 / 60);
+    }
+  };
+
   componentDidMount() {
     this.props.startSocket();
-
-    M.Materialbox.init(this.Materialbox, {});
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.chat.posts.length < this.props.chat.posts.length) {
       this.ChatBox.scrollTop = this.ChatBox.scrollHeight;
     }
-
-    M.Materialbox.init(this.Materialbox, {});
   }
 
   render() {
@@ -165,14 +195,14 @@ class MainChatBox extends React.Component {
                         </span>
 
                         {msg.imageUrl ? (
-                          <img
-                            src={msg.imageUrl}
-                            alt={msg.imageAlt}
-                            height="200"
-                            ref={(Materialbox) => {
-                              this.Materialbox = Materialbox;
-                            }}
-                          />
+                          <div style={{ width: "100%", overflowX: "scroll" }}>
+                            <img
+                              src={msg.imageUrl}
+                              alt={msg.imageAlt}
+                              height="200"
+                              onClick={this.toggleImageHeight}
+                            />
+                          </div>
                         ) : null}
                       </div>
                     </>
