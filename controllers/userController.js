@@ -10,6 +10,7 @@ const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 const validateForgotInput = require("../validation/forgot");
 const validateResetInput = require("../validation/reset");
+const validateEditInput = require("../validation/edit");
 
 exports.registerUser = (req, res) => {
   // Form validation
@@ -195,4 +196,41 @@ exports.userExists = (req, res) => {
 
     res.json(true);
   });
+};
+
+exports.getUser = (req, res) => {
+  User.findOne({ _id: req.params.userId })
+    .then((user) => {
+      if (!user) return res.status(404).json(false);
+
+      res.json(user);
+    })
+    .catch((err) => console.error(err));
+};
+
+exports.editUser = (req, res) => {
+  const { name, email, description, userId } = req.body;
+
+  const { errors, isValid } = validateEditInput(req.body);
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  User.findOne({ _id: userId })
+    .then((user) => {
+      User.findOne({ $or: [{ name }, { email }] }).then((otherUser) => {
+        if (!user)
+          return res.status(404).json({ userExists: "User not found!" });
+        if (!user._id.equals(otherUser._id))
+          return res.status(400).json({ name: "Name or email already exists" });
+
+        user.name = name;
+        user.email = email;
+        user.description = description;
+        user.save().then((user) => {
+          res.json(user);
+        });
+      });
+    })
+    .catch((err) => console.error(err));
 };

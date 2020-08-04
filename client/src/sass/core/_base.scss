@@ -46,7 +46,9 @@ nav {
   .modal {
     background-color: #212121 !important;
 
-    li {
+    li,
+    input,
+    textarea {
       color: white;
     }
   }

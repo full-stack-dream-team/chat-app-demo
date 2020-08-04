@@ -4,7 +4,7 @@ import { InlineIcon } from "@iconify/react";
 import partyIcon from "@iconify/icons-mdi/party-popper";
 
 class EffectPicker extends React.Component {
-  effects = ["swirl", "explode", "rain", "refresh"];
+  effects = ["swirl", "explode", "rain", "refresh", "confetti"];
 
   componentDidMount() {
     M.Modal.init(this.Modal, {});

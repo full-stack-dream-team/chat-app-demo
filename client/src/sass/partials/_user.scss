@@ -1,0 +1,33 @@
+.card-content {
+  .card-title {
+    margin-bottom: 50px !important;
+    font-size: 50px !important;
+    text-align: center;
+  }
+
+  .profile-image {
+    width: 250px;
+    height: 250px;
+    overflow: hidden;
+    border-radius: 250px;
+  }
+
+  .ranking-slider {
+    background: linear-gradient(0.25turn, red, blue) !important;
+    height: 25px;
+  }
+
+  .desc-title {
+    display: inline-block;
+    margin-bottom: 5px;
+    border-bottom: 3px solid #37474f;
+    border-left: 3px solid #37474f;
+    padding: 10px;
+  }
+
+  .personal-desc {
+    padding: 10px;
+    border-bottom: 3px solid #37474f;
+    border-left: 3px solid #37474f;
+  }
+}

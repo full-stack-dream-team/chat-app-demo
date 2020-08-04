@@ -6,11 +6,9 @@ import { logoutUser } from "../redux/actions/authActions";
 
 class Navbar extends React.Component {
   newUpdates = [
-    "Funnier bad word blocking",
-    "Light/Dark modes",
-    "Enhanced post effects",
-    "Bug fixes",
-    "Embedding websites",
+    "One more effect",
+    "Profile page",
+    "Curse word based user ranking",
   ];
 
   futureUpdates = [

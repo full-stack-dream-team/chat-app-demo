@@ -1,7 +1,13 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "../../helpers/setAuthToken";
-import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
+import {
+  GET_ERRORS,
+  SET_CURRENT_USER,
+  USER_LOADING,
+  SET_OTHER_USER,
+} from "./types";
+import M from "materialize-css";
 
 export const getErrors = (err) => ({
   type: GET_ERRORS,
@@ -96,5 +102,20 @@ export const checkUserExists = (userId) => (dispatch) => {
         logoutUser()(dispatch);
         window.location.href = "./noaccount";
       }
+    });
+};
+
+export const editUser = (userData) => (dispatch) => {
+  axios
+    .post("/api/users/edit", userData)
+    .then((res) => {
+      M.toast({ html: "User successfuly edited", classes: "green" });
+
+      dispatch({ type: SET_OTHER_USER, payload: res.data });
+    })
+    .catch((err) => {
+      const { name, email, notFound } = err.response.data;
+
+      M.toast({ html: name || email || notFound, classes: "red" });
     });
 };
