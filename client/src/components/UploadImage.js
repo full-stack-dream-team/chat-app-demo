@@ -26,6 +26,7 @@ class UploadImage extends React.Component {
         styles: {
           palette: {
             link: "#80deea",
+            inProgess: "#80deea",
           },
         },
 
