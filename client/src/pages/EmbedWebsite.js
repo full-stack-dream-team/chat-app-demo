@@ -1,4 +1,5 @@
 import React from "react";
+import M from "materialize-css";
 import SideChatBox from "../components/SideChatBox";
 import LoadingSplash from "../components/LoadingSplash";
 
@@ -9,6 +10,20 @@ class EmbedWebsite extends React.Component {
     website_url: "",
     finalUrl: "",
   };
+
+  siteOptions = [
+    "bing.com",
+    "slither.io",
+    "surviv.io",
+    "mope.io",
+    "deeeep.io",
+    "wings.io",
+    "starblast.io",
+    "brutal.io",
+    "splix.io",
+    "gartic.io",
+    "linerider.com",
+  ];
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -34,30 +49,27 @@ class EmbedWebsite extends React.Component {
     );
   };
 
+  componentDidMount() {
+    M.Dropdown.init(this.DropTrigger, {});
+  }
+
   render() {
     return (
       <>
         {this.props.postsLoading ? <LoadingSplash /> : null}
 
-        <div className="center">
-          <div className="row">
-            <div className="col s12">
-              <h4>Share Website</h4>
-              <p>
-                In development! Please report bugs in chat box. May not work on
-                all websites.
-              </p>
-            </div>
+        <div className="center row">
+          <div className="col s12">
+            <h4>Share Website</h4>
+            <p>
+              In development! Please report bugs in chat box. May not work on
+              all websites.
+            </p>
           </div>
         </div>
 
         <div className="row">
-          <SideChatBox
-            postMessage={this.props.postMessage}
-            deletePost={this.props.deletePost}
-            makeChatBoxRef={this.props.makeChatBoxRef}
-            chat={this.props.chat}
-          />
+          <SideChatBox />
 
           <div className="col s9">
             <div className="embed-container">
@@ -93,6 +105,33 @@ class EmbedWebsite extends React.Component {
             </div>
           </div>
         </div>
+
+        <div className="row">
+          <div className="col s12">
+            <button
+              className="btn dropdown-trigger"
+              data-target="site-options-drop"
+              ref={(DropTrigger) => {
+                this.DropTrigger = DropTrigger;
+              }}
+            >
+              Site Options
+            </button>
+          </div>
+        </div>
+
+        <ul id="site-options-drop" className="dropdown-content">
+          {this.siteOptions.map((site) => (
+            <li
+              key={site}
+              onClick={() =>
+                this.setState({ finalUrl: "//" + site, website_url: site })
+              }
+            >
+              <span>{site}</span>
+            </li>
+          ))}
+        </ul>
       </>
     );
   }

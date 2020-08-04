@@ -153,7 +153,17 @@ class MainChatBox extends React.Component {
                               display: "inline-block",
                             }}
                           >
-                            <strong>{msg.name}</strong>
+                            <strong>
+                              <a
+                                href={`/user/${msg.userId}`}
+                                style={{
+                                  color: "black",
+                                  textDecoration: "underline",
+                                }}
+                              >
+                                {msg.name}
+                              </a>
+                            </strong>
                           </h6>
 
                           <span className="timestamp ml-1 pb-0">

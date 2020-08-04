@@ -15,6 +15,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import User from "./pages/User";
 import Oops from "./pages/Oops";
 import NoAccount from "./pages/NoAccount";
 import Error404 from "./pages/Error404";
@@ -31,20 +32,10 @@ class Router extends React.Component {
         {this.props.postsLoading ? null : <Navbar />}
 
         <Switch>
-          <PrivateRoute exact path="/" component={<App />} />
+          <PrivateRoute exact path="/" component={App} />
+          <PrivateRoute exact path="/user/:userId" component={User} />
 
-          <PrivateRoute
-            exact
-            path="/embed"
-            component={
-              <EmbedWebsite
-                postMessage={this.props.postMessage}
-                deletePost={this.props.deletePost}
-                makeChatBoxRef={this.props.makeChatBoxRef}
-                chat={this.props.chat}
-              />
-            }
-          />
+          <PrivateRoute exact path="/embed" component={EmbedWebsite} />
 
           <NotPrivateRoute exact path="/landing" component={Landing} />
           <NotPrivateRoute exact path="/register" component={Register} />
@@ -74,7 +65,7 @@ class Router extends React.Component {
             bottom: "20px",
           }}
         >
-          v 1.2.0
+          v 1.2.5
         </span>
       </BrowserRouter>
     );

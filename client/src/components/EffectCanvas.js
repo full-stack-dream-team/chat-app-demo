@@ -45,6 +45,9 @@ class EffectCanvas extends React.Component {
         case "refresh":
           this.refreshEffect();
           break;
+        case "confetti":
+          this.confettiEffect();
+          break;
         default:
       }
 
@@ -201,6 +204,7 @@ class EffectCanvas extends React.Component {
 
     if (this.lines.length) {
       ctx.strokeStyle = "grey";
+      ctx.lineWidth = 1;
 
       this.lines.forEach((line, i) => {
         line.x += 10;
@@ -243,25 +247,86 @@ class EffectCanvas extends React.Component {
     if (this.lines.length) {
       const [line] = this.lines;
 
+      ctx.lineWidth = 30;
+      ctx.fillStyle = "white";
+
+      ctx.fillRect(0, line.y, line.x, window.innerHeight);
+
       if (line.x < window.innerWidth) {
         line.x += 20;
+
+        ctx.strokeStyle = `#${Math.floor(Math.random() * 16777215).toString(
+          16
+        )}`;
+
+        ctx.beginPath();
+        ctx.moveTo(line.x, line.y);
+        ctx.lineTo(line.x, window.innerHeight);
+        ctx.stroke();
       } else if (this.timer < 30) {
         this.timer += 1;
       } else if (line.y < window.innerHeight) {
         line.y += 20;
+
+        ctx.strokeStyle = `#${Math.floor(Math.random() * 16777215).toString(
+          16
+        )}`;
+
+        ctx.beginPath();
+        ctx.moveTo(0, line.y);
+        ctx.lineTo(line.x, line.y);
+        ctx.stroke();
       } else {
         this.done = true;
       }
-
-      ctx.fillStyle = "white";
-
-      ctx.fillRect(0, line.y, line.x, window.innerHeight);
     } else {
       this.lines.push({
         x: 0,
         y: 0,
       });
     }
+  };
+
+  confettiEffect = () => {
+    const { ctx } = this;
+
+    this.circles.push({
+      x: 0,
+      y: window.innerHeight,
+      vx: Math.random() * (window.innerWidth / 120) + 5,
+      vy: -Math.random() * (window.innerHeight / 45) - 5,
+      size: Math.random() * 10 + 5,
+      color: Math.floor(Math.random() * 16777215).toString(16),
+    });
+
+    if (this.circles.length > 300) {
+      if (ctx.globalAlpha - 0.03 > 0) {
+        ctx.globalAlpha -= 0.03;
+      } else {
+        this.done = true;
+      }
+    }
+
+    this.circles.forEach((circle, i) => {
+      circle.vy += 0.3;
+
+      circle.x += circle.vx;
+      circle.y += circle.vy;
+
+      ctx.fillStyle = `#${circle.color}`;
+
+      ctx.beginPath();
+      ctx.arc(circle.x, circle.y, circle.size, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    ctx.fillStyle = "grey";
+
+    ctx.beginPath();
+    ctx.moveTo(0, window.innerHeight);
+    ctx.lineTo(0, window.innerHeight - 150);
+    ctx.lineTo(150, window.innerHeight);
+    ctx.fill();
   };
 
   componentDidMount() {

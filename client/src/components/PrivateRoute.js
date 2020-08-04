@@ -7,7 +7,11 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => (
   <Route
     {...rest}
     render={(props) =>
-      auth.isAuthenticated === true ? Component : <Redirect to="/landing" />
+      auth.isAuthenticated === true ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/landing" />
+      )
     }
   />
 );
