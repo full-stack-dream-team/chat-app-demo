@@ -1,6 +1,8 @@
 const { google } = require("googleapis");
 const express = require("express");
 const mongoose = require("mongoose");
+const cloudinary = require("cloudinary").v2;
+// const deleteImage = require("../config/cloudinary");
 
 const User = mongoose.model("User");
 const Message = mongoose.model("Message");
@@ -19,11 +21,24 @@ exports.connectSocket = (io) => {
             if (err) return console.error(err);
 
             const ids = [];
+            const publicIds = [];
+
             limitedMessages.forEach((message, i) => {
               ids.push(message._id);
+              publicIds.push(message.publicId);
             });
 
             Message.deleteMany({ _id: { $in: ids } }).then((info) => info);
+
+            publicIds.forEach((publicId) => {
+              cloudinary.uploader.destroy(
+                publicId,
+                { invalidate: true },
+                (error, result) => {
+                  console.log(result, error);
+                }
+              );
+            });
           });
 
         const limitedMessages = messages
@@ -52,7 +67,6 @@ exports.connectSocket = (io) => {
         name: msg.name,
         userId: msg.userId,
         userAuthorized: msg.userAuthorized,
-        image: msg.image,
         color: msg.color,
       });
 
@@ -62,6 +76,23 @@ exports.connectSocket = (io) => {
       });
 
       socket.broadcast.emit("push", message);
+    });
+
+    socket.on("imageUpload", (msg) => {
+      const message = new Message({
+        imageUrl: msg.imageUrl,
+        imageAlt: msg.imageAlt,
+        publicId: msg.publicId,
+        name: msg.name,
+        userId: msg.userId,
+        userAuthorized: msg.userAuthorized,
+        color: msg.color,
+      });
+
+      message.save((err) => {
+        if (err) return console.error(err);
+        Message.find().sort({ createdAt: -1 }).exec(limitMessages);
+      });
     });
 
     // let userId;
@@ -82,12 +113,20 @@ exports.connectSocket = (io) => {
       socket.broadcast.emit("edited", msg);
     });
 
-    socket.on("delete", (postInfo) => {
-      Message.deleteOne({ _id: postInfo.postId }).then(() => {
+    socket.on("delete", (post) => {
+      Message.deleteOne({ _id: post.postId }).then(() => {
         Message.find().sort({ createdAt: -1 }).exec(limitMessages);
       });
 
-      socket.broadcast.emit("remove", postInfo.postId);
+      socket.broadcast.emit("remove", post.postId);
+
+      cloudinary.uploader.destroy(
+        post.publicId,
+        { invalidate: true },
+        (error, result) => {
+          console.log(result, error);
+        }
+      );
     });
 
     socket.on("effect", (effect) => {
@@ -100,8 +139,4 @@ exports.connectSocket = (io) => {
     //   );
     // });
   });
-};
-
-exports.uploadImage = (req, res) => {
-  console.log(req);
 };

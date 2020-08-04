@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   SET_POSTS_LOADING,
   SET_SINGLE_POST,
@@ -69,13 +68,22 @@ export const sendEffect = (effect) => (dispatch) => {
   startEffect(effect)(dispatch);
 };
 
-export const uploadImage = (imageUrl) => () => {
-  if (imageUrl) {
-    axios
-      .post("/api/chat/upload", { imageUrl })
-      .then((res) => console.log(res.data))
-      .catch((err) => console.error(err.response.data));
-  }
+export const uploadImage = (user, imageUrl, imageAlt, publicId, color) => (
+  dispatch
+) => {
+  const newPost = {
+    name: user.name,
+    userId: user.id,
+    userAuthorized: user.authorized,
+    imageUrl: imageUrl,
+    imageAlt: imageAlt,
+    publicId: publicId,
+    color: color,
+  };
+
+  socket.emit("imageUpload", newPost);
+
+  dispatch({ type: SET_SINGLE_POST, payload: newPost });
 };
 
 export const sendPost = (post, user) => (dispatch) => {
@@ -110,13 +118,14 @@ export const editPost = (e, post, user) => (dispatch) => {
   dispatch({ type: EDIT_POST, payload: newPost });
 };
 
-export const deletePost = (postId) => (dispatch) => {
+export const deletePost = (post) => (dispatch) => {
   if (window.confirm("Are you sure you want to delete this post?")) {
     socket.emit("delete", {
-      postId,
+      postId: post._id,
+      publicId: post.publicId,
     });
 
-    dispatch({ type: REMOVE_SINGLE_POST, payload: postId });
+    dispatch({ type: REMOVE_SINGLE_POST, payload: post });
 
     M.toast({ html: "Post deleted", classes: "green" });
   } else {

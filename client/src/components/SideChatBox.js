@@ -1,6 +1,7 @@
 import React from "react";
 import { InlineIcon } from "@iconify/react";
 import sendIcon from "@iconify/icons-mdi/send";
+import M from "materialize-css";
 
 import { connect } from "react-redux";
 import { sendPost, startSocket } from "../redux/actions/chatActions";
@@ -56,6 +57,17 @@ class SideChatBox extends React.Component {
 
                   <div>
                     <span className="content">{msg.content}</span>
+
+                    {msg.imageUrl ? (
+                      <img
+                        src={msg.imageUrl}
+                        alt={msg.imageAlt}
+                        height="200"
+                        ref={(Materialbox) => {
+                          this.Materialbox = Materialbox;
+                        }}
+                      />
+                    ) : null}
                   </div>
                 </li>
               ))}

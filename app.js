@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const routes = require("./routes");
 const passport = require("passport");
+const cloudinary = require("cloudinary").v2;
 // const errorHandlers = require("./handlers/errorHandlers");
 
 // create the Express app
@@ -56,3 +57,11 @@ const io = socketIo(server);
 require("./controllers/messageController").connectSocket(io);
 
 module.exports = server;
+
+// cloudinary
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+});

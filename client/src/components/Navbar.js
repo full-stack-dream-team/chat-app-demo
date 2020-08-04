@@ -8,17 +8,17 @@ class Navbar extends React.Component {
   newUpdates = [
     "One more effect",
     "Profile page",
+    "Edit account",
     "Curse word based user ranking",
+    "Post images",
   ];
 
   futureUpdates = [
-    "Edit account",
-    "Post images",
     "Profile image",
     "Image Filters",
     "Chat rooms",
     "Multiplayer games",
-    "Inapropiate user reporting",
+    "Inappropriate user reporting",
     "Reacting to posts (Like, Dislike, Question)",
     "Post commenting",
     "Post text color changing",

@@ -10,11 +10,7 @@ import sendIcon from "@iconify/icons-mdi/send";
 import stickerEmoji from "@iconify/icons-mdi/sticker-emoji";
 import { connect } from "react-redux";
 
-import {
-  uploadImage,
-  sendPost,
-  sendEffect,
-} from "../redux/actions/chatActions";
+import { sendPost, sendEffect } from "../redux/actions/chatActions";
 
 class MainToolBar extends React.Component {
   state = {
@@ -64,8 +60,8 @@ class MainToolBar extends React.Component {
   }
 
   render() {
-    const { sendEffect, imageUrl, imageAlt } = this.props;
-    const { image, content, file, color } = this.state;
+    const { sendEffect, imageUrl, imageAlt, publicId, user } = this.props;
+    const { content, color } = this.state;
 
     return (
       <div className="row">
@@ -112,7 +108,13 @@ class MainToolBar extends React.Component {
                   />
                 </span>
 
-                {/*<UploadImage imageUrl={imageUrl} imageAlt={imageAlt} />*/}
+                <UploadImage
+                  imageUrl={imageUrl}
+                  imageAlt={imageAlt}
+                  publicId={publicId}
+                  user={user}
+                  color={color}
+                />
 
                 <button
                   type="submit"
@@ -132,6 +134,4 @@ class MainToolBar extends React.Component {
   }
 }
 
-export default connect(undefined, { uploadImage, sendPost, sendEffect })(
-  MainToolBar
-);
+export default connect(undefined, { sendPost, sendEffect })(MainToolBar);

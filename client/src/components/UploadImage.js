@@ -9,9 +9,10 @@ class UploadImage extends React.Component {
   state = {
     imageUrl: null,
     imageAlt: null,
+    publicId: null,
   };
 
-  openWidget = (imageUrl) => {
+  openWidget = (imageUrl, imageAlt, publicId) => {
     const widget = window.cloudinary.createUploadWidget(
       {
         cloudName: "goodstuffing123",
@@ -22,6 +23,12 @@ class UploadImage extends React.Component {
         clientAllowedFormats: ["png", "jpeg"],
         showUploadMoreButton: false,
         singleUploadAutoClose: true,
+        styles: {
+          palette: {
+            link: "#80deea",
+          },
+        },
+
         text: {
           en: {
             local: {
@@ -39,13 +46,25 @@ class UploadImage extends React.Component {
         },
       },
       (error, result) => {
-        if (result && result.event === "success") {
-          this.setState({
-            imageUrl: result.info.secure_url,
-            imageAlt: result.info.original_filename,
-          });
+        console.log(result);
 
-          this.props.uploadImage(imageUrl);
+        if (result && result.event === "success") {
+          this.setState(
+            {
+              imageUrl: result.info.secure_url,
+              imageAlt: result.info.original_filename,
+              publicId: result.info.public_id,
+            },
+            () => {
+              this.props.uploadImage(
+                this.props.user,
+                this.state.imageUrl,
+                this.state.imageAlt,
+                this.state.publicId,
+                this.props.color
+              );
+            }
+          );
         }
       }
     );
