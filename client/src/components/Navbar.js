@@ -11,10 +11,10 @@ class Navbar extends React.Component {
     "Edit account",
     "Curse word based user ranking",
     "Post images",
+    "Profile image",
   ];
 
   futureUpdates = [
-    "Profile image",
     "Image Filters",
     "Chat rooms",
     "Multiplayer games",
