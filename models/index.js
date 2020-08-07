@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 // Models are served in /start.js
 const User = require("./User");
 const Message = require("./Message");
+const ChatRoom = require("./ChatRoom");
 
-const models = { User, Message };
+const models = { User, Message, ChatRoom };
 
 module.exports = models;

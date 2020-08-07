@@ -5,18 +5,11 @@ import { connect } from "react-redux";
 import { logoutUser } from "../redux/actions/authActions";
 
 class Navbar extends React.Component {
-  newUpdates = [
-    "One more effect",
-    "Profile page",
-    "Edit account",
-    "Curse word based user ranking",
-    "Post images",
-  ];
+  newUpdates = ["Curse word based user ranking", "Post images", "Chat rooms"];
 
   futureUpdates = [
     "Profile image",
     "Image Filters",
-    "Chat rooms",
     "Multiplayer games",
     "Inappropriate user reporting",
     "Reacting to posts (Like, Dislike, Question)",

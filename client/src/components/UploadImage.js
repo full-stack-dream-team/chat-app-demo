@@ -61,7 +61,8 @@ class UploadImage extends React.Component {
                 this.state.imageUrl,
                 this.state.imageAlt,
                 this.state.publicId,
-                this.props.color
+                this.props.color,
+                this.props.roomId
               );
             }
           );

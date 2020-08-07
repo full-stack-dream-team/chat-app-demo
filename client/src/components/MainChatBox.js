@@ -4,7 +4,6 @@ import M from "materialize-css";
 import { connect } from "react-redux";
 
 import {
-  startSocket,
   sendEffect,
   sendPost,
   deletePost,
@@ -63,10 +62,6 @@ class MainChatBox extends React.Component {
       }, 1000 / 60);
     }
   };
-
-  componentDidMount() {
-    this.props.startSocket();
-  }
 
   componentDidUpdate(prevProps) {
     if (prevProps.chat.posts.length < this.props.chat.posts.length) {
@@ -223,7 +218,7 @@ class MainChatBox extends React.Component {
           </div>
         </div>
 
-        <MainToolBar user={this.props.user} />
+        <MainToolBar user={this.props.user} roomId={this.props.roomId} />
       </>
     );
   }
@@ -235,7 +230,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  startSocket,
   sendEffect,
   sendPost,
   deletePost,

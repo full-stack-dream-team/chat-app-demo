@@ -35,6 +35,8 @@ class MainToolBar extends React.Component {
       {
         content,
         color,
+        userId: this.props.userId,
+        roomId: this.props.roomId,
       },
       this.props.user
     );
@@ -114,6 +116,7 @@ class MainToolBar extends React.Component {
                   publicId={publicId}
                   user={user}
                   color={color}
+                  roomId={this.props.roomId}
                 />
 
                 <button

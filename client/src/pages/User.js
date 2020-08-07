@@ -125,9 +125,6 @@ class User extends React.Component {
           M.updateTextFields();
           M.textareaAutoResize(this.Textarea);
         });
-
-        const string =
-          "I am an indie developer on the road making websites with Javascript/React/NodeJS, and css/scss. I am also a really cool guy 😎 who likes to fish, skip rocks, and play with Chloe and Ethan.";
       }
     }
   }

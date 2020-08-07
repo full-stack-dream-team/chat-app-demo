@@ -6,16 +6,19 @@ const cloudinary = require("cloudinary").v2;
 
 const User = mongoose.model("User");
 const Message = mongoose.model("Message");
+const ChatRoom = mongoose.model("ChatRoom");
 
 exports.connectSocket = (io) => {
   io.on("connection", (socket) => {
+    let roomId;
+
     const limitMessages = (err, messages) => {
       if (err) return console.error(err);
 
       const limit = 50;
 
       if (messages.length > limit) {
-        Message.find()
+        Message.find({ roomId })
           .limit(messages.length - limit)
           .exec((err, limitedMessages) => {
             if (err) return console.error(err);
@@ -45,6 +48,7 @@ exports.connectSocket = (io) => {
           .reverse()
           .slice(messages.length - limit)
           .reverse();
+
         socket.emit("init", limitedMessages);
       } else {
         socket.emit("init", messages);
@@ -59,40 +63,84 @@ exports.connectSocket = (io) => {
     //   });
     // };
 
-    Message.find().sort({ createdAt: -1 }).exec(limitMessages);
+    socket.on("join", (id) => {
+      roomId = id;
+
+      socket.join(roomId, () => {
+        if (roomId && !(roomId.length < 24 || roomId.length > 24)) {
+          ChatRoom.findOne({ _id: roomId })
+            .then((chatRoom) => {
+              if (!chatRoom) return socket.emit("noRoom");
+
+              Message.find({ roomId })
+                .sort({ createdAt: -1 })
+                .exec(limitMessages);
+            })
+            .catch((err) => console.error(err));
+        } else {
+          socket.emit("noRoom");
+        }
+      });
+    });
 
     socket.on("message", (msg) => {
-      const message = new Message({
-        content: msg.content,
-        name: msg.name,
-        userId: msg.userId,
-        userAuthorized: msg.userAuthorized,
-        color: msg.color,
-      });
+      if (roomId && !(roomId.length < 24 || roomId.length > 24)) {
+        ChatRoom.findOne({ _id: roomId })
+          .then((chatRoom) => {
+            if (!chatRoom) return socket.emit("noRoom");
 
-      message.save((err) => {
-        if (err) return console.error(err);
-        Message.find().sort({ createdAt: -1 }).exec(limitMessages);
-      });
+            const message = new Message({
+              content: msg.content,
+              name: msg.name,
+              userId: msg.userId,
+              userAuthorized: msg.userAuthorized,
+              color: msg.color,
+              roomId: msg.roomId,
+            });
 
-      socket.broadcast.emit("push", message);
+            message.save((err) => {
+              if (err) return console.error(err);
+              Message.find({ roomId })
+                .sort({ createdAt: -1 })
+                .exec(limitMessages);
+            });
+
+            socket.to(roomId).emit("push", message);
+          })
+          .catch((err) => console.error(err));
+      } else {
+        socket.emit("noRoom");
+      }
     });
 
     socket.on("imageUpload", (msg) => {
-      const message = new Message({
-        imageUrl: msg.imageUrl,
-        imageAlt: msg.imageAlt,
-        publicId: msg.publicId,
-        name: msg.name,
-        userId: msg.userId,
-        userAuthorized: msg.userAuthorized,
-        color: msg.color,
-      });
+      if (roomId && !(roomId.length < 24 || roomId.length > 24)) {
+        ChatRoom.findOne({ _id: roomId })
+          .then((chatRoom) => {
+            if (!chatRoom) return socket.emit("noRoom");
 
-      message.save((err) => {
-        if (err) return console.error(err);
-        Message.find().sort({ createdAt: -1 }).exec(limitMessages);
-      });
+            const message = new Message({
+              imageUrl: msg.imageUrl,
+              imageAlt: msg.imageAlt,
+              publicId: msg.publicId,
+              name: msg.name,
+              userId: msg.userId,
+              userAuthorized: msg.userAuthorized,
+              color: msg.color,
+              roomId: msg.roomId,
+            });
+
+            message.save((err) => {
+              if (err) return console.error(err);
+              Message.find({ roomId })
+                .sort({ createdAt: -1 })
+                .exec(limitMessages);
+            });
+          })
+          .catch((err) => console.error(err));
+      } else {
+        socket.emit("noRoom");
+      }
     });
 
     // let userId;
@@ -115,7 +163,7 @@ exports.connectSocket = (io) => {
 
     socket.on("delete", (post) => {
       Message.deleteOne({ _id: post.postId }).then(() => {
-        Message.find().sort({ createdAt: -1 }).exec(limitMessages);
+        Message.find({ roomId }).sort({ createdAt: -1 }).exec(limitMessages);
       });
 
       socket.broadcast.emit("remove", post.postId);
@@ -130,7 +178,7 @@ exports.connectSocket = (io) => {
     });
 
     socket.on("effect", (effect) => {
-      socket.broadcast.emit("effect", effect);
+      socket.to(roomId).broadcast.emit("effect", effect);
     });
 
     // socket.on("disconnect", () => {

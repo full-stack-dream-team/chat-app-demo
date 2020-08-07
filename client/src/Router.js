@@ -10,6 +10,7 @@ import EffectCanvas from "./components/EffectCanvas";
 import EmbedWebsite from "./pages/EmbedWebsite";
 
 import App from "./pages/App";
+import ChatRooms from "./pages/ChatRooms";
 import Landing from "./pages/Landing";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -32,7 +33,8 @@ class Router extends React.Component {
         {this.props.postsLoading ? null : <Navbar />}
 
         <Switch>
-          <PrivateRoute exact path="/" component={App} />
+          <PrivateRoute exact path="/" component={ChatRooms} />
+          <PrivateRoute exact path="/chatrooms/:roomId" component={App} />
           <PrivateRoute exact path="/user/:userId" component={User} />
 
           <PrivateRoute exact path="/embed" component={EmbedWebsite} />
@@ -65,7 +67,7 @@ class Router extends React.Component {
             bottom: "20px",
           }}
         >
-          v 1.2.5
+          v 1.3.0
         </span>
       </BrowserRouter>
     );

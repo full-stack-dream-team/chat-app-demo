@@ -23,12 +23,20 @@ export const setPostsLoading = (loading) => (dispatch) => {
   dispatch({ type: SET_POSTS_LOADING, payload: loading });
 };
 
-export const startSocket = () => (dispatch) => {
+export const startSocket = (roomId) => (dispatch) => {
   if (window.Notification) {
     Notification.requestPermission();
   }
 
   socket = io(config[process.env.NODE_ENV].endpoint);
+
+  socket.on("connect", () => {
+    socket.emit("join", roomId);
+  });
+
+  socket.on("noRoom", () => {
+    window.location.href = "/oops";
+  });
 
   socket.on("init", (posts) => {
     dispatch({ type: GET_ALL_POSTS, payload: posts.reverse() });
@@ -68,9 +76,14 @@ export const sendEffect = (effect) => (dispatch) => {
   startEffect(effect)(dispatch);
 };
 
-export const uploadImage = (user, imageUrl, imageAlt, publicId, color) => (
-  dispatch
-) => {
+export const uploadImage = (
+  user,
+  imageUrl,
+  imageAlt,
+  publicId,
+  color,
+  roomId
+) => (dispatch) => {
   const newPost = {
     name: user.name,
     userId: user.id,
@@ -79,6 +92,7 @@ export const uploadImage = (user, imageUrl, imageAlt, publicId, color) => (
     imageAlt: imageAlt,
     publicId: publicId,
     color: color,
+    roomId,
   };
 
   socket.emit("imageUpload", newPost);
@@ -95,6 +109,7 @@ export const sendPost = (post, user) => (dispatch) => {
     userId: user.id,
     userAuthorized: user.authorized,
     color: post.color,
+    roomId: post.roomId,
   };
 
   socket.emit("message", newPost);

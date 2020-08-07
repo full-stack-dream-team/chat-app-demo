@@ -17,6 +17,10 @@ const messageSchema = new Schema(
       required: true,
     },
     userAuthorized: String,
+    roomId: {
+      type: String,
+      required: true,
+    },
     color: String,
   },
   {
