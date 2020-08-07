@@ -13,3 +13,4 @@ export const SET_EFFECT = "SET_EFFECT";
 
 // User
 export const SET_OTHER_USER = "SET_OTHER_USER";
+export const SET_PROFILE_IMAGE = "SET_PROFILE_IMAGE";

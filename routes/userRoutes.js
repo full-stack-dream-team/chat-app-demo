@@ -23,5 +23,7 @@ router.post("/exists", userController.userExists);
 
 router.get("/:userId", userController.getUser);
 
+router.post("/profile", userController.uploadProfileImage);
+
 // Export router for use
 module.exports = router;

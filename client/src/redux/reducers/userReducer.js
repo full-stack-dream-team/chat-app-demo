@@ -1,4 +1,4 @@
-import { SET_OTHER_USER } from "../actions/types";
+import { SET_OTHER_USER, SET_PROFILE_IMAGE } from "../actions/types";
 
 const initialState = {
   name: "",
@@ -7,6 +7,7 @@ const initialState = {
   authorized: "",
   createdAt: "",
   _id: "",
+  image: "",
 };
 
 const authReducer = (state = initialState, action) => {
@@ -17,6 +18,14 @@ const authReducer = (state = initialState, action) => {
         ...action.payload,
       };
     }
+
+    case SET_PROFILE_IMAGE: {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    }
+
     default:
       return state;
   }

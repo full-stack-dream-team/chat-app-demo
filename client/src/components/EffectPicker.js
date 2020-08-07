@@ -20,7 +20,7 @@ class EffectPicker extends React.Component {
             fontSize: "30px",
           }}
         >
-          <InlineIcon icon={partyIcon} className="purple-text text-lighten-1" />
+          <InlineIcon icon={partyIcon} className="brown-text text-lighten-1" />
         </span>
 
         <div

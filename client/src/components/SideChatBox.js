@@ -1,7 +1,6 @@
 import React from "react";
 import { InlineIcon } from "@iconify/react";
 import sendIcon from "@iconify/icons-mdi/send";
-import M from "materialize-css";
 
 import { connect } from "react-redux";
 import { sendPost, startSocket } from "../redux/actions/chatActions";
