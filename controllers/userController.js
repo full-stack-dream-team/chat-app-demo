@@ -3,6 +3,8 @@ const User = mongoose.model("User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+const cloudinary = require("cloudinary").v2;
+
 const sendEmail = require("../config/mailer");
 
 // Load input validation
@@ -231,6 +233,49 @@ exports.editUser = (req, res) => {
           res.json(user);
         });
       });
+    })
+    .catch((err) => console.error(err));
+};
+
+exports.uploadProfileImage = (req, res) => {
+  const { user: userData, image } = req.body;
+
+  User.findOne({ _id: userData.id })
+    .then((user) => {
+      if (!user) return res.status(404).json({ userExists: "User not found!" });
+
+      if (!user.profileImage) {
+        user.profileImage = {};
+      }
+
+      if (user.profileImage.imageId) {
+        cloudinary.uploader.destroy(
+          user.profileImage.imageId,
+          { invalidate: true },
+          (error, result) => {
+            console.log(result, error);
+          }
+        );
+      }
+
+      cloudinary.image(image.secure_url, {
+        transformation: [
+          {
+            width: 400,
+            height: 400,
+            radius: "max",
+            crop: "crop",
+          },
+          { width: 200, crop: "scale" },
+        ],
+      });
+
+      user.profileImage = {
+        image: image.secure_url,
+        imageId: image.public_id,
+      };
+
+      user.save().then((user) => res.json(user));
     })
     .catch((err) => console.error(err));
 };

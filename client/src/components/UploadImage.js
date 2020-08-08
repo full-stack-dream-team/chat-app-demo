@@ -23,12 +23,7 @@ class UploadImage extends React.Component {
         clientAllowedFormats: ["png", "jpeg"],
         showUploadMoreButton: false,
         singleUploadAutoClose: true,
-        styles: {
-          palette: {
-            link: "#80deea",
-          },
-        },
-
+        theme: "purple",
         text: {
           en: {
             local: {
@@ -46,8 +41,6 @@ class UploadImage extends React.Component {
         },
       },
       (error, result) => {
-        console.log(result);
-
         if (result && result.event === "success") {
           this.setState(
             {

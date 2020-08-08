@@ -12,6 +12,11 @@ const userSchema = new Schema({
     required: true,
   },
   description: String,
+  profileImage: {
+    image: String,
+    imageId: String,
+    type: Object,
+  },
   password: {
     type: String,
     required: true,

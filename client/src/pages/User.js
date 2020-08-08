@@ -1,14 +1,15 @@
 import React from "react";
 import M from "materialize-css";
-import LoadingSplash from "../components/LoadingSplash";
-
+import { connect } from "react-redux";
 import { Icon } from "@iconify/react";
 import editIcon from "@iconify/icons-mdi/account-edit";
 import homeIcon from "@iconify/icons-mdi/home";
+import emoticonCoolOutline from "@iconify/icons-mdi/emoticon-cool-outline";
 
-import { connect } from "react-redux";
 import { getUser } from "../redux/actions/userActions";
 import { editUser } from "../redux/actions/authActions";
+import LoadingSplash from "../components/LoadingSplash";
+import UploadProfileImage from "../components/UploadProfileImage";
 
 class User extends React.Component {
   state = {
@@ -130,7 +131,12 @@ class User extends React.Component {
   }
 
   render() {
-    const { otherUser, user } = this.props;
+    const {
+      otherUser,
+      otherUser: { profileImage },
+      user,
+      image,
+    } = this.props;
 
     return otherUser._id ? (
       <>
@@ -141,18 +147,29 @@ class User extends React.Component {
                 <div className="card-content">
                   <span className="card-title">{otherUser.name}</span>
 
-                  <div className="row">
+                  <div className="row" style={{ display: "flex" }}>
                     <div className="col s5">
                       <div className="profile-image">
-                        <img
-                          src="https://www.gstatic.com/tv/thumb/persons/235135/235135_v9_ba.jpg"
-                          alt="profile"
-                          width="250px"
-                        />
+                        {profileImage ? (
+                          <div>
+                            <img src={profileImage.image} alt="Profile" />
+                          </div>
+                        ) : (
+                          <Icon
+                            icon={emoticonCoolOutline}
+                            style={{
+                              fontSize: "268px",
+                            }}
+                            className="white-text"
+                          />
+                        )}
                       </div>
+                      {user.id === otherUser._id && (
+                        <UploadProfileImage user={user} image={image} />
+                      )}
                     </div>
 
-                    <div className="col s6 blue-grey lighten-1">
+                    <div className="col s6 blue-grey lighten-1 mr-3">
                       <div className="row">
                         <div className="col s12">
                           <h6>{otherUser.email}</h6>

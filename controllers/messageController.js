@@ -2,7 +2,6 @@ const { google } = require("googleapis");
 const express = require("express");
 const mongoose = require("mongoose");
 const cloudinary = require("cloudinary").v2;
-// const deleteImage = require("../config/cloudinary");
 
 const User = mongoose.model("User");
 const Message = mongoose.model("Message");

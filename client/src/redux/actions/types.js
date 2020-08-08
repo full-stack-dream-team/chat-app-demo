@@ -17,3 +17,4 @@ export const ADD_CHAT_ROOM = "ADD_CHAT_ROOM";
 
 // User
 export const SET_OTHER_USER = "SET_OTHER_USER";
+export const SET_PROFILE_IMAGE = "SET_PROFILE_IMAGE";

@@ -9,3 +9,13 @@ export const getUser = (userId) => (dispatch) => {
     })
     .catch((err) => console.error(err));
 };
+
+export const uploadProfileImage = (user, image) => (dispatch) => {
+  axios
+    .post("/api/users/profile", { user, image })
+    .then((res) => {
+      dispatch({ type: SET_OTHER_USER, payload: res.data });
+      // dispatch({ type: SET_PROFILE_IMAGE, payload: { user, image } });
+    })
+    .catch((err) => console.error(err));
+};
