@@ -15,6 +15,8 @@ import {
 class ChatRooms extends React.Component {
   state = {
     title: "",
+    blackOrWhite: "none",
+    list: [],
   };
 
   handleSubmit = (e) => {
@@ -28,6 +30,13 @@ class ChatRooms extends React.Component {
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  editList = (e, i) => {
+    const list = [...this.state.list];
+    list[i] = e.target.value;
+
+    this.setState({ list });
   };
 
   componentDidMount() {
@@ -128,6 +137,95 @@ class ChatRooms extends React.Component {
                       <label htmlFor="title">Title</label>
                     </div>
                   </div>
+
+                  {/*<div className="row">
+                    <div className="col s12">
+                      <p>
+                        <label>
+                          <input
+                            type="radio"
+                            name="blackOrWhite"
+                            value="black"
+                            checked={
+                              this.state.blackOrWhite === "black" ? true : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          <span>Blacklist</span>
+                        </label>
+                      </p>
+                    </div>
+
+                    <div className="col s12">
+                      <p>
+                        <label>
+                          <input
+                            type="radio"
+                            name="blackOrWhite"
+                            value="white"
+                            checked={
+                              this.state.blackOrWhite === "white" ? true : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          <span>Whitelist</span>
+                        </label>
+                      </p>
+                    </div>
+
+                    <div className="col s12">
+                      <p>
+                        <label>
+                          <input
+                            type="radio"
+                            name="blackOrWhite"
+                            value="none"
+                            checked={
+                              this.state.blackOrWhite === "none" ? true : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          <span>None</span>
+                        </label>
+                      </p>
+                    </div>
+
+                    {this.state.blackOrWhite !== "none" ? (
+                      <>
+                        <ul className="collection">
+                          {this.state.list.map((user, i) => (
+                            <li key={i} className="collection-item">
+                              <input
+                                type="text"
+                                value={user}
+                                onChange={(e) => this.editList(e, i)}
+                                placeholder="Type a username or email, eg. john@doe.com, John Doe"
+                                style={{ width: "80%" }}
+                              />
+
+                              <button
+                                className="btn-flat"
+                                style={{ fontSize: "24px", width: "20%" }}
+                              >
+                                <Icon icon={deleteIcon} />
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+
+                        <div className="col s12 input-field">
+                          <span
+                            className="btn-small"
+                            onClick={() =>
+                              this.setState({ list: [...this.state.list, ""] })
+                            }
+                          >
+                            Add to {this.state.blackOrWhite}list
+                          </span>
+                        </div>
+                      </>
+                    ) : null}
+                  </div>*/}
                 </form>
               </div>
             </div>

@@ -8,6 +8,8 @@ import UploadImage from "./UploadImage";
 import { InlineIcon } from "@iconify/react";
 import sendIcon from "@iconify/icons-mdi/send";
 import stickerEmoji from "@iconify/icons-mdi/sticker-emoji";
+import partyIcon from "@iconify/icons-mdi/party-popper";
+
 import { connect } from "react-redux";
 
 import { sendPost, sendEffect } from "../redux/actions/chatActions";
@@ -66,73 +68,93 @@ class MainToolBar extends React.Component {
     const { content, color } = this.state;
 
     return (
-      <div className="row">
-        <div
-          className={`col s12 ${color || "cyan"} lighten-4 z-depth-5`}
-          style={{ borderRadius: "10px" }}
-        >
-          <form onSubmit={this.handleSubmit} autoComplete="off">
-            <div className="row mb-0">
-              <div className="col s12 mb-0 input-field">
-                <textarea
-                  name="content"
-                  value={content}
-                  className="materialize-textarea mb-0"
-                  onChange={this.handleChange}
-                  required
-                  ref={(Textarea) => {
-                    this.Textarea = Textarea;
-                  }}
-                />
-                <label htmlFor="content">Message</label>
-              </div>
-            </div>
-
-            <div className="row mb-0 valign-wrapper">
-              <PostColorPicker color={color} handleChange={this.handleChange} />
-
-              <div className="col s10 right-align">
-                <EffectPicker sendEffect={sendEffect} />
-
-                <span
-                  className="btn-icon btn-flat hide-on-small-only"
-                  style={{
-                    fontSize: "30px",
-                  }}
-                  onClick={this.enableEmojiPicker}
-                  ref={(EmojiActivator) => {
-                    this.EmojiActivator = EmojiActivator;
-                  }}
-                >
-                  <InlineIcon
-                    icon={stickerEmoji}
-                    className="deep-orange-text"
+      <>
+        <div className="row">
+          <div
+            className={`col s12 ${color || "cyan"} lighten-4 z-depth-5`}
+            style={{ borderRadius: "10px" }}
+          >
+            <form onSubmit={this.handleSubmit} autoComplete="off">
+              <div className="row mb-0">
+                <div className="col s12 mb-0 input-field">
+                  <textarea
+                    name="content"
+                    value={content}
+                    className="materialize-textarea mb-0"
+                    onChange={this.handleChange}
+                    required
+                    ref={(Textarea) => {
+                      this.Textarea = Textarea;
+                    }}
                   />
-                </span>
+                  <label htmlFor="content">Message</label>
+                </div>
+              </div>
 
-                <UploadImage
-                  imageUrl={imageUrl}
-                  imageAlt={imageAlt}
-                  publicId={publicId}
-                  user={user}
+              <div className="row mb-0 valign-wrapper">
+                <PostColorPicker
                   color={color}
-                  roomId={this.props.roomId}
+                  handleChange={this.handleChange}
                 />
 
-                <button
-                  type="submit"
-                  className="btn-icon btn-flat"
-                  style={{
-                    fontSize: "30px",
-                  }}
-                >
-                  <InlineIcon icon={sendIcon} className="green-text accent-2" />
-                </button>
+                <div className="col s10 right-align">
+                  <span
+                    data-target="effect-modal"
+                    className="btn-icon btn-flat modal-trigger"
+                    style={{
+                      fontSize: "30px",
+                    }}
+                  >
+                    <InlineIcon
+                      icon={partyIcon}
+                      className="brown-text text-lighten-1"
+                    />
+                  </span>
+
+                  <span
+                    className="btn-icon btn-flat hide-on-small-only"
+                    style={{
+                      fontSize: "30px",
+                    }}
+                    onClick={this.enableEmojiPicker}
+                    ref={(EmojiActivator) => {
+                      this.EmojiActivator = EmojiActivator;
+                    }}
+                  >
+                    <InlineIcon
+                      icon={stickerEmoji}
+                      className="deep-orange-text"
+                    />
+                  </span>
+
+                  <UploadImage
+                    imageUrl={imageUrl}
+                    imageAlt={imageAlt}
+                    publicId={publicId}
+                    user={user}
+                    color={color}
+                    roomId={this.props.roomId}
+                  />
+
+                  <button
+                    type="submit"
+                    className="btn-icon btn-flat"
+                    style={{
+                      fontSize: "30px",
+                    }}
+                  >
+                    <InlineIcon
+                      icon={sendIcon}
+                      className="green-text accent-2"
+                    />
+                  </button>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
-      </div>
+        <EffectPicker sendEffect={sendEffect} />
+      </>
     );
   }
 }

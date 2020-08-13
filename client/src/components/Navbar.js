@@ -6,11 +6,10 @@ import { logoutUser } from "../redux/actions/authActions";
 
 class Navbar extends React.Component {
   newUpdates = [
-    "Curse word based user ranking",
-    "Post images",
     "Chat rooms",
-    "Profile page",
     "Post profile image",
+    "Bouncy ball effect",
+    "Create your own effect",
   ];
 
   futureUpdates = [

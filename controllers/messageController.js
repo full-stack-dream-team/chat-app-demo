@@ -114,6 +114,17 @@ exports.connectSocket = (io) => {
 
     socket.on("imageUpload", (msg) => {
       if (roomId && !(roomId.length < 24 || roomId.length > 24)) {
+        const post = {
+          imageUrl: msg.imageUrl,
+          imageAlt: msg.imageAlt,
+          publicId: msg.publicId,
+          name: msg.name,
+          userId: msg.userId,
+          userAuthorized: msg.userAuthorized,
+          color: msg.color,
+          roomId: msg.roomId,
+        };
+
         ChatRoom.findOne({ _id: roomId })
           .then((chatRoom) => {
             if (!chatRoom) return socket.emit("noRoom");
@@ -137,6 +148,8 @@ exports.connectSocket = (io) => {
             });
           })
           .catch((err) => console.error(err));
+
+        socket.to(roomId).emit("push", post);
       } else {
         socket.emit("noRoom");
       }
