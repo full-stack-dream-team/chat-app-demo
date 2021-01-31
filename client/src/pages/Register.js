@@ -13,6 +13,41 @@ class Register extends React.Component {
     errors: {},
   };
 
+  nameOk = false;
+  emailOk = false;
+  passOk = false;
+  confirmPassOk = false;
+
+  hovering = false;
+  focusing = false;
+
+  validateType = (option) => {
+    switch (option) {
+      case "name":
+        this.typeTimeout = setTimeout(() => {
+          this.nameOk = true;
+        }, 1000);
+        break;
+      case "email":
+        this.typeTimeout = setTimeout(() => {
+          this.emailOk = true;
+        }, 4000);
+        break;
+      case "password":
+        this.typeTimeout = setTimeout(() => {
+          this.passOk = true;
+        }, 3000);
+        break;
+      case "password2":
+        this.typeTimeout = setTimeout(() => {
+          this.confirmPassOk = true;
+        }, 3000);
+        break;
+      default:
+        clearTimeout(this.typeTimeout);
+    }
+  };
+
   handleChange = (e) => {
     this.setState({ [e.target.id]: e.target.value });
   };
@@ -21,15 +56,31 @@ class Register extends React.Component {
     e.preventDefault();
 
     const { name, email, password, password2 } = this.state;
+    if (
+      (this.nameOk &&
+        this.emailOk &&
+        this.passOk &&
+        this.confirmPassOk &&
+        this.hovering &&
+        this.focusing) ||
+      !name ||
+      !email ||
+      !password ||
+      !password2
+    ) {
+      const newUser = {
+        name,
+        email,
+        password,
+        password2,
+      };
 
-    const newUser = {
-      name,
-      email,
-      password,
-      password2,
-    };
+      this.props.registerUser(newUser);
 
-    this.props.registerUser(newUser, this.props.history);
+      this.props.registerUser(newUser, this.props.history);
+    } else {
+      this.props.history.push("/botform");
+    }
   };
 
   componentDidUpdate(prevProps) {
@@ -63,6 +114,9 @@ class Register extends React.Component {
                     className={classnames("", {
                       invalid: errors.name,
                     })}
+                    onFocus={() => this.validateType("name")}
+                    onBlur={() => this.validateType()}
+                    autocomplete="off"
                   />
                   <label htmlFor="name">Name</label>
                   <span className="helper-text" data-error={errors.name}></span>
@@ -80,6 +134,9 @@ class Register extends React.Component {
                     className={classnames("", {
                       invalid: errors.email,
                     })}
+                    onFocus={() => this.validateType("name")}
+                    onBlur={() => this.validateType()}
+                    autocomplete="off"
                   />
                   <label htmlFor="email">Email</label>
                   <span
@@ -100,6 +157,9 @@ class Register extends React.Component {
                     className={classnames("", {
                       invalid: errors.password,
                     })}
+                    onFocus={() => this.validateType("name")}
+                    onBlur={() => this.validateType()}
+                    autocomplete="off"
                   />
                   <label htmlFor="password">Password</label>
                   <span
@@ -118,6 +178,9 @@ class Register extends React.Component {
                     className={classnames("", {
                       invalid: errors.password2,
                     })}
+                    onFocus={() => this.validateType("name")}
+                    onBlur={() => this.validateType()}
+                    autocomplete="off"
                   />
                   <label htmlFor="password2">Confirm Password</label>
                   <span
@@ -129,7 +192,14 @@ class Register extends React.Component {
 
               <div className="row">
                 <div className="col s12">
-                  <button type="submit" className="btn">
+                  <button
+                    type="submit"
+                    className="btn"
+                    onMouseEnter={() => (this.hovering = true)}
+                    onMouseLeave={() => (this.hovering = false)}
+                    onFocus={() => (this.focusing = true)}
+                    onBlur={() => (this.focusing = false)}
+                  >
                     Sign up
                   </button>
                 </div>
@@ -141,7 +211,8 @@ class Register extends React.Component {
         <div className="row">
           <div className="col s12">
             <blockquote>
-              Already have an account? <a href="/login">Log In</a>
+              Already have an account? <a href="/login">Log In</a> <br />
+              Forgot your password? <a href="/forgotpassword">Reset Password</a>
             </blockquote>
           </div>
         </div>

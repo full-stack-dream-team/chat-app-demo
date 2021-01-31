@@ -35,7 +35,7 @@ exports.connectSocket = (io) => {
             publicIds.forEach((publicId) => {
               cloudinary.uploader.destroy(
                 publicId,
-                { invalidate: true },
+                { invalidate: true, folder: "chat_app_demo/upload_images" },
                 (error, result) => {
                   console.log(result, error);
                 }
@@ -53,14 +53,6 @@ exports.connectSocket = (io) => {
         socket.emit("init", messages);
       }
     };
-
-    // const broadcastActiveUsers = () => {
-    //   User.find({ chatting: true }).exec((err, users) => {
-    //     if (err) return console.error(err);
-    //
-    //     socket.broadcast.emit("users", users);
-    //   });
-    // };
 
     socket.on("join", (id) => {
       roomId = id;
@@ -155,15 +147,6 @@ exports.connectSocket = (io) => {
       }
     });
 
-    // let userId;
-
-    // socket.on("addUser", (info) => {
-    //   userId = info.userId;
-    //   User.updateOne({ _id: info.userId }, { $set: { chatting: true } }).then(
-    //     broadcastActiveUsers
-    //   );
-    // });
-
     socket.on("edit", (msg) => {
       Message.updateOne(
         { _id: msg._id },
@@ -182,7 +165,7 @@ exports.connectSocket = (io) => {
 
       cloudinary.uploader.destroy(
         post.publicId,
-        { invalidate: true },
+        { invalidate: true, folder: "chat_app_demo/upload_images" },
         (error, result) => {
           console.log(result, error);
         }
@@ -192,11 +175,5 @@ exports.connectSocket = (io) => {
     socket.on("effect", (effect) => {
       socket.to(roomId).broadcast.emit("effect", effect);
     });
-
-    // socket.on("disconnect", () => {
-    //   User.updateOne({ _id: userId }, { $set: { chatting: false } }).then(
-    //     broadcastActiveUsers
-    //   );
-    // });
   });
 };

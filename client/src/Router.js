@@ -19,6 +19,7 @@ import ResetPassword from "./pages/ResetPassword";
 import User from "./pages/User";
 import Oops from "./pages/Oops";
 import NoAccount from "./pages/NoAccount";
+import BotForm from "./pages/BotForm";
 import Error404 from "./pages/Error404";
 
 class Router extends React.Component {
@@ -55,6 +56,7 @@ class Router extends React.Component {
 
           <NotPrivateRoute exact path="/noaccount" component={NoAccount} />
           <Route exact path="/oops" component={Oops} />
+          <Route exact path="/botform" component={BotForm} />
           <Route component={Error404} />
         </Switch>
 

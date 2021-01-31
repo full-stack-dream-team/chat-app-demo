@@ -16,7 +16,7 @@ class UploadImage extends React.Component {
     const widget = window.cloudinary.createUploadWidget(
       {
         cloudName: "goodstuffing123",
-        uploadPreset: "chat-app-files",
+        uploadPreset: "demo-upload-images",
         sources: ["local", "url", "camera"],
         multiple: false,
         resourceType: "image",

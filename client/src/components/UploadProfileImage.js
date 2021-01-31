@@ -14,7 +14,7 @@ class UploadProfileImage extends React.Component {
     const widget = window.cloudinary.createUploadWidget(
       {
         cloudName: "goodstuffing123",
-        uploadPreset: "ogaxpreg",
+        uploadPreset: "demo-profile-images",
         sources: ["local", "camera"],
         multiple: false,
         resourceType: "image",

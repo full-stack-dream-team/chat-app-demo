@@ -45,18 +45,6 @@ exports.registerUser = (req, res) => {
             .save()
             .then((user) => res.json(user))
             .catch((err) => console.log(err));
-
-          sendEmail({
-            to: newUser.email,
-            name: newUser.name,
-            text: "Welcome to my website!",
-            html: `
-              <div>
-                <h1>Welcome ${newUser.name}</h1>
-                <p>I hope you have a good time here!</p>
-              </div>
-            `,
-          });
         });
       });
     }
@@ -81,7 +69,6 @@ exports.loginUser = (req, res) => {
       if (!user) {
         return res.status(404).json({ emailnotfound: "Email not found" });
       }
-      console.log(user);
 
       // Check password
       bcrypt.compare(password, user.password).then((isMatch) => {
@@ -251,7 +238,7 @@ exports.uploadProfileImage = (req, res) => {
       if (user.profileImage.imageId) {
         cloudinary.uploader.destroy(
           user.profileImage.imageId,
-          { invalidate: true },
+          { invalidate: true, folder: "chat_app_demo/profile_images" },
           (error, result) => {
             console.log(result, error);
           }
@@ -268,6 +255,7 @@ exports.uploadProfileImage = (req, res) => {
           },
           { width: 200, crop: "scale" },
         ],
+        folder: "chat_app_demo/profile_images",
       });
 
       user.profileImage = {

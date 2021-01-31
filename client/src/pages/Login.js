@@ -43,6 +43,14 @@ class Login extends React.Component {
           </div>
         </div>
 
+        <div className="card yellow lighten-5">
+          <div className="card-content">
+            <h5>Sign in with these credentials to test the app.</h5>
+            <p>Email: test@chat.com</p>
+            <p>Password: chatapp</p>
+          </div>
+        </div>
+
         <div className="row">
           <div className="col s12">
             <form noValidate onSubmit={this.onSubmit}>
@@ -92,16 +100,6 @@ class Login extends React.Component {
                 </div>
               </div>
             </form>
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col s12">
-            <blockquote>
-              Don't have an account? <a href="/register">Register</a>
-              <br />
-              Forgot your password? <a href="/forgotpassword">Reset It</a>
-            </blockquote>
           </div>
         </div>
       </div>
