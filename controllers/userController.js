@@ -81,7 +81,6 @@ exports.loginUser = (req, res) => {
       if (!user) {
         return res.status(404).json({ emailnotfound: "Email not found" });
       }
-      console.log(user);
 
       // Check password
       bcrypt.compare(password, user.password).then((isMatch) => {
@@ -251,7 +250,7 @@ exports.uploadProfileImage = (req, res) => {
       if (user.profileImage.imageId) {
         cloudinary.uploader.destroy(
           user.profileImage.imageId,
-          { invalidate: true },
+          { invalidate: true, folder: "chat_app_profile_images" },
           (error, result) => {
             console.log(result, error);
           }

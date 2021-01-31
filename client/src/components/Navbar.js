@@ -74,21 +74,25 @@ class Navbar extends React.Component {
 
               <ul id="nav-mobile" className="right">
                 <li className="hide-on-small-only">
-                  <a href="/embed">Website Sharing</a>
-                </li>
-
-                <li className="hide-on-small-only">
                   <a className="modal-trigger" href="#future-updates">
                     Updates
                   </a>
                 </li>
 
                 {this.props.auth.isAuthenticated ? (
-                  <li>
-                    <a href="/" onClick={this.props.logoutUser}>
-                      Log Out
-                    </a>
-                  </li>
+                  <>
+                    <li>
+                      <a href={`/user/${this.props.auth.user.id}`}>
+                        My Profile
+                      </a>
+                    </li>
+
+                    <li>
+                      <a href="/" onClick={this.props.logoutUser}>
+                        Log Out
+                      </a>
+                    </li>
+                  </>
                 ) : null}
               </ul>
             </div>

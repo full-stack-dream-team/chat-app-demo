@@ -1,6 +1,7 @@
 import React from "react";
 import M from "materialize-css";
 import LoadingSplash from "../components/LoadingSplash";
+import Nav from "../components/Navbar";
 
 import { Icon } from "@iconify/react";
 import deleteIcon from "@iconify/icons-mdi/delete";
@@ -56,6 +57,7 @@ class ChatRooms extends React.Component {
       <LoadingSplash />
     ) : (
       <>
+        <Nav />
         <div className="container">
           <div className="row">
             <div className="col s12">

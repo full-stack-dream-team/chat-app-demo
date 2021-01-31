@@ -35,7 +35,7 @@ exports.connectSocket = (io) => {
             publicIds.forEach((publicId) => {
               cloudinary.uploader.destroy(
                 publicId,
-                { invalidate: true },
+                { invalidate: true, folder: "chat_app_images" },
                 (error, result) => {
                   console.log(result, error);
                 }
@@ -182,7 +182,7 @@ exports.connectSocket = (io) => {
 
       cloudinary.uploader.destroy(
         post.publicId,
-        { invalidate: true },
+        { invalidate: true, folder: "chat_app_images" },
         (error, result) => {
           console.log(result, error);
         }
