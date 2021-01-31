@@ -1,6 +1,6 @@
 {
-  "short_name": "MERN Boilerplate",
-  "name": "Node React (MERN) Boilerplate",
+  "short_name": "Chat App",
+  "name": "Camp Kids Chat App",
   "icons": [
     {
       "src": "favicon.ico",
