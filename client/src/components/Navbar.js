@@ -80,17 +80,19 @@ class Navbar extends React.Component {
                 </li>
 
                 {this.props.auth.isAuthenticated ? (
-                  <li>
-                    <a href={`/user/${this.props.auth.user.id}`}>My Profile</a>
-                  </li>
-                ) : null}
+                  <>
+                    <li>
+                      <a href={`/user/${this.props.auth.user.id}`}>
+                        My Profile
+                      </a>
+                    </li>
 
-                {this.props.auth.isAuthenticated ? (
-                  <li>
-                    <a href="/" onClick={this.props.logoutUser}>
-                      Log Out
-                    </a>
-                  </li>
+                    <li>
+                      <a href="/" onClick={this.props.logoutUser}>
+                        Log Out
+                      </a>
+                    </li>
+                  </>
                 ) : null}
               </ul>
             </div>

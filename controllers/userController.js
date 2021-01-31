@@ -255,7 +255,6 @@ exports.uploadProfileImage = (req, res) => {
           },
           { width: 200, crop: "scale" },
         ],
-        folder: "chat_app_demo/profile_images",
       });
 
       user.profileImage = {
