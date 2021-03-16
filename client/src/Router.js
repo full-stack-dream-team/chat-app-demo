@@ -69,7 +69,9 @@ class Router extends React.Component {
             bottom: "20px"
           }}
         >
-          &copy; {new Date().getFullYear()} Full Stack Dream Team v 1.3.5
+          &copy; {new Date().getFullYear()}{" "}
+          <a href="https://fullstackdreamteam.com">Full Stack Dream</a> Team v
+          1.3.5
         </span>
       </BrowserRouter>
     );
