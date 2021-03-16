@@ -66,19 +66,19 @@ class Router extends React.Component {
             zIndex: "1000",
             position: "fixed",
             left: "20px",
-            bottom: "20px",
+            bottom: "20px"
           }}
         >
-          v 1.3.5
+          &copy; {new Date().getFullYear()} Full Stack Dream Team v 1.3.5
         </span>
       </BrowserRouter>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   auth: state.auth,
-  postsLoading: state.chat.postsLoading,
+  postsLoading: state.chat.postsLoading
 });
 
 export default connect(mapStateToProps)(Router);
