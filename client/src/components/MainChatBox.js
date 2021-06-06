@@ -8,7 +8,7 @@ import {
   sendPost,
   deletePost,
   editPost,
-  uploadImage,
+  uploadImage
 } from "../redux/actions/chatActions";
 
 import MainToolBar from "./MainToolBar";
@@ -17,10 +17,10 @@ import timeAgo from "../helpers/formatDate";
 class MainChatBox extends React.Component {
   state = {
     content: "",
-    editing: false,
+    editing: false
   };
 
-  handleChange = (e) => {
+  handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -29,7 +29,7 @@ class MainChatBox extends React.Component {
     this.props.editPost(e, msg, this.props.user);
   };
 
-  toggleImageHeight = (e) => {
+  toggleImageHeight = e => {
     e.persist();
 
     const minHeight = 200;
@@ -63,6 +63,33 @@ class MainChatBox extends React.Component {
     }
   };
 
+  findLink = msg => {
+    let link = "";
+
+    let iterated = "";
+    for (let i = 0; i < msg.length; i++) {
+      iterated += msg[i];
+
+      if (!link) {
+        if (iterated.includes("https://")) {
+          link += "https://";
+        } else if (iterated.includes("http://")) {
+          link += "http://";
+        }
+      } else if (msg[i] === " ") {
+        i = msg.length;
+      } else {
+        link += msg[i];
+      }
+    }
+
+    return (
+      <a href={link} target="_blank" rel="noopener noreferrer">
+        Go to link
+      </a>
+    );
+  };
+
   componentDidUpdate(prevProps) {
     if (prevProps.chat.posts.length < this.props.chat.posts.length) {
       this.ChatBox.scrollTop = this.ChatBox.scrollHeight;
@@ -73,7 +100,7 @@ class MainChatBox extends React.Component {
     const {
       chat,
       user: { id },
-      deletePost,
+      deletePost
     } = this.props;
 
     return (
@@ -82,7 +109,7 @@ class MainChatBox extends React.Component {
           <div className="col s12">
             <ul
               className="main-chat-box cyan lighten-3 z-depth-3"
-              ref={(ChatBox) => {
+              ref={ChatBox => {
                 this.ChatBox = ChatBox;
               }}
             >
@@ -96,7 +123,7 @@ class MainChatBox extends React.Component {
                   {(msg.userId === id ||
                     this.props.user.authorized === "ADMIN") &&
                   this.state.editing === msg._id ? (
-                    <form onSubmit={(e) => e.preventDefault()}>
+                    <form onSubmit={e => e.preventDefault()}>
                       <div className="row mb-0">
                         <div className="col s12 input-field">
                           <textarea
@@ -104,7 +131,7 @@ class MainChatBox extends React.Component {
                             className="materialize-textarea mb-0"
                             cols="30"
                             rows="10"
-                            onFocus={(e) => {
+                            onFocus={e => {
                               const txtElement = e.target;
 
                               if (txtElement.setSelectionRange) {
@@ -125,7 +152,7 @@ class MainChatBox extends React.Component {
                               M.updateTextFields();
                               M.textareaAutoResize(txtElement);
                             }}
-                            onBlur={(e) => this.handleBlur(e, msg)}
+                            onBlur={e => this.handleBlur(e, msg)}
                             defaultValue={msg.content}
                             autoFocus
                           ></textarea>
@@ -145,7 +172,7 @@ class MainChatBox extends React.Component {
                           <h6
                             className="mb-0"
                             style={{
-                              display: "inline-block",
+                              display: "inline-block"
                             }}
                           >
                             <strong>
@@ -153,7 +180,7 @@ class MainChatBox extends React.Component {
                                 href={`/user/${msg.userId}`}
                                 style={{
                                   color: "black",
-                                  textDecoration: "underline",
+                                  textDecoration: "underline"
                                 }}
                               >
                                 {msg.name}
@@ -185,9 +212,8 @@ class MainChatBox extends React.Component {
                       </div>
 
                       <div
-                        className={`content row ${
-                          msg.color || "cyan"
-                        } lighten-4`}
+                        className={`content row ${msg.color ||
+                          "cyan"} lighten-4`}
                       >
                         <span
                           onClick={() => {
@@ -197,6 +223,18 @@ class MainChatBox extends React.Component {
                           }}
                         >
                           {msg.content}
+
+                          {msg.content.match(
+                            new RegExp(
+                              /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+                            )
+                          ) && (
+                            <>
+                              <br />
+                              <br />
+                              {this.findLink(msg.content)}
+                            </>
+                          )}
                         </span>
 
                         {msg.imageUrl ? (
@@ -224,9 +262,9 @@ class MainChatBox extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   user: state.auth.user,
-  chat: state.chat,
+  chat: state.chat
 });
 
 export default connect(mapStateToProps, {
@@ -234,5 +272,5 @@ export default connect(mapStateToProps, {
   sendPost,
   deletePost,
   editPost,
-  uploadImage,
+  uploadImage
 })(MainChatBox);

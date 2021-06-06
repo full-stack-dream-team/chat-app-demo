@@ -10,6 +10,7 @@ class Navbar extends React.Component {
     "Post profile image",
     "Bouncy ball effect",
     "Create your own effect",
+    "Posts can have clickable links"
   ];
 
   futureUpdates = [
@@ -18,7 +19,7 @@ class Navbar extends React.Component {
     "Inappropriate user reporting",
     "Reacting to posts (Like, Dislike, Question)",
     "Post commenting",
-    "Post text color changing",
+    "Post text color changing"
   ];
 
   componentDidMount() {
@@ -31,7 +32,7 @@ class Navbar extends React.Component {
         <div
           id="future-updates"
           className="modal"
-          ref={(Modal) => {
+          ref={Modal => {
             this.Modal = Modal;
           }}
         >
@@ -39,7 +40,7 @@ class Navbar extends React.Component {
             <h4>Current Updates</h4>
 
             <ul>
-              {this.newUpdates.map((update) => (
+              {this.newUpdates.map(update => (
                 <li key={update} className="mt-1">
                   <span style={{ cursor: "text" }}>• {update}</span>
                 </li>
@@ -49,7 +50,7 @@ class Navbar extends React.Component {
             <h4>Future Updates</h4>
 
             <ul>
-              {this.futureUpdates.map((update) => (
+              {this.futureUpdates.map(update => (
                 <li key={update} className="mt-1">
                   <span style={{ cursor: "text" }}>• {update}</span>
                 </li>
@@ -99,8 +100,8 @@ class Navbar extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
+const mapStateToProps = state => ({
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { logoutUser })(Navbar);
