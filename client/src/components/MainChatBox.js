@@ -224,17 +224,18 @@ class MainChatBox extends React.Component {
                         >
                           {msg.content}
 
-                          {msg.content.match(
-                            new RegExp(
-                              /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
-                            )
-                          ) && (
-                            <>
-                              <br />
-                              <br />
-                              {this.findLink(msg.content)}
-                            </>
-                          )}
+                          {msg.content &&
+                            msg.content.match(
+                              new RegExp(
+                                /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+                              )
+                            ) && (
+                              <>
+                                <br />
+                                <br />
+                                {this.findLink(msg.content)}
+                              </>
+                            )}
                         </span>
 
                         {msg.imageUrl ? (
