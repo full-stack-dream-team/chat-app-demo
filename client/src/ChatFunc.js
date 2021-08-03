@@ -67,7 +67,7 @@ class ChatFunc extends React.Component {
     if (userId === post.userId || this.props.user.authorized === "ADMIN") {
       this.socket.emit("edit", {
         name: this.props.user.name,
-        content: post.content,
+        content: e.target.value,
         userId: this.props.user.id,
         userAuthorized: this.props.user.authorized,
         color: post.color,
@@ -77,7 +77,7 @@ class ChatFunc extends React.Component {
       const chat = [...this.state.chat];
       const postIndex = chat.findIndex(msg => msg._id === post._id);
 
-      chat[postIndex].content = post.content;
+      chat[postIndex].content = e.target.value;
 
       this.setState(state => ({
         chat

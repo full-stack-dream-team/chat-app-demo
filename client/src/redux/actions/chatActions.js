@@ -120,7 +120,7 @@ export const editPost = (e, post, user) => dispatch => {
     name: user.name,
     userId: user.id,
     userAuthorized: user.authorized,
-    content: post.content
+    content: e.target.value
   };
 
   socket.emit("edit", newPost);
