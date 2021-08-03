@@ -10,26 +10,26 @@ import { connect } from "react-redux";
 import {
   getChatRooms,
   addChatRoom,
-  deleteChatRoom,
+  deleteChatRoom
 } from "../redux/actions/chatRoomActions";
 
 class ChatRooms extends React.Component {
   state = {
     title: "",
     blackOrWhite: "none",
-    list: [],
+    list: []
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
 
     this.props.addChatRoom({
       title: this.state.title,
-      ownerId: this.props.user.id,
+      ownerId: this.props.user.id
     });
   };
 
-  handleChange = (e) => {
+  handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -67,9 +67,14 @@ class ChatRooms extends React.Component {
 
           <div className="row">
             <div className="col s12">
-              <button className="btn modal-trigger" data-target="add-chat-room">
-                Add Chat Room
-              </button>
+              {this.props.user.authorized === "ADMIN" && (
+                <button
+                  className="btn modal-trigger"
+                  data-target="add-chat-room"
+                >
+                  Add Chat Room
+                </button>
+              )}
 
               <ul className="collection with-header">
                 <li className="collection-header">
@@ -77,15 +82,14 @@ class ChatRooms extends React.Component {
                 </li>
 
                 {chatRooms.length ? (
-                  chatRooms.map((chatRoom) => (
+                  chatRooms.map(chatRoom => (
                     <li key={chatRoom._id} className="collection-item">
                       <div>
                         <a href={`/chatrooms/${chatRoom._id}`}>
                           {chatRoom.title}
                         </a>
 
-                        {chatRoom.ownerId === this.props.user.id ||
-                        this.props.user.authorized === "ADMIN" ? (
+                        {this.props.user.authorized === "ADMIN" ? (
                           <button
                             className="btn-flat secondary-content"
                             onClick={() =>
@@ -114,7 +118,7 @@ class ChatRooms extends React.Component {
         <div
           id="add-chat-room"
           className="modal"
-          ref={(Modal) => {
+          ref={Modal => {
             this.Modal = Modal;
           }}
         >
@@ -248,14 +252,14 @@ class ChatRooms extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   chatRooms: state.chatRoom.rooms,
   chatRoomsLoading: state.chatRoom.loading,
-  user: state.auth.user,
+  user: state.auth.user
 });
 
 export default connect(mapStateToProps, {
   getChatRooms,
   addChatRoom,
-  deleteChatRoom,
+  deleteChatRoom
 })(ChatRooms);

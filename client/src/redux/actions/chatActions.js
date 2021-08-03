@@ -4,7 +4,7 @@ import {
   GET_ALL_POSTS,
   REMOVE_SINGLE_POST,
   EDIT_POST,
-  SET_EFFECT,
+  SET_EFFECT
 } from "./types";
 
 import M from "materialize-css";
@@ -13,17 +13,16 @@ import postNotifySound from "../../audio/post-notify.mp3";
 
 import io from "socket.io-client";
 import config from "../../config";
-import removeBadWords from "../../helpers/removeBadWords";
 
 let socket;
 
 const audio = new Audio(postNotifySound);
 
-export const setPostsLoading = (loading) => (dispatch) => {
+export const setPostsLoading = loading => dispatch => {
   dispatch({ type: SET_POSTS_LOADING, payload: loading });
 };
 
-export const startSocket = (roomId) => (dispatch) => {
+export const startSocket = roomId => dispatch => {
   if (window.Notification) {
     Notification.requestPermission();
   }
@@ -38,12 +37,12 @@ export const startSocket = (roomId) => (dispatch) => {
     window.location.href = "/oops";
   });
 
-  socket.on("init", (posts) => {
+  socket.on("init", posts => {
     dispatch({ type: GET_ALL_POSTS, payload: posts.reverse() });
     setPostsLoading(false)(dispatch);
   });
 
-  socket.on("push", (msg) => {
+  socket.on("push", msg => {
     if (window.Notification) {
       new Notification(msg.content);
     }
@@ -53,24 +52,24 @@ export const startSocket = (roomId) => (dispatch) => {
     dispatch({ type: SET_SINGLE_POST, payload: msg });
   });
 
-  socket.on("remove", (postId) => {
+  socket.on("remove", postId => {
     dispatch({ type: REMOVE_SINGLE_POST });
   });
 
-  socket.on("edited", (msg) => {
+  socket.on("edited", msg => {
     dispatch({ type: EDIT_POST, payload: msg });
   });
 
-  socket.on("effect", (effect) => {
+  socket.on("effect", effect => {
     startEffect(effect)(dispatch);
   });
 };
 
-export const startEffect = (effect) => (dispatch) => {
+export const startEffect = effect => dispatch => {
   dispatch({ type: SET_EFFECT, payload: effect });
 };
 
-export const sendEffect = (effect) => (dispatch) => {
+export const sendEffect = effect => dispatch => {
   socket.emit("effect", effect);
 
   startEffect(effect)(dispatch);
@@ -83,7 +82,7 @@ export const uploadImage = (
   publicId,
   color,
   roomId
-) => (dispatch) => {
+) => dispatch => {
   const newPost = {
     name: user.name,
     userId: user.id,
@@ -92,7 +91,7 @@ export const uploadImage = (
     imageAlt: imageAlt,
     publicId: publicId,
     color: color,
-    roomId,
+    roomId
   };
 
   socket.emit("imageUpload", newPost);
@@ -100,16 +99,14 @@ export const uploadImage = (
   dispatch({ type: SET_SINGLE_POST, payload: newPost });
 };
 
-export const sendPost = (post, user) => (dispatch) => {
-  const filteredContent = removeBadWords(post.content);
-
+export const sendPost = (post, user) => dispatch => {
   const newPost = {
     name: user.name,
-    content: filteredContent,
+    content: post.content,
     userId: user.id,
     userAuthorized: user.authorized,
     color: post.color,
-    roomId: post.roomId,
+    roomId: post.roomId
   };
 
   socket.emit("message", newPost);
@@ -117,15 +114,13 @@ export const sendPost = (post, user) => (dispatch) => {
   dispatch({ type: SET_SINGLE_POST, payload: newPost });
 };
 
-export const editPost = (e, post, user) => (dispatch) => {
-  const filteredContent = removeBadWords(e.target.value);
-
+export const editPost = (e, post, user) => dispatch => {
   const newPost = {
     ...post,
     name: user.name,
     userId: user.id,
     userAuthorized: user.authorized,
-    content: filteredContent,
+    content: post.content
   };
 
   socket.emit("edit", newPost);
@@ -133,11 +128,11 @@ export const editPost = (e, post, user) => (dispatch) => {
   dispatch({ type: EDIT_POST, payload: newPost });
 };
 
-export const deletePost = (post) => (dispatch) => {
+export const deletePost = post => dispatch => {
   if (window.confirm("Are you sure you want to delete this post?")) {
     socket.emit("delete", {
       postId: post._id,
-      publicId: post.publicId,
+      publicId: post.publicId
     });
 
     dispatch({ type: REMOVE_SINGLE_POST, payload: post });

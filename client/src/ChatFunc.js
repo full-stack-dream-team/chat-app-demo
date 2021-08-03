@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import io from "socket.io-client";
 
 import config from "./config";
-import removeBadWords from "./helpers/removeBadWords";
 import { uploadImage, setPostsLoading } from "./redux/actions/chatActions";
 
 import postNotify from "./audio/post-notify.mp3";
@@ -14,10 +13,10 @@ class ChatFunc extends React.Component {
   state = {
     chat: [],
     chattingUsers: [],
-    effect: null,
+    effect: null
   };
 
-  sendEffect = (effect) => {
+  sendEffect = effect => {
     this.socket.emit("effect", effect);
     this.setState({ effect }, () => this.setState({ effect: null }));
   };
@@ -25,28 +24,26 @@ class ChatFunc extends React.Component {
   handleSubmit = (e, post) => {
     e.preventDefault();
 
-    const filteredContent = removeBadWords(post.content);
-
     this.socket.emit("message", {
       name: this.props.user.name,
-      content: filteredContent,
+      content: post.content,
       userId: this.props.user.id,
       userAuthorized: this.props.user.authorized,
-      color: post.color,
+      color: post.color
     });
 
     this.setState(
-      (state) => ({
+      state => ({
         chat: [
           ...state.chat,
           {
             name: this.props.user.name,
-            content: filteredContent,
+            content: post.content,
             userId: this.props.user.id,
             userAuthorized: this.props.user.authorized,
-            color: post.color,
-          },
-        ],
+            color: post.color
+          }
+        ]
       }),
       () => {
         this.scrollToBottom();
@@ -62,30 +59,28 @@ class ChatFunc extends React.Component {
     this.ChatBox.scrollTop = this.ChatBox.scrollHeight;
   };
 
-  makeChatBoxRef = (ChatBox) => {
+  makeChatBoxRef = ChatBox => {
     this.ChatBox = ChatBox;
   };
 
   editPost = (e, userId, post) => {
     if (userId === post.userId || this.props.user.authorized === "ADMIN") {
-      const filteredContent = removeBadWords(e.target.value);
-
       this.socket.emit("edit", {
         name: this.props.user.name,
-        content: filteredContent,
+        content: post.content,
         userId: this.props.user.id,
         userAuthorized: this.props.user.authorized,
         color: post.color,
-        _id: post._id,
+        _id: post._id
       });
 
       const chat = [...this.state.chat];
-      const postIndex = chat.findIndex((msg) => msg._id === post._id);
+      const postIndex = chat.findIndex(msg => msg._id === post._id);
 
-      chat[postIndex].content = filteredContent;
+      chat[postIndex].content = post.content;
 
-      this.setState((state) => ({
-        chat,
+      this.setState(state => ({
+        chat
       }));
     }
   };
@@ -95,15 +90,15 @@ class ChatFunc extends React.Component {
       if (window.confirm("Are you sure you want to delete this post?")) {
         const newChat = [...this.state.chat];
         newChat.splice(
-          newChat.findIndex((msg) => post._id === msg._id),
+          newChat.findIndex(msg => post._id === msg._id),
           1
         );
         this.setState({
-          chat: newChat,
+          chat: newChat
         });
 
         this.socket.emit("delete", {
-          postId: post._id,
+          postId: post._id
         });
       } else {
         M.toast({ html: "Whew, that was close...", classes: "blue" });
@@ -121,7 +116,7 @@ class ChatFunc extends React.Component {
 
       this.socket = io(config[process.env.NODE_ENV].endpoint);
 
-      this.socket.on("init", (msg) => {
+      this.socket.on("init", msg => {
         this.setState({ chat: msg.reverse() }, () => {
           this.scrollToBottom();
           this.props.setPostsLoading(false);
@@ -131,7 +126,7 @@ class ChatFunc extends React.Component {
         // });
       });
 
-      this.socket.on("push", (msg) => {
+      this.socket.on("push", msg => {
         if (window.Notification) {
           new Notification(msg.content);
         }
@@ -139,7 +134,7 @@ class ChatFunc extends React.Component {
         this.Audio.play();
 
         this.setState(
-          (state) => ({ chat: [...state.chat, msg] }),
+          state => ({ chat: [...state.chat, msg] }),
           () => {
             this.scrollToBottom();
 
@@ -153,31 +148,29 @@ class ChatFunc extends React.Component {
         );
       });
 
-      this.socket.on("remove", (postId) => {
+      this.socket.on("remove", postId => {
         const newChat = [...this.state.chat];
         newChat.splice(
-          newChat.findIndex((msg) => postId === msg._id),
+          newChat.findIndex(msg => postId === msg._id),
           1
         );
         this.setState({
-          chat: newChat,
+          chat: newChat
         });
       });
 
-      this.socket.on("edited", (msg) => {
+      this.socket.on("edited", msg => {
         const chat = [...this.state.chat];
-        const postIndex = chat.findIndex(
-          (stateMsg) => msg._id === stateMsg._id
-        );
+        const postIndex = chat.findIndex(stateMsg => msg._id === stateMsg._id);
 
         chat[postIndex].content = msg.content;
 
-        this.setState((state) => ({
-          chat,
+        this.setState(state => ({
+          chat
         }));
       });
 
-      this.socket.on("effect", (effect) => {
+      this.socket.on("effect", effect => {
         this.setState({ effect }, () => this.setState({ effect: null }));
       });
 
@@ -208,7 +201,7 @@ class ChatFunc extends React.Component {
 
         <audio
           src={postNotify}
-          ref={(Audio) => {
+          ref={Audio => {
             this.Audio = Audio;
           }}
         ></audio>
@@ -219,10 +212,10 @@ class ChatFunc extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.auth.user,
-  postsLoading: state.chat.postsLoading,
+  postsLoading: state.chat.postsLoading
 });
 
 export default connect(mapStateToProps, { uploadImage, setPostsLoading })(

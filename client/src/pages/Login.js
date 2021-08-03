@@ -8,19 +8,19 @@ class Login extends React.Component {
   state = {
     email: "",
     password: "",
-    errors: {},
+    errors: {}
   };
 
-  onChange = (e) => {
+  onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  onSubmit = (e) => {
+  onSubmit = e => {
     e.preventDefault();
 
     const userData = {
       email: this.state.email,
-      password: this.state.password,
+      password: this.state.password
     };
 
     this.props.loginUser(userData, this.props.history);
@@ -55,13 +55,13 @@ class Login extends React.Component {
                     id="email"
                     type="email"
                     className={classnames("", {
-                      invalid: errors.email || errors.emailnotfound,
+                      invalid: errors.email || errors.emailpass
                     })}
                   />
                   <label htmlFor="email">Email</label>
                   <span
                     className="helper-text"
-                    data-error={errors.email || errors.emailnotfound}
+                    data-error={errors.email || errors.emailpass}
                   ></span>
                 </div>
               </div>
@@ -74,13 +74,13 @@ class Login extends React.Component {
                     id="password"
                     type="password"
                     className={classnames("", {
-                      invalid: errors.password || errors.passwordincorrect,
+                      invalid: errors.password
                     })}
                   />
                   <label htmlFor="password">Password</label>
                   <span
                     className="helper-text"
-                    data-error={errors.password || errors.passwordincorrect}
+                    data-error={errors.password}
                   ></span>
                 </div>
               </div>
@@ -112,12 +112,12 @@ class Login extends React.Component {
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   auth: state.auth,
-  errors: state.errors,
+  errors: state.errors
 });
 
 export default connect(mapStateToProps, { loginUser })(Login);

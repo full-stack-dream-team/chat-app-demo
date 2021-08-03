@@ -17,8 +17,8 @@ class PostColorPicker extends React.Component {
         <select
           name="color"
           value={color}
-          onChange={handleChange}
-          ref={(Select) => {
+          onChange={e => handleChange(e.target.value)}
+          ref={Select => {
             this.Select = Select;
           }}
         >

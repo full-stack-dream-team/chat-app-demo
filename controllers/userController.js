@@ -24,15 +24,15 @@ exports.registerUser = (req, res) => {
   }
 
   User.findOne({
-    $or: [{ email: req.body.email }, { name: req.body.name }],
-  }).then((user) => {
+    $or: [{ email: req.body.email }, { name: req.body.name }]
+  }).then(user => {
     if (user) {
       return res.status(400).json({ name: "Name or Email already exists" });
     } else {
       const newUser = new User({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password,
+        password: req.body.password
       });
 
       // Hash password before saving in database
@@ -43,8 +43,8 @@ exports.registerUser = (req, res) => {
           newUser.password = hash;
           newUser
             .save()
-            .then((user) => res.json(user))
-            .catch((err) => console.log(err));
+            .then(user => res.json(user))
+            .catch(err => console.log(err));
 
           sendEmail({
             to: newUser.email,
@@ -55,7 +55,7 @@ exports.registerUser = (req, res) => {
                 <h1>Welcome ${newUser.name}</h1>
                 <p>I hope you have a good time here!</p>
               </div>
-            `,
+            `
           });
         });
       });
@@ -76,14 +76,16 @@ exports.loginUser = (req, res) => {
 
   // Find user by email
   User.findOne({ email })
-    .then((user) => {
+    .then(user => {
       // Check if user exists
       if (!user) {
-        return res.status(404).json({ emailnotfound: "Email not found" });
+        return res
+          .status(404)
+          .json({ emailpass: "Incorrect email/password combination" });
       }
 
       // Check password
-      bcrypt.compare(password, user.password).then((isMatch) => {
+      bcrypt.compare(password, user.password).then(isMatch => {
         if (isMatch) {
           // User matched
 
@@ -91,7 +93,7 @@ exports.loginUser = (req, res) => {
           const payload = {
             id: user.id,
             name: user.name,
-            authorized: user.authorized,
+            authorized: user.authorized
           };
 
           // Sign token
@@ -99,23 +101,23 @@ exports.loginUser = (req, res) => {
             payload,
             process.env.SECRET,
             {
-              expiresIn: 31556926, // 1 year in seconds
+              expiresIn: 31556926 // 1 year in seconds
             },
             (err, token) => {
               res.json({
                 success: true,
-                token: "Bearer " + token,
+                token: "Bearer " + token
               });
             }
           );
         } else {
           return res
             .status(400)
-            .json({ passwordincorrect: "Password incorrect" });
+            .json({ emailpass: "Incorrect email/password combination" });
         }
       });
     })
-    .catch((err) => console.log(err));
+    .catch(err => console.log(err));
 };
 
 exports.forgotPassword = (req, res) => {
@@ -125,7 +127,7 @@ exports.forgotPassword = (req, res) => {
     return res.status(400).json(errors);
   }
 
-  User.findOne({ email: req.body.email }).then((user) => {
+  User.findOne({ email: req.body.email }).then(user => {
     if (!user) {
       return res
         .status(404)
@@ -134,14 +136,15 @@ exports.forgotPassword = (req, res) => {
 
     user.passwordResetToken = {
       token: crypto.randomBytes(20).toString("hex"),
-      expires: Date.now() + 1000 * 60 * 60 * 2,
+      expires: Date.now() + 1000 * 60 * 60 * 2
     };
     user
       .save()
       .then(() => {
-        const resetUrl = `http://${
-          req.hostname + (req.hostname === "localhost" ? ":3000" : "")
-        }/resetpassword/${user.passwordResetToken.token}`;
+        const resetUrl = `http://${req.hostname +
+          (req.hostname === "localhost" ? ":3000" : "")}/resetpassword/${
+          user.passwordResetToken.token
+        }`;
         sendEmail({
           to: user.email,
           name: user.name,
@@ -152,12 +155,12 @@ exports.forgotPassword = (req, res) => {
               <p>Greetings from far off! You have been sent this password reset link. ᕕ( ᐛ )ᕗ</p>
               <a href="${resetUrl}">Reset Password</a>
             </div>
-          `,
+          `
         });
 
         return res.json(user);
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   });
 };
 
@@ -168,7 +171,7 @@ exports.resetPassword = (req, res) => {
     return res.status(400).json(errors);
   }
 
-  User.findOne({ "passwordResetToken.token": req.body.token }).then((user) => {
+  User.findOne({ "passwordResetToken.token": req.body.token }).then(user => {
     if (!user || user.passwordResetToken.expires < Date.now()) {
       return res.status(404).json({ token: "invalid" });
     }
@@ -183,15 +186,15 @@ exports.resetPassword = (req, res) => {
         user.password = hash;
         user
           .save()
-          .then((user) => res.json(user))
-          .catch((err) => console.log(err));
+          .then(user => res.json(user))
+          .catch(err => console.log(err));
       });
     });
   });
 };
 
 exports.userExists = (req, res) => {
-  User.findOne({ _id: req.body.userId }).then((user) => {
+  User.findOne({ _id: req.body.userId }).then(user => {
     if (!user) return res.status(404).json(false);
     if (user.banned) return res.status(404).json(false);
 
@@ -201,12 +204,12 @@ exports.userExists = (req, res) => {
 
 exports.getUser = (req, res) => {
   User.findOne({ _id: req.params.userId })
-    .then((user) => {
+    .then(user => {
       if (!user) return res.status(404).json(false);
 
       res.json(user);
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };
 
 exports.editUser = (req, res) => {
@@ -218,8 +221,8 @@ exports.editUser = (req, res) => {
   }
 
   User.findOne({ _id: userId })
-    .then((user) => {
-      User.findOne({ $or: [{ name }, { email }] }).then((otherUser) => {
+    .then(user => {
+      User.findOne({ $or: [{ name }, { email }] }).then(otherUser => {
         if (!user)
           return res.status(404).json({ userExists: "User not found!" });
         if (!user._id.equals(otherUser._id))
@@ -228,19 +231,19 @@ exports.editUser = (req, res) => {
         user.name = name;
         user.email = email;
         user.description = description;
-        user.save().then((user) => {
+        user.save().then(user => {
           res.json(user);
         });
       });
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };
 
 exports.uploadProfileImage = (req, res) => {
   const { user: userData, image } = req.body;
 
   User.findOne({ _id: userData.id })
-    .then((user) => {
+    .then(user => {
       if (!user) return res.status(404).json({ userExists: "User not found!" });
 
       if (!user.profileImage) {
@@ -263,18 +266,18 @@ exports.uploadProfileImage = (req, res) => {
             width: 400,
             height: 400,
             radius: "max",
-            crop: "crop",
+            crop: "crop"
           },
-          { width: 200, crop: "scale" },
-        ],
+          { width: 200, crop: "scale" }
+        ]
       });
 
       user.profileImage = {
         image: image.secure_url,
-        imageId: image.public_id,
+        imageId: image.public_id
       };
 
-      user.save().then((user) => res.json(user));
+      user.save().then(user => res.json(user));
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };

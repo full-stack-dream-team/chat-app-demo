@@ -17,18 +17,23 @@ import { sendPost, sendEffect } from "../redux/actions/chatActions";
 class MainToolBar extends React.Component {
   state = {
     content: "",
-    color: "",
+    color: localStorage.getItem("postColor") || ""
   };
 
-  handleChange = (e) => {
+  handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  setPostColor = color => {
+    localStorage.setItem("postColor", color);
+    this.setState({ color });
   };
 
   enableEmojiPicker = () => {
     this.picker.togglePicker(this.EmojiActivator);
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
 
     const { content, color } = this.state;
@@ -38,14 +43,14 @@ class MainToolBar extends React.Component {
         content,
         color,
         userId: this.props.userId,
-        roomId: this.props.roomId,
+        roomId: this.props.roomId
       },
       this.props.user
     );
 
     this.setState(
       {
-        content: "",
+        content: ""
       },
       () => {
         M.updateTextFields();
@@ -56,7 +61,7 @@ class MainToolBar extends React.Component {
 
   componentDidMount() {
     this.picker = new EmojiButton();
-    this.picker.on("emoji", (emoji) => {
+    this.picker.on("emoji", emoji => {
       this.setState({ content: this.state.content + emoji }, () => {
         M.updateTextFields();
       });
@@ -83,7 +88,7 @@ class MainToolBar extends React.Component {
                     className="materialize-textarea mb-0"
                     onChange={this.handleChange}
                     required
-                    ref={(Textarea) => {
+                    ref={Textarea => {
                       this.Textarea = Textarea;
                     }}
                   />
@@ -94,7 +99,7 @@ class MainToolBar extends React.Component {
               <div className="row mb-0 valign-wrapper">
                 <PostColorPicker
                   color={color}
-                  handleChange={this.handleChange}
+                  handleChange={this.setPostColor}
                 />
 
                 <div className="col s10 right-align">
@@ -102,7 +107,7 @@ class MainToolBar extends React.Component {
                     data-target="effect-modal"
                     className="btn-icon btn-flat modal-trigger"
                     style={{
-                      fontSize: "30px",
+                      fontSize: "30px"
                     }}
                   >
                     <InlineIcon
@@ -114,10 +119,10 @@ class MainToolBar extends React.Component {
                   <span
                     className="btn-icon btn-flat hide-on-small-only"
                     style={{
-                      fontSize: "30px",
+                      fontSize: "30px"
                     }}
                     onClick={this.enableEmojiPicker}
-                    ref={(EmojiActivator) => {
+                    ref={EmojiActivator => {
                       this.EmojiActivator = EmojiActivator;
                     }}
                   >
@@ -140,7 +145,7 @@ class MainToolBar extends React.Component {
                     type="submit"
                     className="btn-icon btn-flat"
                     style={{
-                      fontSize: "30px",
+                      fontSize: "30px"
                     }}
                   >
                     <InlineIcon

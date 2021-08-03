@@ -1,5 +1,4 @@
 import React from "react";
-import EffectMaker from "./EffectMaker";
 import M from "materialize-css";
 
 class EffectPicker extends React.Component {
@@ -15,7 +14,7 @@ class EffectPicker extends React.Component {
         <div
           id="effect-modal"
           className="modal modal-fixed-footer"
-          ref={(Modal) => {
+          ref={Modal => {
             this.Modal = Modal;
           }}
         >
@@ -31,7 +30,7 @@ class EffectPicker extends React.Component {
 
             <div className="row">
               <div className="col s12">
-                {this.effects.map((effect) => (
+                {this.effects.map(effect => (
                   <div key={effect} className="mb-1">
                     <span
                       className="btn modal-close"
@@ -43,8 +42,6 @@ class EffectPicker extends React.Component {
                 ))}
               </div>
             </div>
-
-            <EffectMaker sendEffect={this.props.sendEffect} />
           </div>
           <div className="modal-footer">
             <span className="btn-flat modal-close">Cancel</span>

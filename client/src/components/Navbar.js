@@ -5,31 +5,31 @@ import { connect } from "react-redux";
 import { logoutUser } from "../redux/actions/authActions";
 
 class Navbar extends React.Component {
-  newUpdates = [
-    "Chat rooms",
-    "Post profile image",
-    "Bouncy ball effect",
-    "Create your own effect",
-    "Posts can have clickable links"
-  ];
-
-  futureUpdates = [
-    "Image Filters",
-    "Multiplayer games",
-    "Inappropriate user reporting",
-    "Reacting to posts (Like, Dislike, Question)",
-    "Post commenting",
-    "Post text color changing"
-  ];
-
-  componentDidMount() {
-    M.Modal.init(this.Modal, {});
-  }
+  // newUpdates = [
+  //   "Chat rooms",
+  //   "Post profile image",
+  //   "Bouncy ball effect",
+  //   "Create your own effect",
+  //   "Posts can have clickable links"
+  // ];
+  //
+  // futureUpdates = [
+  //   "Image Filters",
+  //   "Multiplayer games",
+  //   "Inappropriate user reporting",
+  //   "Reacting to posts (Like, Dislike, Question)",
+  //   "Post commenting",
+  //   "Post text color changing"
+  // ];
+  //
+  // componentDidMount() {
+  //   M.Modal.init(this.Modal, {});
+  // }
 
   render() {
     return (
       <>
-        <div
+        {/*<div
           id="future-updates"
           className="modal"
           ref={Modal => {
@@ -57,7 +57,7 @@ class Navbar extends React.Component {
               ))}
             </ul>
           </div>
-        </div>
+        </div>*/}
 
         <div className="navbar-fixed">
           <nav>
@@ -70,11 +70,11 @@ class Navbar extends React.Component {
               </a>
 
               <ul id="nav-mobile" className="right">
-                <li className="hide-on-small-only">
+                {/*<li className="hide-on-small-only">
                   <a className="modal-trigger" href="#future-updates">
                     Updates
                   </a>
-                </li>
+                </li>*/}
 
                 {this.props.auth.isAuthenticated ? (
                   <>
