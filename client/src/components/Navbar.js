@@ -5,37 +5,34 @@ import { connect } from "react-redux";
 import { logoutUser } from "../redux/actions/authActions";
 
 class Navbar extends React.Component {
-  newUpdates = [
-    "Chat rooms",
-    "Post profile image",
-    "Bouncy ball effect",
-    "Create your own effect",
-  ];
-
-  futureUpdates = [
-    "Image Filters",
-    "Multiplayer games",
-    "Inappropriate user reporting",
-    "Reacting to posts (Like, Dislike, Question)",
-    "Post commenting",
-    "Post text color changing",
-  ];
-
-  componentDidMount() {
-    const modal = M.Modal.init(this.Modal, {});
-
-    if (window.location.pathname === "/") {
-      modal.open();
-    }
-  }
+  // newUpdates = [
+  //   "Chat rooms",
+  //   "Post profile image",
+  //   "Bouncy ball effect",
+  //   "Create your own effect",
+  //   "Posts can have clickable links"
+  // ];
+  //
+  // futureUpdates = [
+  //   "Image Filters",
+  //   "Multiplayer games",
+  //   "Inappropriate user reporting",
+  //   "Reacting to posts (Like, Dislike, Question)",
+  //   "Post commenting",
+  //   "Post text color changing"
+  // ];
+  //
+  // componentDidMount() {
+  //   M.Modal.init(this.Modal, {});
+  // }
 
   render() {
     return (
       <>
-        <div
+        {/*<div
           id="future-updates"
           className="modal"
-          ref={(Modal) => {
+          ref={Modal => {
             this.Modal = Modal;
           }}
         >
@@ -43,7 +40,7 @@ class Navbar extends React.Component {
             <h4>Current Updates</h4>
 
             <ul>
-              {this.newUpdates.map((update) => (
+              {this.newUpdates.map(update => (
                 <li key={update} className="mt-1">
                   <span style={{ cursor: "text" }}>• {update}</span>
                 </li>
@@ -53,14 +50,14 @@ class Navbar extends React.Component {
             <h4>Future Updates</h4>
 
             <ul>
-              {this.futureUpdates.map((update) => (
+              {this.futureUpdates.map(update => (
                 <li key={update} className="mt-1">
                   <span style={{ cursor: "text" }}>• {update}</span>
                 </li>
               ))}
             </ul>
           </div>
-        </div>
+        </div>*/}
 
         <div className="navbar-fixed">
           <nav>
@@ -73,11 +70,11 @@ class Navbar extends React.Component {
               </a>
 
               <ul id="nav-mobile" className="right">
-                <li>
+                {/*<li className="hide-on-small-only">
                   <a className="modal-trigger" href="#future-updates">
                     Updates
                   </a>
-                </li>
+                </li>*/}
 
                 {this.props.auth.isAuthenticated ? (
                   <>
@@ -103,8 +100,8 @@ class Navbar extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
+const mapStateToProps = state => ({
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { logoutUser })(Navbar);
