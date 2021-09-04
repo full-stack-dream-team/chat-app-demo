@@ -1,8 +1,8 @@
 {
-  "name": "simple-app",
+  "name": "Chat App",
   "version": "1.0.0",
   "main": "start.js",
-  "description": "Simple node react boilerplate",
+  "description": "A fun and playful chat app",
   "prettier": {},
   "scripts": {
     "server": "nodemon start.js",
